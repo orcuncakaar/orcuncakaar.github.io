@@ -1631,6 +1631,13 @@ textarea.form-control {
     color: var(--accent);
 }
 
+.form-feedback.error {
+    display: block;
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid #ef4444;
+    color: #ef4444;
+}
+
 /* ==========================================================================
    Footer (Alt Bilgi)
    ========================================================================== */
