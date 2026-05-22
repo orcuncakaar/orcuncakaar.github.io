@@ -1,17 +1,10 @@
-/* ==========================================================================
-   Kişisel Portfolyo Web Sitesi - Modern CSS Tasarım Sistemi
-   ========================================================================== */
-
-/* Google Fonts - Modern Outfit & Inter Font Entegrasyonu */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Tasarım Sistemi Değişkenleri (Koyu Tema Varsayılan) */
 :root {
-    /* Yazı Tipleri */
+    
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
 
-    /* Renk Değişkenleri - Koyu Tema (Varsayılan) */
     --bg-primary: #0b0f19;
     --bg-secondary: #111827;
     --bg-tertiary: rgba(17, 24, 39, 0.7);
@@ -21,11 +14,11 @@
     --text-secondary: #9ca3af;
     --text-muted: #6b7280;
     
-    --primary: #8b5cf6;       /* Elektrik Moru */
+    --primary: #8b5cf6;       
     --primary-rgb: 139, 92, 246;
-    --secondary: #06b6d4;     /* Siber Mavi */
+    --secondary: #06b6d4;     
     --secondary-rgb: 6, 182, 212;
-    --accent: #10b981;        /* Zümrüt Yeşili (Başarı/Stabil) */
+    --accent: #10b981;        
     
     --card-border: rgba(255, 255, 255, 0.08);
     --card-border-hover: rgba(139, 92, 246, 0.3);
@@ -35,19 +28,16 @@
     --navbar-bg: rgba(11, 15, 25, 0.8);
     --navbar-border: rgba(255, 255, 255, 0.05);
 
-    /* Geçişler */
     --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Kenar Yuvarlama */
+
     --radius-sm: 8px;
     --radius-md: 16px;
     --radius-lg: 24px;
     --radius-full: 9999px;
 }
 
-/* Aydınlık Tema Değişkenleri (Body.light-theme sınıfı eklendiğinde) */
 body.light-theme {
     --bg-primary: #f8fafc;
     --bg-secondary: #ffffff;
@@ -58,11 +48,11 @@ body.light-theme {
     --text-secondary: #475569;
     --text-muted: #64748b;
     
-    --primary: #6d28d9;       /* Koyu Mor */
+    --primary: #6d28d9;       
     --primary-rgb: 109, 40, 217;
-    --secondary: #0891b2;     /* Koyu Siber Mavi */
+    --secondary: #0891b2;     
     --secondary-rgb: 8, 145, 178;
-    --accent: #059669;        /* Koyu Zümrüt Yeşili */
+    --accent: #059669;        
     
     --card-border: rgba(15, 23, 42, 0.08);
     --card-border-hover: rgba(109, 40, 217, 0.25);
@@ -72,10 +62,6 @@ body.light-theme {
     --navbar-bg: rgba(248, 250, 252, 0.85);
     --navbar-border: rgba(15, 23, 42, 0.05);
 }
-
-/* ==========================================================================
-   Temel Sıfırlamalar ve Yapısal Kodlar
-   ========================================================================== */
 
 * {
     margin: 0;
@@ -117,7 +103,6 @@ ul {
     list-style: none;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -135,10 +120,6 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
 }
-
-/* ==========================================================================
-   Ortak Sınıflar ve Düzen Elemanları
-   ========================================================================== */
 
 .container {
     width: 100%;
@@ -188,7 +169,6 @@ ul {
     border-radius: var(--radius-full);
 }
 
-/* Cam Efekti Kart Yapısı (Glassmorphism) */
 .glass-card {
     background: var(--bg-glass);
     backdrop-filter: blur(16px) saturate(120%);
@@ -205,7 +185,6 @@ ul {
     box-shadow: 0 12px 40px 0 var(--shadow-glow);
 }
 
-/* Modern Gradient Metinleri */
 .text-gradient {
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     -webkit-background-clip: text;
@@ -219,10 +198,6 @@ ul {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
-
-/* ==========================================================================
-   Navigasyon Çubuğu (Navbar)
-   ========================================================================== */
 
 .scroll-progress-container {
     position: absolute;
@@ -322,7 +297,6 @@ ul {
     gap: 20px;
 }
 
-/* Tema Değiştirme Butonu */
 .theme-toggle-btn {
     width: 44px;
     height: 44px;
@@ -375,7 +349,6 @@ body.light-theme .moon-icon {
     transform: translateY(-30px);
 }
 
-/* Hamburger Menü */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -395,7 +368,6 @@ body.light-theme .moon-icon {
     transition: transform var(--transition-normal), opacity var(--transition-fast);
 }
 
-/* Hamburger Menü Açık Hali */
 .hamburger.active span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
@@ -408,10 +380,6 @@ body.light-theme .moon-icon {
     transform: translateY(-9px) rotate(-45deg);
 }
 
-/* ==========================================================================
-   Kahraman Alanı (Hero Section) ve Ağ Çizim Alanı
-   ========================================================================== */
-
 .hero {
     height: 100vh;
     min-height: 700px;
@@ -422,7 +390,6 @@ body.light-theme .moon-icon {
     padding-top: 80px;
 }
 
-/* HTML5 Canvas */
 #neural-canvas {
     position: absolute;
     top: 0;
@@ -433,7 +400,6 @@ body.light-theme .moon-icon {
     pointer-events: auto;
 }
 
-/* Hero Arka Plan Efekti */
 .hero-glow-1 {
     position: absolute;
     top: 20%;
@@ -461,10 +427,9 @@ body.light-theme .moon-icon {
 .hero .container {
     position: relative;
     z-index: 2;
-    pointer-events: none; /* Bu sayede altındaki canvas fare hareketlerini alabilir */
+    pointer-events: none; 
 }
 
-/* Tıklanabilir elementlerin fare hareketini geri alması için */
 .hero-content, .hero-buttons, .hero-socials, .navbar, .glass-card, input, button, textarea, a {
     pointer-events: auto;
 }
@@ -506,7 +471,7 @@ body.light-theme .moon-icon {
     font-weight: 600;
     color: var(--text-secondary);
     margin-bottom: 24px;
-    height: 42px; /* Yazı değişirken kaymayı önlemek için */
+    height: 42px; 
     display: flex;
     align-items: center;
 }
@@ -525,7 +490,6 @@ body.light-theme .moon-icon {
     max-width: 600px;
 }
 
-/* Buton Tasarımları */
 .btn-group {
     display: flex;
     gap: 16px;
@@ -567,7 +531,6 @@ body.light-theme .moon-icon {
     border-color: var(--primary);
 }
 
-/* Sosyal Medya İkonları */
 .hero-socials {
     display: flex;
     gap: 20px;
@@ -593,7 +556,6 @@ body.light-theme .moon-icon {
     transition: fill var(--transition-fast), transform var(--transition-fast);
 }
 
-/* Hover Renk Tanımlamaları */
 .social-icon-btn.github:hover {
     border-color: #f0f6fc;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
@@ -621,10 +583,6 @@ body.light-theme .moon-icon {
     transform: scale(1.1);
 }
 
-/* ==========================================================================
-   Hakkımda Bölümü (About Me)
-   ========================================================================== */
-
 .bento-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -633,7 +591,6 @@ body.light-theme .moon-icon {
     margin-top: 40px;
 }
 
-/* Base Bento Card Style */
 .bento-card {
     position: relative;
     overflow: hidden;
@@ -659,7 +616,6 @@ body.light-theme .moon-icon {
     box-shadow: 0 16px 40px var(--shadow-glow), 0 0 0 1px var(--card-border-hover);
 }
 
-/* Mouse-Tracking Radial Glow */
 .bento-glow {
     position: absolute;
     top: 0;
@@ -681,7 +637,6 @@ body.light-theme .moon-icon {
     opacity: 1;
 }
 
-/* Card Header */
 .bento-header {
     display: flex;
     align-items: center;
@@ -732,7 +687,6 @@ body.light-theme .moon-icon {
     color: var(--primary);
 }
 
-/* Bento Body Content */
 .bento-body {
     font-size: 0.95rem;
     color: var(--text-secondary);
@@ -745,7 +699,6 @@ body.light-theme .moon-icon {
     margin: 0;
 }
 
-/* Asymmetric Card Spans */
 .bento-card-main {
     grid-column: span 2;
     grid-row: span 2;
@@ -777,7 +730,6 @@ body.light-theme .moon-icon {
     margin-bottom: 20px !important;
 }
 
-/* Toolbox Grid */
 .bento-tools-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -785,7 +737,6 @@ body.light-theme .moon-icon {
     margin-top: 10px;
 }
 
-/* Toolbox Badges with glowing custom hover shadows */
 .tool-badge {
     display: flex;
     align-items: center;
@@ -808,7 +759,6 @@ body.light-theme .moon-icon {
     transition: transform var(--transition-fast), background-color var(--transition-fast);
 }
 
-/* Brand Custom Hover Styles */
 .tool-badge.rstudio:hover {
     color: #214a7f;
     border-color: rgba(33, 74, 127, 0.4);
@@ -857,7 +807,6 @@ body.light-theme .moon-icon {
     transform: scale(1.3);
 }
 
-/* Hobby Cards styling */
 .bento-card-hobby {
     grid-column: span 1;
     min-height: 200px;
@@ -868,7 +817,6 @@ body.light-theme .moon-icon {
     border-color: var(--card-border-hover);
 }
 
-/* Collaboration Widescreen Card */
 .bento-card-collab {
     grid-column: span 3;
     background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.04) 0%, rgba(var(--secondary-rgb), 0.04) 100%), var(--bg-glass);
@@ -889,7 +837,6 @@ body.light-theme .moon-icon {
     z-index: 2;
 }
 
-/* Double Concentric Pulsing Green Beacon */
 .collab-pulse-box {
     position: relative;
     width: 24px;
@@ -958,10 +905,6 @@ body.light-theme .moon-icon {
     transform: translateX(4px);
 }
 
-/* ==========================================================================
-   Responsive About Section (Bento Grid)
-   ========================================================================== */
-
 @media (max-width: 992px) {
     .bento-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1017,10 +960,6 @@ body.light-theme .moon-icon {
         justify-content: center;
     }
 }
-
-/* ==========================================================================
-   Yetenekler Bölümü (Skills)
-   ========================================================================== */
 
 .skills-grid {
     display: grid;
@@ -1093,7 +1032,6 @@ body.light-theme .moon-icon {
     box-shadow: 0 0 8px var(--accent);
 }
 
-/* Hover efektleri */
 .skill-tag:hover {
     transform: translateY(-2px);
     border-color: var(--card-border-hover);
@@ -1106,7 +1044,6 @@ body.light-theme .moon-icon {
     transform: scale(1.3);
 }
 
-/* Aydınlık Tema Uyum Kodları */
 body.light-theme .skill-tag {
     background-color: rgba(0, 0, 0, 0.02);
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -1118,10 +1055,6 @@ body.light-theme .skill-tag:hover {
     border-color: var(--card-border-hover);
     color: var(--text-primary);
 }
-
-/* ==========================================================================
-   Projeler Bölümü (Projects)
-   ========================================================================== */
 
 .project-filter-group {
     display: flex;
@@ -1154,7 +1087,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     color: #ffffff;
 }
 
-/* Proje Kartları Izgarası */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -1179,7 +1111,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     overflow: hidden;
 }
 
-/* Proje Görseli İçin İkon */
 .project-image svg {
     width: 60px;
     height: 60px;
@@ -1213,7 +1144,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     line-height: 1.5;
 }
 
-/* Proje Etiketleri */
 .project-tags {
     display: flex;
     gap: 8px;
@@ -1231,7 +1161,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     color: var(--text-secondary);
 }
 
-/* Proje Linkleri */
 .project-links {
     display: flex;
     gap: 16px;
@@ -1258,14 +1187,9 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     fill: currentColor;
 }
 
-/* Filtreleme Gizleme/Gösterme Efekti */
 .project-card.hide {
     display: none;
 }
-
-/* ==========================================================================
-   Deneyim Zaman Tüneli (Timeline)
-   ========================================================================== */
 
 .timeline {
     position: relative;
@@ -1301,7 +1225,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     text-align: left;
 }
 
-/* Zaman Noktaları */
 .timeline-dot {
     width: 16px;
     height: 16px;
@@ -1354,7 +1277,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     line-height: 1.5;
 }
 
-/* Zaman Tüneli Madde İşaretleri */
 .timeline-bullets {
     list-style: none;
     padding-left: 0;
@@ -1381,7 +1303,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     line-height: 1;
 }
 
-/* Sağ taraftaki timeline elemanlarının listesini sağa yanaştırıp bullet'ları sağa koyma */
 .timeline-item:nth-child(odd) .timeline-bullets {
     text-align: right;
 }
@@ -1395,10 +1316,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     left: auto;
     right: 0;
 }
-
-/* ==========================================================================
-   Sertifikalar ve Eğitimler Bölümü (Certificates)
-   ========================================================================== */
 
 .certificates-grid {
     display: grid;
@@ -1516,10 +1433,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     fill: currentColor;
 }
 
-/* ==========================================================================
-   İletişim Bölümü (Contact Section)
-   ========================================================================== */
-
 .contact-grid {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
@@ -1567,7 +1480,6 @@ body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
     color: var(--text-secondary);
 }
 
-/* İletişim Formu */
 .contact-form {
     padding: 40px;
 }
@@ -1614,7 +1526,6 @@ textarea.form-control {
     min-height: 150px;
 }
 
-/* Form Başarı/Hata Geri Bildirim Durumu */
 .form-feedback {
     display: none;
     padding: 12px 20px;
@@ -1637,10 +1548,6 @@ textarea.form-control {
     border: 1px solid #ef4444;
     color: #ef4444;
 }
-
-/* ==========================================================================
-   Footer (Alt Bilgi)
-   ========================================================================== */
 
 .footer {
     background-color: var(--bg-secondary);
@@ -1671,7 +1578,6 @@ textarea.form-control {
     color: var(--text-muted);
 }
 
-/* Yukarı Git Butonu */
 .scroll-top-btn {
     position: fixed;
     bottom: 30px;
@@ -1711,16 +1617,11 @@ textarea.form-control {
     fill: currentColor;
 }
 
-/* ==========================================================================
-   Animasyonlar ve Efektler
-   ========================================================================== */
-
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
 
-/* Grid ve Scroll Animasyonu için Fade-in */
 .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -1731,10 +1632,6 @@ textarea.form-control {
     opacity: 1;
     transform: translateY(0);
 }
-
-/* ==========================================================================
-   Responsive Tasarım (Mobil ve Tablet Uyumluluğu)
-   ========================================================================== */
 
 @media (max-width: 1024px) {
     .skills-grid {
@@ -1841,7 +1738,6 @@ textarea.form-control {
         grid-template-columns: 1fr;
     }
 
-    /* Zaman tüneli mobil uyumluluk */
     .timeline::after {
         left: 31px;
     }

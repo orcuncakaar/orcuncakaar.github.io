@@ -1,16 +1,8 @@
-/* ==========================================================================
-   Kişisel Portfolyo Web Sitesi - Modern ve İnteraktif JavaScript Arayüzü
-   ========================================================================== */
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ==========================================================================
-    // 1. Koyu / Aydınlık Tema Kontrolü (Theme Toggle)
-    // ==========================================================================
     const themeToggleBtn = document.getElementById('theme-toggle');
     const body = document.body;
 
-    // Sistem veya LocalStorage Tercihini Yükle
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -19,24 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (savedTheme === 'dark') {
         body.classList.remove('light-theme');
     } else if (!prefersDark) {
-        // Eğer kayıtlı veri yoksa ve kullanıcının işletim sistemi aydınlık tema istiyorsa
+        
         body.classList.add('light-theme');
     }
 
-    // Tema Değiştirme Tetikleyicisi
     themeToggleBtn.addEventListener('click', () => {
         body.classList.toggle('light-theme');
         const isLight = body.classList.contains('light-theme');
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        
-        // Canvas renk sistemini güncelle
+
         updateCanvasColors();
     });
 
-
-    // ==========================================================================
-    // 2. İnteraktif Yapay Sinir Ağı Animasyonu (HTML5 Canvas Neural Network)
-    // ==========================================================================
     const canvas = document.getElementById('neural-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -44,38 +30,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let animationFrameId;
     let mouse = { x: null, y: null, radius: 150 };
 
-    // Temaya göre değişen renk paletleri
-    let particleColor = 'rgba(139, 92, 246, 0.4)';  /* Mor */
-    let connectorColor = 'rgba(6, 182, 212, 0.08)'; /* Siber Mavi */
+    let particleColor = 'rgba(139, 92, 246, 0.4)';  
+    let connectorColor = 'rgba(6, 182, 212, 0.08)'; 
     let mouseLineColor = 'rgba(139, 92, 246, 0.15)';
 
     function updateCanvasColors() {
         const isLight = body.classList.contains('light-theme');
         if (isLight) {
-            particleColor = 'rgba(109, 40, 217, 0.35)';   /* Koyu Mor */
-            connectorColor = 'rgba(8, 145, 178, 0.06)';   /* Koyu Siber Mavi */
+            particleColor = 'rgba(109, 40, 217, 0.35)';   
+            connectorColor = 'rgba(8, 145, 178, 0.06)';   
             mouseLineColor = 'rgba(109, 40, 217, 0.12)';
         } else {
-            particleColor = 'rgba(139, 92, 246, 0.4)';    /* Elektrik Moru */
-            connectorColor = 'rgba(6, 182, 212, 0.08)';   /* Siber Mavi */
+            particleColor = 'rgba(139, 92, 246, 0.4)';    
+            connectorColor = 'rgba(6, 182, 212, 0.08)';   
             mouseLineColor = 'rgba(139, 92, 246, 0.15)';
         }
     }
-    updateCanvasColors(); // İlk yüklemede renkleri tanımla
+    updateCanvasColors(); 
 
-    // Canvas Boyutlandırma
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         initParticles();
     }
 
-    // Parçacık Sınıfı
     class Particle {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.vx = (Math.random() - 0.5) * 0.8; // Yavaş, akıcı hareket
+            this.vx = (Math.random() - 0.5) * 0.8; 
             this.vy = (Math.random() - 0.5) * 0.8;
             this.radius = Math.random() * 2.5 + 1.5;
         }
@@ -88,22 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         update() {
-            // Sınır Kontrolleri
+            
             if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
             if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
 
-            // Hareket Ettir
             this.x += this.vx;
             this.y += this.vy;
 
-            // Fareye göre hafif tepki (İtme/Çekme etkileşimi)
             if (mouse.x !== null && mouse.y !== null) {
                 let dx = this.x - mouse.x;
                 let dy = this.y - mouse.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < mouse.radius) {
                     const force = (mouse.radius - distance) / mouse.radius;
-                    // Fare yönüne doğru hafif itme
+                    
                     this.x += (dx / distance) * force * 1.2;
                     this.y += (dy / distance) * force * 1.2;
                 }
@@ -113,11 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Parçacıkları Oluşturma
     function initParticles() {
         particles = [];
-        const numberOfParticles = Math.floor((canvas.width * canvas.height) / 11000); // Ekran boyutuna göre orantılı sayı
-        const limitedParticles = Math.min(numberOfParticles, 120); // Performans için max limit
+        const numberOfParticles = Math.floor((canvas.width * canvas.height) / 11000); 
+        const limitedParticles = Math.min(numberOfParticles, 120); 
         
         for (let i = 0; i < limitedParticles; i++) {
             const x = Math.random() * canvas.width;
@@ -126,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Parçacıklar Arası Yapay Sinir Ağı Bağlantıları
     function connectParticles() {
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
@@ -134,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dy = particles[i].y - particles[j].y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Eğer parçacıklar yakınsa çizgi çek
                 if (distance < 110) {
                     const opacity = (1 - (distance / 110)) * 0.8;
                     ctx.strokeStyle = connectorColor.replace('0.08', opacity.toFixed(2)).replace('0.06', opacity.toFixed(2));
@@ -146,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Fare ve Parçacık Bağlantısı
             if (mouse.x !== null && mouse.y !== null) {
                 const dx = particles[i].x - mouse.x;
                 const dy = particles[i].y - mouse.y;
@@ -165,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Animasyon Döngüsü
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
@@ -175,9 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
         animationFrameId = requestAnimationFrame(animate);
     }
 
-    // Fare Etkinlikleri
     window.addEventListener('mousemove', (e) => {
-        // Hero bölümünün dışına çıkıldığında fare etkileşimini kesmek için koordinatları al
+        
         const heroSection = document.getElementById('home');
         const heroRect = heroSection.getBoundingClientRect();
         
@@ -195,15 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mouse.y = null;
     });
 
-    // Başlatıcılar
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
     animate();
 
-
-    // ==========================================================================
-    // 3. Dinamik Yazı Efekti (Typewriter Effect)
-    // ==========================================================================
     const typedTextSpan = document.getElementById('typed-text');
     const textArray = [
         "Veri Bilimi Meraklısı",
@@ -213,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     const typingSpeed = 70;
     const erasingSpeed = 40;
-    const newTextDelay = 2000; // Kelimeler arası bekleme süresi
+    const newTextDelay = 2000; 
     let textArrayIndex = 0;
     let charIndex = 0;
 
@@ -239,28 +209,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Yazı animasyonunu başlat
     if (textArray.length) setTimeout(type, newTextDelay - 1000);
 
-
-    // ==========================================================================
-    // 4. Sayıcı İstatistik Animasyonları (Scroll-Spy)
-    // ==========================================================================
-    
-    // İstatistik Sayı Değerleri
     const projectCountEl = document.getElementById('stat-projects');
     const hoursCountEl = document.getElementById('stat-hours');
     
-    const targetProjects = 18;  // Tamamlanan Projeler
-    const targetHours = 1200;   // Model eğitim & geliştirme saatleri
+    const targetProjects = 18;  
+    const targetHours = 1200;   
     let statsAnimated = false;
 
-    // Sayı Sayma Efekti Fonksiyonu
     function animateCount(element, target, duration, suffix = "") {
         let start = 0;
         const stepTime = Math.abs(Math.floor(duration / target));
-        
-        // Eğer sayı çok büyükse adım aralığını optimize et
+
         const increment = target > 100 ? Math.ceil(target / 100) : 1;
         
         const timer = setInterval(() => {
@@ -274,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, Math.max(stepTime, 15));
     }
 
-    // IntersectionObserver yardımıyla ekrana girildiğinde tetikleme
     const observerOptions = {
         threshold: 0.15,
         rootMargin: "0px 0px -50px 0px"
@@ -283,16 +243,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Yetenek tetikleyici kaldırılmıştır (progress bar yerine badges kullanılmaktadır)
-                
-                // İstatistikleri Tetikle
+
                 if (entry.target.id === 'about' && !statsAnimated) {
                     statsAnimated = true;
                     if (projectCountEl) animateCount(projectCountEl, targetProjects, 1500, "+");
                     if (hoursCountEl) animateCount(hoursCountEl, targetHours, 1800, " Saat+");
                 }
 
-                // Elementin CSS sınıfı olan reveal'ı tetikle
                 if (entry.target.classList.contains('reveal')) {
                     entry.target.classList.add('active');
                 }
@@ -300,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    // Gözlemcileri Kaydet
     document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
     const skillsSection = document.getElementById('skills');
     const aboutSection = document.getElementById('about');
@@ -308,16 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (skillsSection) scrollObserver.observe(skillsSection);
     if (aboutSection) scrollObserver.observe(aboutSection);
 
-
-    // ==========================================================================
-    // 5. Proje Filtreleme Sistemi (Project Portfolio Grid Filter)
-    // ==========================================================================
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Buton aktifliğini değiştir
+            
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
@@ -328,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (filterValue === 'all' || category === filterValue) {
                     card.classList.remove('hide');
-                    // Yeniden açılırken tatlı bir scale-up efekti için timeout
+                    
                     setTimeout(() => {
                         card.style.opacity = '1';
                         card.style.transform = 'scale(1)';
@@ -336,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.95)';
-                    // Animasyon bitiminde alanı gizle
+                    
                     setTimeout(() => {
                         card.classList.add('hide');
                     }, 300);
@@ -345,10 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-    // ==========================================================================
-    // 6. Mobil Menü Hamburger Etkileşimi
-    // ==========================================================================
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navbarLinks = document.getElementById('navbar-links');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -358,7 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navbarLinks.classList.toggle('active');
     });
 
-    // Menü linklerine tıklandığında menüyü kapat
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             mobileMenuBtn.classList.remove('active');
@@ -366,23 +313,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-    // ==========================================================================
-    // 7. İletişim Formu Kontrolü (Web3Forms Canlı Entegrasyonu)
-    // ==========================================================================
     const contactForm = document.getElementById('portfolio-contact-form');
     const formFeedback = document.getElementById('form-message');
 
-    // 💡 İletişim formunun gerçek e-postanıza düşmesi için:
-    // 1. https://web3forms.com adresine gidin ve e-postanızı yazarak ücretsiz bir Access Key (Anahtar) alın.
-    // 2. Aldığınız anahtarı aşağıdaki tırnak işaretlerinin arasına yapıştırın:
     const WEB3FORMS_ACCESS_KEY = "27a2282e-8e92-4ee8-9c4c-adf8345398cc";
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // Gönderiliyor Durumu
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.textContent;
             submitBtn.disabled = true;
@@ -392,7 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
             formFeedback.className = "form-feedback";
             formFeedback.textContent = "Mesajınız iletiliyor...";
 
-            // Eğer anahtar henüz girilmemişse simülasyon modunda çalıştır
             if (WEB3FORMS_ACCESS_KEY === "BURAYA_ANAHTARINIZI_YAZIN" || WEB3FORMS_ACCESS_KEY.trim() === "") {
                 setTimeout(() => {
                     contactForm.reset();
@@ -408,7 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Gerçek API Gönderimi
             const formData = new FormData(contactForm);
             formData.append("access_key", WEB3FORMS_ACCESS_KEY);
 
@@ -419,28 +356,27 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(async (response) => {
                 const result = await response.json();
                 if (response.status === 200) {
-                    // Formu sıfırla ve başarı mesajı göster
+                    
                     contactForm.reset();
                     formFeedback.textContent = "Mesajınız başarıyla gönderildi! Orçun en kısa sürede sizinle iletişime geçecektir.";
                     formFeedback.className = "form-feedback success";
                 } else {
-                    // API hatası
+                    
                     formFeedback.textContent = "Bir hata oluştu: " + (result.message || "Mesaj iletilemedi.");
                     formFeedback.className = "form-feedback error";
                 }
             })
             .catch(error => {
-                // Bağlantı hatası
+                
                 formFeedback.textContent = "Bağlantı hatası! Lütfen internetinizi kontrol edip tekrar deneyin.";
                 formFeedback.className = "form-feedback error";
                 console.error("Form error:", error);
             })
             .finally(() => {
-                // Butonu eski haline getir
+                
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
 
-                // 6 saniye sonra bildirimi gizle
                 setTimeout(() => {
                     formFeedback.style.display = 'none';
                 }, 6000);
@@ -448,22 +384,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-    // ==========================================================================
-    // 8. Sayfa Sonu ve Yukarı Çık Butonu Kontrolleri (Scroll Events)
-    // ==========================================================================
     const scrollTopBtn = document.getElementById('scroll-to-top');
     const navbar = document.getElementById('main-navbar');
     const currentYearSpan = document.getElementById('current-year');
     const scrollBar = document.getElementById('scroll-bar');
 
-    // Alt Bilgi Yıl Bilgisi
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
 
     window.addEventListener('scroll', () => {
-        // İlerleme Çubuğunu Doldur (%0 - %100)
+        
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
@@ -471,14 +402,12 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollBar.style.width = scrollPercent + '%';
         }
 
-        // Yukarı Çık Butonunu Göster/Gizle
         if (window.scrollY > 500) {
             scrollTopBtn.classList.add('show');
         } else {
             scrollTopBtn.classList.remove('show');
         }
 
-        // Navbar Küçülme / Arka Plan Sabitleme
         if (window.scrollY > 50) {
             navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
         } else {
@@ -493,9 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ==========================================================================
-    // 9. Bento Grid Kartları Fare İzleme Efekti (Bento Card Mouse Tracker)
-    // ==========================================================================
     const bentoCards = document.querySelectorAll('.bento-card, .certificate-card');
     
     bentoCards.forEach(card => {
