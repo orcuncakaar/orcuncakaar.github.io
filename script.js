@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentLang = lang;
         localStorage.setItem('lang', lang);
         document.documentElement.lang = lang;
+        document.title = lang === 'tr' ? 'Kişisel Portfolyo | Orçun Çakar' : 'Personal Portfolio | Orçun Çakar';
 
         document.querySelectorAll('[data-translate]').forEach(el => {
             const key = el.getAttribute('data-translate');
@@ -493,4 +494,285 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
+
+    // --- REGRESYON OYUN ALANI (OLS PLAYGROUND) ---
+    const regCanvas = document.getElementById('regression-canvas');
+    if (regCanvas) {
+        const regCtx = regCanvas.getContext('2d');
+        const warningOverlay = document.getElementById('playground-canvas-warning');
+        const btnClear = document.getElementById('btn-clear-playground');
+        const btnRandom = document.getElementById('btn-random-playground');
+
+        const elFormula = document.getElementById('reg-formula');
+        const elCorr = document.getElementById('reg-corr');
+        const elR2 = document.getElementById('reg-r2');
+        const elSlope = document.getElementById('reg-slope');
+        const elIntercept = document.getElementById('reg-intercept');
+        const elN = document.getElementById('reg-n');
+
+        let points = []; // Canvas koordinatlarındaki {x, y} dizisi
+
+        function resizeRegCanvas() {
+            const rect = regCanvas.parentElement.getBoundingClientRect();
+            regCanvas.width = rect.width;
+            regCanvas.height = rect.height;
+            drawRegression();
+        }
+
+        window.addEventListener('resize', resizeRegCanvas);
+
+        regCanvas.addEventListener('mousedown', (e) => {
+            const rect = regCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Sınırları koru
+            if (x >= 30 && x <= regCanvas.width - 10 && y >= 10 && y <= regCanvas.height - 30) {
+                points.push({ x, y });
+                calculateRegression();
+                drawRegression();
+            }
+        });
+
+        btnClear.addEventListener('click', () => {
+            points = [];
+            calculateRegression();
+            drawRegression();
+        });
+
+        btnRandom.addEventListener('click', () => {
+            points = [];
+            const N = Math.floor(Math.random() * 12) + 8; // 8 ila 20 arasında rastgele nokta
+            const w = regCanvas.width;
+            const h = regCanvas.height;
+
+            const slope = (Math.random() - 0.5) * 1.2; // Rastgele eğim
+            const intercept = (Math.random() * 0.4 + 0.3) * (h - 40); // Rastgele kesişim
+            const noise = 30; // Hata terimi (gürültü) miktarı
+
+            for (let i = 0; i < N; i++) {
+                const x = 50 + (w - 100) * (i / (N - 1));
+                const idealYMath = slope * (x - 30) + intercept;
+                const idealYCanvas = (h - 30) - idealYMath;
+                const noisyY = idealYCanvas + (Math.random() - 0.5) * noise * 2;
+                
+                const finalY = Math.max(15, Math.min(h - 35, noisyY));
+                points.push({ x, y: finalY });
+            }
+
+            calculateRegression();
+            drawRegression();
+        });
+
+        function calculateRegression() {
+            const N = points.length;
+            elN.textContent = N;
+
+            if (N < 2) {
+                warningOverlay.classList.add('active');
+                elFormula.textContent = 'y = β₀ + β₁x';
+                elCorr.textContent = '-';
+                elR2.textContent = '-';
+                elSlope.textContent = '-';
+                elIntercept.textContent = '-';
+                return;
+            }
+
+            warningOverlay.classList.remove('active');
+
+            const H = regCanvas.height;
+
+            // Canvas Y değerini matematiksel Y değerine dönüştür (sol alt köşe 0,0 kabul edilerek)
+            const mathPoints = points.map(p => ({
+                x: p.x - 30, // Y ekseninden olan uzaklık
+                y: (H - 30) - p.y // X ekseninden olan uzaklık
+            }));
+
+            // Ortalamaları hesapla
+            let sumX = 0, sumY = 0;
+            mathPoints.forEach(p => {
+                sumX += p.x;
+                sumY += p.y;
+            });
+            const meanX = sumX / N;
+            const meanY = sumY / N;
+
+            // Eğim (Slope - m) & Kesişim (Intercept - c) hesaplaması
+            let num = 0;
+            let den = 0;
+            let sumSqX = 0;
+            let sumSqY = 0;
+            let sumProd = 0;
+
+            mathPoints.forEach(p => {
+                const diffX = p.x - meanX;
+                const diffY = p.y - meanY;
+                num += diffX * diffY;
+                den += diffX * diffX;
+                sumSqX += diffX * diffX;
+                sumSqY += diffY * diffY;
+                sumProd += diffX * diffY;
+            });
+
+            const slope = den === 0 ? 0 : num / den;
+            const intercept = meanY - slope * meanX;
+
+            // Pearson Korelasyon Katsayısı (r)
+            let r = 0;
+            const denomCorr = Math.sqrt(sumSqX * sumSqY);
+            if (denomCorr !== 0) {
+                r = sumProd / denomCorr;
+            }
+            const r2 = r * r;
+
+            // Sonuçları göster
+            const sign = intercept >= 0 ? '+' : '-';
+            const absIntercept = Math.abs(intercept).toFixed(2);
+            elFormula.innerHTML = `y = <span class="text-gradient">${slope.toFixed(2)}x</span> ${sign} <span class="text-gradient-green">${absIntercept}</span>`;
+            elCorr.textContent = r.toFixed(4);
+            elR2.textContent = r2.toFixed(4);
+            elSlope.textContent = slope.toFixed(4);
+            elIntercept.textContent = intercept.toFixed(2);
+
+            regCanvas.calculatedModel = { slope, intercept };
+        }
+
+        function drawRegression() {
+            const W = regCanvas.width;
+            const H = regCanvas.height;
+
+            regCtx.clearRect(0, 0, W, H);
+
+            const isLight = body.classList.contains('light-theme');
+            const gridColor = isLight ? 'rgba(15, 23, 42, 0.04)' : 'rgba(255, 255, 255, 0.03)';
+            const axisColor = isLight ? 'rgba(15, 23, 42, 0.25)' : 'rgba(255, 255, 255, 0.2)';
+            
+            // 1. Grafik Izgara Çizimi (Milimetrik Kağıt Deseni)
+            const gridSize = 30;
+            regCtx.strokeStyle = gridColor;
+            regCtx.lineWidth = 1;
+
+            for (let x = 0; x < W; x += gridSize) {
+                regCtx.beginPath();
+                regCtx.moveTo(x, 0);
+                regCtx.lineTo(x, H);
+                regCtx.stroke();
+            }
+
+            for (let y = 0; y < H; y += gridSize) {
+                regCtx.beginPath();
+                regCtx.moveTo(0, y);
+                regCtx.lineTo(W, y);
+                regCtx.stroke();
+            }
+
+            // 2. Matematiksel Eksenlerin Çizimi (X ve Y Eksenleri)
+            regCtx.strokeStyle = axisColor;
+            regCtx.lineWidth = 2;
+            
+            // X Ekseni (Alt kısımdan 30px yukarıda)
+            const xAxisY = H - 30;
+            regCtx.beginPath();
+            regCtx.moveTo(30, xAxisY);
+            regCtx.lineTo(W - 10, xAxisY);
+            regCtx.stroke();
+
+            // Y Ekseni (Sol kısımdan 30px sağda)
+            const yAxisX = 30;
+            regCtx.beginPath();
+            regCtx.moveTo(yAxisX, 10);
+            regCtx.lineTo(yAxisX, H - 30);
+            regCtx.stroke();
+
+            // Eksen Başlıkları
+            regCtx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.5)' : 'rgba(255, 255, 255, 0.4)';
+            regCtx.font = '600 11px var(--font-body)';
+            regCtx.textAlign = 'center';
+            regCtx.fillText('X', W - 15, xAxisY + 15);
+            regCtx.textAlign = 'right';
+            regCtx.fillText('Y', yAxisX - 10, 18);
+
+            // 3. Regresyon Doğrusunun Çizilmesi (N >= 2 ise)
+            if (points.length >= 2 && regCanvas.calculatedModel) {
+                const { slope, intercept } = regCanvas.calculatedModel;
+
+                // Eksen sınırları içinde çizgi başlangıç ve bitiş koordinatlarını belirle
+                const xStartMath = 0;
+                const yStartMath = slope * xStartMath + intercept;
+                const xEndMath = W - 40;
+                const yEndMath = slope * xEndMath + intercept;
+
+                // Matematiksel koordinatları Canvas koordinatlarına dönüştür
+                const xStartCanvas = xStartMath + 30;
+                const yStartCanvas = (H - 30) - yStartMath;
+                const xEndCanvas = xEndMath + 30;
+                const yEndCanvas = (H - 30) - yEndMath;
+
+                // Çizgi gradyanı oluştur
+                const lineGradient = regCtx.createLinearGradient(xStartCanvas, 0, xEndCanvas, 0);
+                const pColor = isLight ? '#6d28d9' : '#8b5cf6';
+                const sColor = isLight ? '#0891b2' : '#06b6d4';
+                lineGradient.addColorStop(0, pColor);
+                lineGradient.addColorStop(1, sColor);
+
+                // Parlama (Glow) Efekti
+                regCtx.shadowColor = pColor;
+                regCtx.shadowBlur = 12;
+                regCtx.strokeStyle = lineGradient;
+                regCtx.lineWidth = 4;
+                regCtx.lineCap = 'round';
+
+                regCtx.beginPath();
+                regCtx.moveTo(xStartCanvas, yStartCanvas);
+                regCtx.lineTo(xEndCanvas, yEndCanvas);
+                regCtx.stroke();
+
+                // Parlamayı sıfırla
+                regCtx.shadowBlur = 0;
+            }
+
+            // 4. Veri Noktalarının Çizilmesi (Glowing Circles)
+            points.forEach(p => {
+                const pColor = isLight ? '#6d28d9' : '#8b5cf6';
+                const sColor = isLight ? '#0891b2' : '#06b6d4';
+                
+                // Dış gölge dairesi
+                regCtx.beginPath();
+                regCtx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+                regCtx.fillStyle = isLight ? 'rgba(109, 40, 217, 0.2)' : 'rgba(139, 92, 246, 0.25)';
+                regCtx.fill();
+
+                // İç katı renk dairesi (radyal gradyanlı)
+                regCtx.beginPath();
+                regCtx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                regCtx.fillStyle = lineGradientPoints(regCtx, p.x, p.y, pColor, sColor);
+                regCtx.fill();
+
+                // Beyaz merkez çekirdek
+                regCtx.beginPath();
+                regCtx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                regCtx.fillStyle = '#ffffff';
+                regCtx.fill();
+            });
+        }
+
+        function lineGradientPoints(ctx, x, y, c1, c2) {
+            const grad = ctx.createRadialGradient(x, y, 1, x, y, 6);
+            grad.addColorStop(0, '#ffffff');
+            grad.addColorStop(0.3, c1);
+            grad.addColorStop(1, c2);
+            return grad;
+        }
+
+        // Canvas'ı ilk kez başlat
+        setTimeout(resizeRegCanvas, 200);
+
+        // Tema değişiminde renkleri yeniden yükle
+        themeToggleBtn.addEventListener('click', () => {
+            setTimeout(() => {
+                calculateRegression();
+                drawRegression();
+            }, 100);
+        });
+    }
 });
