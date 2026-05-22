@@ -349,6 +349,47 @@ body.light-theme .moon-icon {
     transform: translateY(-30px);
 }
 
+.lang-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: var(--radius-full);
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-normal);
+}
+
+.lang-toggle-btn:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+}
+
+.lang-toggle-btn svg {
+    fill: currentColor;
+    transition: transform var(--transition-normal);
+}
+
+.lang-toggle-btn:hover svg {
+    transform: rotate(20deg);
+}
+
+.lang-toggle-btn .lang-text {
+    line-height: 1;
+}
+
+body.light-theme .lang-toggle-btn:hover {
+    color: #ffffff;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;

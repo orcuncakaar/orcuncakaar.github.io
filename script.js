@@ -23,6 +23,103 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCanvasColors();
     });
 
+    const langToggleBtn = document.getElementById('lang-toggle');
+    let currentLang = localStorage.getItem('lang') || 'tr';
+    const typedTextSpan = document.getElementById('typed-text');
+    let textArray = [];
+    const typingSpeed = 70;
+    const erasingSpeed = 40;
+    const newTextDelay = 2000;
+    let textArrayIndex = 0;
+    let charIndex = 0;
+    let typingTimeout;
+
+    function type() {
+        if (!textArray || textArray.length === 0) return;
+        if (charIndex < textArray[textArrayIndex].length) {
+            if (typedTextSpan) {
+                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+            }
+            charIndex++;
+            typingTimeout = setTimeout(type, typingSpeed);
+        } else {
+            typingTimeout = setTimeout(erase, newTextDelay);
+        }
+    }
+
+    function erase() {
+        if (!textArray || textArray.length === 0) return;
+        if (charIndex > 0) {
+            if (typedTextSpan) {
+                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+            }
+            charIndex--;
+            typingTimeout = setTimeout(erase, erasingSpeed);
+        } else {
+            textArrayIndex++;
+            if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+            typingTimeout = setTimeout(type, typingSpeed + 300);
+        }
+    }
+
+    function resetTypewriter(lang) {
+        if (typingTimeout) {
+            clearTimeout(typingTimeout);
+        }
+        textArray = (translations[lang] && translations[lang]["typed-strings"]) || [];
+        textArrayIndex = 0;
+        charIndex = 0;
+        if (typedTextSpan) {
+            typedTextSpan.textContent = '';
+        }
+        if (textArray.length) {
+            typingTimeout = setTimeout(type, 500);
+        }
+    }
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.getAttribute('data-translate');
+            if (translations[lang] && translations[lang][key] !== undefined) {
+                el.textContent = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-translate-html]').forEach(el => {
+            const key = el.getAttribute('data-translate-html');
+            if (translations[lang] && translations[lang][key] !== undefined) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-translate-placeholder');
+            if (translations[lang] && translations[lang][key] !== undefined) {
+                el.setAttribute('placeholder', translations[lang][key]);
+            }
+        });
+
+        const langText = document.querySelector('#lang-toggle .lang-text');
+        if (langText) {
+            langText.textContent = lang === 'tr' ? 'EN' : 'TR';
+        }
+
+        resetTypewriter(lang);
+    }
+
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener('click', () => {
+            const nextLang = currentLang === 'tr' ? 'en' : 'tr';
+            setLanguage(nextLang);
+        });
+    }
+
+    setLanguage(currentLang);
+
     const canvas = document.getElementById('neural-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -174,42 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeCanvas();
     animate();
 
-    const typedTextSpan = document.getElementById('typed-text');
-    const textArray = [
-        "Veri Bilimi Meraklısı",
-        "Makine Öğrenmesi Geliştiricisi",
-        "Derin Öğrenme Araştırmacısı",
-        "Yazılım Mühendisi"
-    ];
-    const typingSpeed = 70;
-    const erasingSpeed = 40;
-    const newTextDelay = 2000; 
-    let textArrayIndex = 0;
-    let charIndex = 0;
 
-    function type() {
-        if (charIndex < textArray[textArrayIndex].length) {
-            typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
-            charIndex++;
-            setTimeout(type, typingSpeed);
-        } else {
-            setTimeout(erase, newTextDelay);
-        }
-    }
-
-    function erase() {
-        if (charIndex > 0) {
-            typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
-            charIndex--;
-            setTimeout(erase, erasingSpeed);
-        } else {
-            textArrayIndex++;
-            if (textArrayIndex >= textArray.length) textArrayIndex = 0;
-            setTimeout(type, typingSpeed + 300);
-        }
-    }
-
-    if (textArray.length) setTimeout(type, newTextDelay - 1000);
 
     const projectCountEl = document.getElementById('stat-projects');
     const hoursCountEl = document.getElementById('stat-hours');
@@ -323,21 +385,22 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.textContent;
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Gönderiliyor...';
+            submitBtn.textContent = translations[currentLang]["form-sending"] || "Gönderiliyor...";
             
             formFeedback.style.display = 'block';
             formFeedback.className = "form-feedback";
-            formFeedback.textContent = "Mesajınız iletiliyor...";
+            formFeedback.textContent = translations[currentLang]["form-delivering"] || "Mesajınız iletiliyor...";
 
             if (WEB3FORMS_ACCESS_KEY === "BURAYA_ANAHTARINIZI_YAZIN" || WEB3FORMS_ACCESS_KEY.trim() === "") {
                 setTimeout(() => {
                     contactForm.reset();
-                    formFeedback.textContent = "Mesajınız başarıyla gönderildi (Simülasyon Modu)! Gerçek e-posta almak için script.js dosyasındaki WEB3FORMS_ACCESS_KEY değerini güncelleyin.";
+                    formFeedback.textContent = currentLang === 'tr' 
+                        ? "Mesajınız başarıyla gönderildi (Simülasyon Modu)! Gerçek e-posta almak için script.js dosyasındaki WEB3FORMS_ACCESS_KEY değerini güncelleyin."
+                        : "Your message was successfully sent (Simulation Mode)! Update WEB3FORMS_ACCESS_KEY in script.js to receive real emails.";
                     formFeedback.className = "form-feedback success";
                     submitBtn.disabled = false;
-                    submitBtn.textContent = originalBtnText;
+                    submitBtn.textContent = translations[currentLang]["form-btn-submit"] || "Mesaj Gönder";
 
                     setTimeout(() => {
                         formFeedback.style.display = 'none';
@@ -356,26 +419,22 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(async (response) => {
                 const result = await response.json();
                 if (response.status === 200) {
-                    
                     contactForm.reset();
-                    formFeedback.textContent = "Mesajınız başarıyla gönderildi! Orçun en kısa sürede sizinle iletişime geçecektir.";
+                    formFeedback.textContent = translations[currentLang]["form-success"] || "Mesajınız başarıyla gönderildi!";
                     formFeedback.className = "form-feedback success";
                 } else {
-                    
-                    formFeedback.textContent = "Bir hata oluştu: " + (result.message || "Mesaj iletilemedi.");
+                    formFeedback.textContent = (currentLang === 'tr' ? "Bir hata oluştu: " : "An error occurred: ") + (result.message || (currentLang === 'tr' ? "Mesaj iletilemedi." : "Message could not be delivered."));
                     formFeedback.className = "form-feedback error";
                 }
             })
             .catch(error => {
-                
-                formFeedback.textContent = "Bağlantı hatası! Lütfen internetinizi kontrol edip tekrar deneyin.";
+                formFeedback.textContent = translations[currentLang]["form-error"] || "Bağlantı hatası!";
                 formFeedback.className = "form-feedback error";
                 console.error("Form error:", error);
             })
             .finally(() => {
-                
                 submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
+                submitBtn.textContent = translations[currentLang]["form-btn-submit"] || "Mesaj Gönder";
 
                 setTimeout(() => {
                     formFeedback.style.display = 'none';

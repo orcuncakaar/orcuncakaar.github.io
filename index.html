@@ -28,15 +28,21 @@
         <div class="container navbar-container">
 
             <ul class="nav-links" id="navbar-links">
-                <li><a href="#about" class="nav-link">Hakkımda</a></li>
-                <li><a href="#skills" class="nav-link">Yetenekler</a></li>
-                <li><a href="#projects" class="nav-link">Projeler</a></li>
-                <li><a href="#timeline" class="nav-link">Deneyim</a></li>
-                <li><a href="#certificates" class="nav-link">Sertifikalar</a></li>
-                <li><a href="#contact" class="nav-link">İletişim</a></li>
+                <li><a href="#about" class="nav-link" data-translate="nav-about">Hakkımda</a></li>
+                <li><a href="#skills" class="nav-link" data-translate="nav-skills">Yetenekler</a></li>
+                <li><a href="#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
+                <li><a href="#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
+                <li><a href="#certificates" class="nav-link" data-translate="nav-certificates">Sertifikalar</a></li>
+                <li><a href="#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
             </ul>
             
             <div class="nav-actions">
+                <button class="lang-toggle-btn" id="lang-toggle" aria-label="Dili Değiştir / Change Language">
+                    <svg viewBox="0 0 24 24" width="18" height="18">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/>
+                    </svg>
+                    <span class="lang-text">EN</span>
+                </button>
                 
                 <button class="theme-toggle-btn" id="theme-toggle" aria-label="Temayı Değiştir">
                     
@@ -67,18 +73,18 @@
         
         <div class="container">
             <div class="hero-content">
-                <div class="hero-welcome">Portfolyoma Hoş Geldiniz</div>
-                <h1 class="hero-title">Ben <span class="text-gradient">Orçun</span></h1>
+                <div class="hero-welcome" data-translate="hero-welcome">Portfolyoma Hoş Geldiniz</div>
+                <h1 class="hero-title" data-translate-html="hero-title">Ben <span class="text-gradient">Orçun</span></h1>
                 <div class="hero-subtitle">
                     <span id="typed-text"></span><span class="typed-cursor">|</span>
                 </div>
-                <p class="hero-description">
+                <p class="hero-description" data-translate="hero-description">
                     Verileri anlamlı içgörülere dönüştüren, derin öğrenme modelleri eğiten ve modern yazılım çözümleri üreten bir Yazılım ve Veri Bilimi meraklısıyım.
                 </p>
                 
                 <div class="btn-group">
-                    <a href="#projects" class="btn btn-primary">Projelerimi Gör</a>
-                    <a href="#contact" class="btn btn-secondary">İletişime Geç</a>
+                    <a href="#projects" class="btn btn-primary" data-translate="hero-btn-projects">Projelerimi Gör</a>
+                    <a href="#contact" class="btn btn-secondary" data-translate="hero-btn-contact">İletişime Geç</a>
                 </div>
                 
                 <div class="hero-socials">
@@ -108,7 +114,7 @@
     <section class="section" id="about">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">Hakkımda</h2>
+                <h2 class="section-title" data-translate="about-title">Hakkımda</h2>
             </div>
             
             <div class="bento-grid">
@@ -119,13 +125,13 @@
                         <div class="bento-icon">
                             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                         </div>
-                        <h3>Akademik Hayat & Analitik Yaklaşım</h3>
+                        <h3 data-translate="about-bento1-title">Akademik Hayat & Analitik Yaklaşım</h3>
                     </div>
                     <div class="bento-body">
-                        <p class="bio-lead">
+                        <p class="bio-lead" data-translate="about-bento1-lead">
                             Merhaba, ben Orçun. Gazi Üniversitesi İstatistik bölümü 3. sınıf öğrencisiyim. Verinin arkasındaki dinamikleri anlamayı, karmaşık yapıları çözmeyi ve istatistiksel modellemelerle anlamlı çıktılar üretmeyi seviyorum.
                         </p>
-                        <p>
+                        <p data-translate="about-bento1-text">
                             Akademik eğitimimin yanı sıra veri bilimi ve veri analitiği alanlarına odaklanıyorum. Projelerimde R Studio, Python, SQL ve MATLAB gibi araçları aktif olarak kullanarak teorik bilgiyi pratiğe dönüştürüyor; veri görselleştirme, regresyon analizleri ve tahmine dayalı modeller üzerinde çalışıyorum.
                         </p>
                     </div>
@@ -137,10 +143,10 @@
                         <div class="bento-icon">
                             <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.3C.5 6.7.9 9.8 2.9 11.8c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
                         </div>
-                        <h3>Araç Çantam</h3>
+                        <h3 data-translate="about-bento2-title">Araç Çantam</h3>
                     </div>
                     <div class="bento-body">
-                        <p class="tools-desc">Projelerimde aktif olarak kullandığım temel diller ve analitik yazılımlar:</p>
+                        <p class="tools-desc" data-translate="about-bento2-body">Projelerimde aktif olarak kullandığım temel diller ve analitik yazılımlar:</p>
                         <div class="bento-tools-grid">
                             <div class="tool-badge rstudio">
                                 <span class="tool-dot"></span>
@@ -168,10 +174,10 @@
                         <div class="bento-icon" style="background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.2);">
                             <svg viewBox="0 0 24 24" style="fill: #8b5cf6;"><path d="M21 5c-1.11-.9-2.92-1.1-5-1.1-2.08 0-4.09.4-5.5 1.5C9.09 4.3 7.08 3.9 5 3.9c-2.08 0-3.89.2-5 1.1v12.5c1.11-.9 2.92-1.1 5-1.1 2.08 0 4.09.4 5.5 1.5 1.41-1.1 3.42-1.5 5.5-1.5 2.08 0 3.89.2 5 1.1V5zM10.5 17.5c-1.41-1.1-3.42-1.5-5-1.5-1.4 0-2.69.1-3.5.5V6.1c.81-.4 2.1-.5 3.5-.5 2.08 0 4.09.4 5.5 1.5v10.4zm10.5-.6c-.81-.4-2.1-.5-3.5-.5-2.08 0-4.09.4-5.5 1.5V7.1c1.41-1.1 3.42-1.5 5.5-1.5 1.4 0 2.69.1 3.5.5v9.8z"/></svg>
                         </div>
-                        <h3>Sürekli Öğrenme ve Okuma</h3>
+                        <h3 data-translate="about-bento3-title">Sürekli Öğrenme ve Okuma</h3>
                     </div>
                     <div class="bento-body text-body-container">
-                        <p>Geniş bir yelpazede okuma alışkanlığına sahibim; teknoloji, gastronomi ve uluslararası ilişkiler gibi farklı disiplinlerdeki yayınları yakından takip ederek perspektifimi genişletiyorum.</p>
+                        <p data-translate="about-bento3-body">Geniş bir yelpazede okuma alışkanlığına sahibim; teknoloji, gastronomi ve uluslararası ilişkiler gibi farklı disiplinlerdeki yayınları yakından takip ederek perspektifimi genişletiyorum.</p>
                     </div>
                 </div>
 
@@ -181,10 +187,10 @@
                         <div class="bento-icon" style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.2);">
                             <svg viewBox="0 0 24 24" style="fill: #06b6d4;"><path d="M6.5 5C5.12 5 4 6.12 4 7.5S5.12 10 6.5 10H8v4H6.5C5.12 14 4 15.12 4 16.5S5.12 19 6.5 19H8v2h2v-2h4v2h2v-2h1.5c1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5H16v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S18.88 5 17.5 5H16V3h-2v2h-4V3H8v2H6.5zM14 10h-4v4h4v-4z"/></svg>
                         </div>
-                        <h3>Disiplin ve Spor</h3>
+                        <h3 data-translate="about-bento4-title">Disiplin ve Spor</h3>
                     </div>
                     <div class="bento-body text-body-container">
-                        <p>Hayatımdaki zihinsel yoğunluğu düzenli bir spor rutiniyle destekliyorum. Spordan kazandığım süreklilik ve disiplini projelerime de yansıtıyorum.</p>
+                        <p data-translate="about-bento4-body">Hayatımdaki zihinsel yoğunluğu düzenli bir spor rutiniyle destekliyorum. Spordan kazandığım süreklilik ve disiplini projelerime de yansıtıyorum.</p>
                     </div>
                 </div>
 
@@ -194,10 +200,10 @@
                         <div class="bento-icon" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2);">
                             <svg viewBox="0 0 24 24" style="fill: #10b981;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-13l-2.47 5.53L5 13l5.53 2.47L13 21l2.47-5.53L21 13l-5.53-2.47L13 7z"/></svg>
                         </div>
-                        <h3>Keşif ve Kültür</h3>
+                        <h3 data-translate="about-bento5-title">Keşif ve Kültür</h3>
                     </div>
                     <div class="bento-body text-body-container">
-                        <p>Geçmişin hikayelerini ve mimariyi anlamayı seviyor, fırsat buldukça tarihi mekanları ve müzeleri ziyaret etmekten keyif alıyorum.</p>
+                        <p data-translate="about-bento5-body">Geçmişin hikayelerini ve mimariyi anlamayı seviyor, fırsat buldukça tarihi mekanları ve müzeleri ziyaret etmekten keyif alıyorum.</p>
                     </div>
                 </div>
 
@@ -208,11 +214,11 @@
                             <span class="pulse-ring"></span>
                             <span class="pulse-dot"></span>
                         </div>
-                        <p class="collab-text">
+                        <p class="collab-text" data-translate="about-bento6-text">
                             Veri odaklı projelerde iş birliklerine, yeni teknolojileri deneyimlemeye ve ortak çalışmalar üretmeye her zaman açığım.
                         </p>
                         <a href="#contact" class="btn btn-primary bento-collab-btn">
-                            İş Birliği Başlat
+                            <span data-translate="about-bento6-btn">İş Birliği Başlat</span>
                             <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
                         </a>
                     </div>
@@ -224,35 +230,35 @@
     <section class="section" id="skills" style="background-color: var(--bg-secondary);">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">Yetenekler</h2>
+                <h2 class="section-title" data-translate="skills-title">Yetenekler</h2>
             </div>
             
             <div class="skills-grid">
                 
                 <div class="skills-category glass-card reveal">
-                    <h3 class="skills-category-title">İstatistik & Veri Analitiği</h3>
+                    <h3 class="skills-category-title" data-translate="skills-cat1">İstatistik & Veri Analitiği</h3>
                     <div class="skills-tags">
                         <div class="skill-tag">
                             <span class="skill-dot dot-stat"></span>
-                            <span class="skill-tag-name">Olasılık & İstatistik</span>
+                            <span class="skill-tag-name" data-translate="skill-prob">Olasılık & İstatistik</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-stat"></span>
-                            <span class="skill-tag-name">Veri Analizi (NumPy & Pandas)</span>
+                            <span class="skill-tag-name" data-translate="skill-data">Veri Analizi (NumPy & Pandas)</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-stat"></span>
-                            <span class="skill-tag-name">SPSS & MS Excel</span>
+                            <span class="skill-tag-name" data-translate="skill-spss">SPSS & MS Excel</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-stat"></span>
-                            <span class="skill-tag-name">Ekonomi & Finans</span>
+                            <span class="skill-tag-name" data-translate="skill-econ">Ekonomi & Finans</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="skills-category glass-card reveal">
-                    <h3 class="skills-category-title">Programlama & Veritabanı</h3>
+                    <h3 class="skills-category-title" data-translate="skills-cat2">Programlama & Veritabanı</h3>
                     <div class="skills-tags">
                         <div class="skill-tag">
                             <span class="skill-dot dot-prog"></span>
@@ -260,7 +266,7 @@
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-prog"></span>
-                            <span class="skill-tag-name">SQL (Veritabanı Sorgulama)</span>
+                            <span class="skill-tag-name" data-translate="skill-sql">SQL (Veritabanı Sorgulama)</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-prog"></span>
@@ -272,33 +278,33 @@
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-prog"></span>
-                            <span class="skill-tag-name">Git & Versiyon Kontrolü</span>
+                            <span class="skill-tag-name" data-translate="skill-git">Git & Versiyon Kontrolü</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="skills-category glass-card reveal">
-                    <h3 class="skills-category-title">Kişisel Yetkinlikler & Dil</h3>
+                    <h3 class="skills-category-title" data-translate="skills-cat3">Kişisel Yetkinlikler & Dil</h3>
                     <div class="skills-tags">
                         <div class="skill-tag">
                             <span class="skill-dot dot-soft"></span>
-                            <span class="skill-tag-name">İngilizce (Intermediate)</span>
+                            <span class="skill-tag-name" data-translate="skill-eng">İngilizce (Intermediate)</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-soft"></span>
-                            <span class="skill-tag-name">Problem Çözme</span>
+                            <span class="skill-tag-name" data-translate="skill-prob-solving">Problem Çözme</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-soft"></span>
-                            <span class="skill-tag-name">Öz Disiplin</span>
+                            <span class="skill-tag-name" data-translate="skill-self-disc">Öz Disiplin</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-soft"></span>
-                            <span class="skill-tag-name">İletişim</span>
+                            <span class="skill-tag-name" data-translate="skill-comm">İletişim</span>
                         </div>
                         <div class="skill-tag">
                             <span class="skill-dot dot-soft"></span>
-                            <span class="skill-tag-name">Takım Çalışması</span>
+                            <span class="skill-tag-name" data-translate="skill-team">Takım Çalışması</span>
                         </div>
                     </div>
                 </div>
@@ -309,14 +315,14 @@
     <section class="section" id="projects">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">Projeler</h2>
+                <h2 class="section-title" data-translate="projects-title">Projeler</h2>
             </div>
 
             <div class="project-filter-group reveal">
-                <button class="filter-btn active" data-filter="all">Tümü</button>
-                <button class="filter-btn" data-filter="ai">Yapay Zeka & ML</button>
-                <button class="filter-btn" data-filter="dl">Derin Öğrenme</button>
-                <button class="filter-btn" data-filter="dev">Yazılım & Web</button>
+                <button class="filter-btn active" data-filter="all" data-translate="filter-all">Tümü</button>
+                <button class="filter-btn" data-filter="ai" data-translate="filter-ai">Yapay Zeka & ML</button>
+                <button class="filter-btn" data-filter="dl" data-translate="filter-dl">Derin Öğrenme</button>
+                <button class="filter-btn" data-filter="dev" data-translate="filter-dev">Yazılım & Web</button>
             </div>
 
             <div class="projects-grid">
@@ -329,8 +335,8 @@
                         </svg>
                     </div>
                     <div class="project-body">
-                        <h3 class="project-title">Müşteri Kayıp (Churn) Analizi</h3>
-                        <p class="project-description">
+                        <h3 class="project-title" data-translate="proj1-title">Müşteri Kayıp (Churn) Analizi</h3>
+                        <p class="project-description" data-translate="proj1-desc">
                             Telekomünikasyon şirketi verileri kullanılarak XGBoost ve Scikit-Learn ile müşteri kaybını %92 doğruluk oranıyla önceden tahmin eden makine öğrenmesi modeli.
                         </p>
                         <div class="project-tags">
@@ -341,11 +347,11 @@
                         <div class="project-links">
                             <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                                Kodları Gör
+                                <span data-translate="proj-btn-code">Kodları Gör</span>
                             </a>
                             <a href="https://kaggle.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2-2 0-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-                                Defteri İncele
+                                <span data-translate="proj-btn-notebook">Defteri İncele</span>
                             </a>
                         </div>
                     </div>
@@ -359,8 +365,8 @@
                         </svg>
                     </div>
                     <div class="project-body">
-                        <h3 class="project-title">Tıbbi Görüntü Sınıflandırma</h3>
-                        <p class="project-description">
+                        <h3 class="project-title" data-translate="proj2-title">Tıbbi Görüntü Sınıflandırma</h3>
+                        <p class="project-description" data-translate="proj2-desc">
                             PyTorch ve Evrişimli Sinir Ağları (CNN) kullanılarak röntgen görüntülerinden göğüs hastalıklarını (zatürre vb.) tespit eden derin öğrenme modeli.
                         </p>
                         <div class="project-tags">
@@ -371,11 +377,11 @@
                         <div class="project-links">
                             <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                                Kodları Gör
+                                <span data-translate="proj-btn-code">Kodları Gör</span>
                             </a>
                             <a href="https://kaggle.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2-2 0-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-                                Defteri İncele
+                                <span data-translate="proj-btn-notebook">Defteri İncele</span>
                             </a>
                         </div>
                     </div>
@@ -389,8 +395,8 @@
                         </svg>
                     </div>
                     <div class="project-body">
-                        <h3 class="project-title">Akıllı Enerji Tüketim Paneli</h3>
-                        <p class="project-description">
+                        <h3 class="project-title" data-translate="proj3-title">Akıllı Enerji Tüketim Paneli</h3>
+                        <p class="project-description" data-translate="proj3-desc">
                             Nesnelerin İnterneti (IoT) cihazlarından gelen anlık elektrik tüketim verilerini görselleştiren ve anomalileri tespit eden full-stack web kontrol paneli.
                         </p>
                         <div class="project-tags">
@@ -401,7 +407,7 @@
                         <div class="project-links">
                             <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                                Kodları Gör
+                                <span data-translate="proj-btn-code">Kodları Gör</span>
                             </a>
                         </div>
                     </div>
@@ -413,7 +419,7 @@
     <section class="section" id="timeline" style="background-color: var(--bg-secondary);">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">Deneyim</h2>
+                <h2 class="section-title" data-translate="timeline-title">Deneyim</h2>
             </div>
             
             <div class="timeline reveal">
@@ -421,14 +427,14 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content glass-card">
-                        <span class="timeline-date">Haziran 2025 - Günümüz</span>
-                        <h3 class="timeline-title">Data Science Intern</h3>
-                        <div class="timeline-company">Luminoris • Staj • Ankara, Türkiye (Hibrit)</div>
+                        <span class="timeline-date" data-translate="timeline-date-1">Haziran 2025 - Günümüz</span>
+                        <h3 class="timeline-title" data-translate="job1-title">Data Science Intern</h3>
+                        <div class="timeline-company" data-translate="job1-company">Luminoris • Staj • Ankara, Türkiye (Hibrit)</div>
                         <div class="timeline-desc">
                             <ul class="timeline-bullets">
-                                <li>İlişkisel veritabanı yönetimi (SQL), veri sorgulama ve veri tabanı optimizasyon süreçlerinde aktif rol alma.</li>
-                                <li>Veri bilimi modelleri ve analiz sonuçlarının web ortamına aktarılması için HTML, CSS ve modern arayüz entegrasyonları geliştirme.</li>
-                                <li>Python ve veri bilimi kütüphanelerini kullanarak veri ön işleme, makine öğrenmesi modelleri geliştirme ve analiz raporları hazırlama.</li>
+                                <li data-translate="job1-b1">İlişkisel veritabanı yönetimi (SQL), veri sorgulama ve veri tabanı optimizasyon süreçlerinde aktif rol alma.</li>
+                                <li data-translate="job1-b2">Veri bilimi modelleri ve analiz sonuçlarının web ortamına aktarılması için HTML, CSS ve modern arayüz entegrasyonları geliştirme.</li>
+                                <li data-translate="job1-b3">Python ve veri bilimi kütüphanelerini kullanarak veri ön işleme, makine öğrenmesi modelleri geliştirme ve analiz raporları hazırlama.</li>
                             </ul>
                         </div>
                     </div>
@@ -437,14 +443,14 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content glass-card">
-                        <span class="timeline-date">Kasım 2023 - Günümüz</span>
-                        <h3 class="timeline-title">Yönetim Kurulu Üyesi</h3>
-                        <div class="timeline-company">Gazi Üniversitesi İstatistik Topluluğu</div>
+                        <span class="timeline-date" data-translate="timeline-date-2">Kasım 2023 - Günümüz</span>
+                        <h3 class="timeline-title" data-translate="job2-title">Yönetim Kurulu Üyesi</h3>
+                        <div class="timeline-company" data-translate="job2-company">Gazi Üniversitesi İstatistik Topluluğu</div>
                         <div class="timeline-desc">
                             <ul class="timeline-bullets">
-                                <li>Topluluk stratejilerinin belirlenmesi ve uygulanmasında aktif rol alma.</li>
-                                <li>Üniversite genelinde istatistik ve veri bilimi etkinliklerinin planlanması ve yürütülmesine katkı sağlama.</li>
-                                <li>Öğrencilerin akademik ve profesyonel gelişimini destekleyen projeler geliştirme.</li>
+                                <li data-translate="job2-b1">Topluluk stratejilerinin belirlenmesi ve uygulanmasında aktif rol alma.</li>
+                                <li data-translate="job2-b2">Üniversite genelinde istatistik ve veri bilimi etkinliklerinin planlanması ve yürütülmesine katkı sağlama.</li>
+                                <li data-translate="job2-b3">Öğrencilerin akademik ve profesyonel gelişimini destekleyen projeler geliştirme.</li>
                             </ul>
                         </div>
                     </div>
@@ -453,14 +459,14 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content glass-card">
-                        <span class="timeline-date">Ekim 2023 - Günümüz</span>
-                        <h3 class="timeline-title">Planlama Ekip Lideri</h3>
-                        <div class="timeline-company">Google Developer Student Clubs, Ankara</div>
+                        <span class="timeline-date" data-translate="timeline-date-3">Ekim 2023 - Günümüz</span>
+                        <h3 class="timeline-title" data-translate="job3-title">Planlama Ekip Lideri</h3>
+                        <div class="timeline-company" data-translate="job3-company">Google Developer Student Clubs, Ankara</div>
                         <div class="timeline-desc">
                             <ul class="timeline-bullets">
-                                <li>Teknoloji odaklı atölye çalışmaları, seminerler ve hackathonlar için stratejik planlama ve içerik geliştirme süreçlerini yönetme.</li>
-                                <li>Ekip üyeleri arasında görev dağılımını organize etme ve projelerin zamanında tamamlanmasını sağlama.</li>
-                                <li>Google teknolojileri ve geliştirici araçları hakkında farkındalık yaratmak için etkinlikler düzenleme.</li>
+                                <li data-translate="job3-b1">Teknoloji odaklı atölye çalışmaları, seminerler ve hackathonlar için stratejik planlama ve içerik geliştirme süreçlerini yönetme.</li>
+                                <li data-translate="job3-b2">Ekip üyeleri arasında görev dağılımını organize etme ve projelerin zamanında tamamlanmasını sağlama.</li>
+                                <li data-translate="job3-b3">Google teknolojileri ve geliştirici araçları hakkında farkındalık yaratmak için etkinlikler düzenleme.</li>
                             </ul>
                         </div>
                     </div>
@@ -469,14 +475,14 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content glass-card">
-                        <span class="timeline-date">Mart 2024 - Ekim 2024</span>
-                        <h3 class="timeline-title">Organizasyon Ekip Lideri</h3>
-                        <div class="timeline-company">Gazi Üniversitesi İstatistik Topluluğu</div>
+                        <span class="timeline-date" data-translate="timeline-date-4">Mart 2024 - Ekim 2024</span>
+                        <h3 class="timeline-title" data-translate="job4-title">Organizasyon Ekip Lideri</h3>
+                        <div class="timeline-company" data-translate="job4-company">Gazi Üniversitesi İstatistik Topluluğu</div>
                         <div class="timeline-desc">
                             <ul class="timeline-bullets">
-                                <li>Topluluk etkinliklerinin (konferanslar, seminerler, atölye çalışmaları vb.) lojistik ve operasyonel süreçlerini başarıyla yönetme.</li>
-                                <li>Gönüllü ekipleri koordine ederek etkinliklerin sorunsuz bir şekilde yürütülmesini sağlama.</li>
-                                <li>Etkinlik bütçelerinin planlanması ve kaynakların verimli kullanılması sorumluluğunu üstlenme.</li>
+                                <li data-translate="job4-b1">Topluluk etkinliklerinin (konferanslar, seminerler, atölye çalışmaları vb.) lojistik ve operasyonel süreçlerini başarıyla yönetme.</li>
+                                <li data-translate="job4-b2">Gönüllü ekipleri koordine ederek etkinliklerin sorunsuz bir şekilde yürütülmesini sağlama.</li>
+                                <li data-translate="job4-b3">Etkinlik bütçelerinin planlanması ve kaynakların verimli kullanılması sorumluluğunu üstlenme.</li>
                             </ul>
                         </div>
                     </div>
@@ -485,13 +491,13 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content glass-card">
-                        <span class="timeline-date">Eylül 2023 - Haziran 2027</span>
-                        <h3 class="timeline-title">İstatistik Lisans Eğitimi</h3>
-                        <div class="timeline-company">Gazi Üniversitesi, Ankara</div>
+                        <span class="timeline-date" data-translate="timeline-date-5">Eylül 2023 - Haziran 2027</span>
+                        <h3 class="timeline-title" data-translate="job5-title">İstatistik Lisans Eğitimi</h3>
+                        <div class="timeline-company" data-translate="job5-company">Gazi Üniversitesi, Ankara</div>
                         <div class="timeline-desc">
                             <ul class="timeline-bullets">
-                                <li><strong>Genel Not Ortalaması (GNO):</strong> 3.65 / 4.00</li>
-                                <li>Veri görselleştirme, regresyon analizleri, tahmine dayalı modeller ve olasılık teorisinin pratik programlama dilleriyle harmanlandığı akademik süreç.</li>
+                                <li data-translate-html="job5-b1"><strong>Genel Not Ortalaması (GNO):</strong> 3.65 / 4.00</li>
+                                <li data-translate="job5-b2">Veri görselleştirme, regresyon analizleri, tahmine dayalı modeller ve olasılık teorisinin pratik programlama dilleriyle harmanlandığı akademik süreç.</li>
                             </ul>
                         </div>
                     </div>
@@ -503,7 +509,7 @@
     <section class="section" id="certificates">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">Sertifikalar</h2>
+                <h2 class="section-title" data-translate="certificates-title">Sertifikalar</h2>
             </div>
             
             <div class="certificates-grid">
@@ -520,14 +526,14 @@
                         <span class="certificate-issuer">Stanford Online</span>
                     </div>
                     <h3 class="certificate-title">Introduction to Statistics</h3>
-                    <p class="certificate-desc">
+                    <p class="certificate-desc" data-translate="cert1-desc">
                         İstatistiksel düşünme, veri analizi, olasılık teorisi, örneklem yöntemleri, güven aralıkları ve hipotez testleri üzerine akademik düzeyde kapsamlı eğitim.
                     </p>
                     <div class="certificate-verify">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        Doğrulanmış Başarı
+                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
                     </div>
                 </div>
 
@@ -543,14 +549,14 @@
                         <span class="certificate-issuer">Google</span>
                     </div>
                     <h3 class="certificate-title">Dijital Atölye Temelleri</h3>
-                    <p class="certificate-desc">
+                    <p class="certificate-desc" data-translate="cert2-desc">
                         Veri analitiği temelleri, veri görselleştirme, dijital ekosistem dinamikleri, SEO, web optimizasyonu ve iş geliştirme üzerine Google onaylı sertifika programı.
                     </p>
                     <div class="certificate-verify">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        Doğrulanmış Başarı
+                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
                     </div>
                 </div>
 
@@ -566,14 +572,14 @@
                         <span class="certificate-issuer">Academy Club</span>
                     </div>
                     <h3 class="certificate-title">Python 100 Day Bootcamp</h3>
-                    <p class="certificate-desc">
+                    <p class="certificate-desc" data-translate="cert3-desc">
                         Python ile nesne yönelimli programlama (OOP), veri yapıları, karmaşık algoritmalar, hata yönetimi, otomasyonlar ve gerçek dünya uygulamaları geliştirme üzerine yoğunlaştırılmış program.
                     </p>
                     <div class="certificate-verify">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        Doğrulanmış Başarı
+                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
                     </div>
                 </div>
 
@@ -589,14 +595,14 @@
                         <span class="certificate-issuer">Veri Bilimi Okulu</span>
                     </div>
                     <h3 class="certificate-title">Python A-Z™: Veri Bilimi ve ML</h3>
-                    <p class="certificate-desc">
+                    <p class="certificate-desc" data-translate="cert4-desc">
                         Sıfırdan ileri düzeye makine öğrenmesi algoritmaları (regresyon, sınıflandırma, kümeleme), veri ön işleme, özellik mühendisliği (feature engineering) ve istatistiksel modelleme eğitim kampı.
                     </p>
                     <div class="certificate-verify">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        Doğrulanmış Başarı
+                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
                     </div>
                 </div>
 
@@ -612,14 +618,14 @@
                         <span class="certificate-issuer">Pierian Data (Udemy)</span>
                     </div>
                     <h3 class="certificate-title">The Complete SQL Bootcamp</h3>
-                    <p class="certificate-desc">
+                    <p class="certificate-desc" data-translate="cert5-desc">
                         PostgreSQL ile ilişkisel veritabanı sorgulama dilleri, karmaşık tablolarda join operasyonları, veri gruplama ve filtreleme, alt sorgular (subqueries) ve veritabanı şeması tasarlama uzmanlığı.
                     </p>
                     <div class="certificate-verify">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        Doğrulanmış Başarı
+                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
                     </div>
                 </div>
             </div>
@@ -629,7 +635,7 @@
     <section class="section" id="contact" style="background-color: var(--bg-secondary);">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">İletişim</h2>
+                <h2 class="section-title" data-translate="contact-title">İletişim</h2>
             </div>
             
             <div class="contact-grid">
@@ -667,8 +673,8 @@
                             </svg>
                         </div>
                         <div class="contact-method-details">
-                            <h4>Adres</h4>
-                            <p>Şehit Danış Tunagil Sk. No: 14, Maltepe, Çankaya / Ankara</p>
+                            <h4 data-translate="contact-loc-title">Adres</h4>
+                            <p data-translate="contact-address">Şehit Danış Tunagil Sk. No: 14, Maltepe, Çankaya / Ankara</p>
                         </div>
                     </div>
 
@@ -690,26 +696,26 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="form-name">Adınız Soyadınız</label>
-                            <input type="text" id="form-name" name="name" class="form-control" placeholder="Örn: Ahmet Yılmaz" required>
+                            <label for="form-name" data-translate="form-label-name">Adınız Soyadınız</label>
+                            <input type="text" id="form-name" name="name" class="form-control" placeholder="Örn: Ahmet Yılmaz" data-translate-placeholder="form-placeholder-name" required>
                         </div>
                         <div class="form-group">
-                            <label for="form-email">E-posta Adresiniz</label>
-                            <input type="email" id="form-email" name="email" class="form-control" placeholder="Örn: ahmet@mail.com" required>
+                            <label for="form-email" data-translate="form-label-email">E-posta Adresiniz</label>
+                            <input type="email" id="form-email" name="email" class="form-control" placeholder="Örn: ahmet@mail.com" data-translate-placeholder="form-placeholder-email" required>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="form-subject">Konu</label>
-                        <input type="text" id="form-subject" name="subject" class="form-control" placeholder="İş teklifi, Tanışma, Proje Ortaklığı..." required>
+                        <label for="form-subject" data-translate="form-label-subject">Konu</label>
+                        <input type="text" id="form-subject" name="subject" class="form-control" placeholder="İş teklifi, Tanışma, Proje Ortaklığı..." data-translate-placeholder="form-placeholder-subject" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="form-content">Mesajınız</label>
-                        <textarea id="form-content" name="message" class="form-control" placeholder="Mesajınızı buraya yazınız..." required></textarea>
+                        <label for="form-content" data-translate="form-label-message">Mesajınız</label>
+                        <textarea id="form-content" name="message" class="form-control" placeholder="Mesajınızı buraya yazınız..." data-translate-placeholder="form-placeholder-message" required></textarea>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Mesaj Gönder</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-translate="form-btn-submit">Mesaj Gönder</button>
                 </form>
             </div>
         </div>
@@ -731,7 +737,7 @@
             </div>
             
             <p class="footer-text">
-                &copy; <span id="current-year"></span> Orçun Çakar | Tüm Hakları Saklıdır.
+                &copy; <span id="current-year"></span> Orçun Çakar | <span data-translate="footer-copyright">Tüm Hakları Saklıdır.</span>
             </p>
         </div>
     </footer>
@@ -742,6 +748,7 @@
         </svg>
     </button>
 
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
