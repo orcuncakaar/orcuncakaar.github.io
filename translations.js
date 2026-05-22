@@ -107,7 +107,7 @@ const translations = {
         "form-placeholder-email": "Örn: ahmet@mail.com",
         "form-placeholder-subject": "İş teklifi, Tanışma, Proje Ortaklığı...",
         "form-placeholder-message": "Mesajınızı buraya yazınız...",
-        "typed-strings": ["Veri Bilimi Meraklısı", "Makine Öğrenmesi Geliştiricisi", "Derin Öğrenme Araştırmacısı", "Yazılım Mühendisi"]
+        "typed-strings": ["Veri Bilimi Meraklısı", "Makine Öğrenmesi Geliştiricisi", "Derin Öğrenme Araştırmacısı", "İstatistikçi"]
     },
     en: {
         "nav-about": "About",
@@ -217,6 +217,6 @@ const translations = {
         "form-placeholder-email": "e.g. john@mail.com",
         "form-placeholder-subject": "Job offer, Networking, Partnership...",
         "form-placeholder-message": "Write your message here...",
-        "typed-strings": ["Data Science Enthusiast", "Machine Learning Developer", "Deep Learning Researcher", "Software Engineer"]
+        "typed-strings": ["Data Science Enthusiast", "Machine Learning Developer", "Deep Learning Researcher", "Statistician"]
     }
 };
