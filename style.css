@@ -1938,7 +1938,107 @@ textarea.form-control {
     display: flex;
     gap: 16px;
     margin-top: 20px;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    transition: var(--transition-fast);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+input:checked + .slider {
+    background-color: rgba(var(--primary-rgb), 0.2);
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input:checked + .slider::before {
+    background-color: var(--primary);
+    transform: translateX(22px);
+    box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.5);
+}
+
+/* Light Theme overrides for Toggle Switch */
+body.light-theme .slider {
+    background-color: #e2e8f0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .slider::before {
+    background-color: #94a3b8;
+}
+
+body.light-theme input:checked + .slider {
+    background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+body.light-theme input:checked + .slider::before {
+    background-color: var(--primary);
+}
+
+.slider.round {
+    border-radius: var(--radius-full);
+}
+
+.slider.round::before {
+    border-radius: 50%;
+}
+
+.toggle-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    user-select: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.toggle-label:hover {
+    color: var(--text-primary);
+}
+
+.playground-buttons {
+    display: flex;
+    gap: 12px;
 }
 
 .playground-controls .btn {
@@ -2044,10 +2144,29 @@ body.light-theme .canvas-warning-overlay {
     }
 }
 
+@media (max-width: 768px) {
+    .playground-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .playground-buttons {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
 @media (max-width: 576px) {
     .playground-controls {
         flex-direction: column;
         align-items: stretch;
+        gap: 16px;
+    }
+    
+    .playground-buttons {
+        flex-direction: column;
+        width: 100%;
     }
     
     .playground-controls .btn {
