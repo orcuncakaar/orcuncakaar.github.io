@@ -368,10 +368,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // 7. İletişim Formu Kontrolü (Contact Form Sim)
+    // 7. İletişim Formu Kontrolü (Web3Forms Canlı Entegrasyonu)
     // ==========================================================================
     const contactForm = document.getElementById('portfolio-contact-form');
     const formFeedback = document.getElementById('form-message');
+
+    // 💡 İletişim formunun gerçek e-postanıza düşmesi için:
+    // 1. https://web3forms.com adresine gidin ve e-postanızı yazarak ücretsiz bir Access Key (Anahtar) alın.
+    // 2. Aldığınız anahtarı aşağıdaki tırnak işaretlerinin arasına yapıştırın:
+    const WEB3FORMS_ACCESS_KEY = "27a2282e-8e92-4ee8-9c4c-adf8345398cc";
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -382,26 +387,64 @@ document.addEventListener('DOMContentLoaded', () => {
             const originalBtnText = submitBtn.textContent;
             submitBtn.disabled = true;
             submitBtn.textContent = 'Gönderiliyor...';
+            
+            formFeedback.style.display = 'block';
+            formFeedback.className = "form-feedback";
+            formFeedback.textContent = "Mesajınız iletiliyor...";
 
-            // 1.5 Saniyelik Yapay İstek Simülasyonu
-            setTimeout(() => {
-                // Formu sıfırla
-                contactForm.reset();
-                
-                // Başarı Geri Bildirimi Göster
-                formFeedback.textContent = "Mesajınız başarıyla gönderildi! Orçun en kısa sürede sizinle iletişime geçecektir.";
-                formFeedback.className = "form-feedback success";
-                
+            // Eğer anahtar henüz girilmemişse simülasyon modunda çalıştır
+            if (WEB3FORMS_ACCESS_KEY === "BURAYA_ANAHTARINIZI_YAZIN" || WEB3FORMS_ACCESS_KEY.trim() === "") {
+                setTimeout(() => {
+                    contactForm.reset();
+                    formFeedback.textContent = "Mesajınız başarıyla gönderildi (Simülasyon Modu)! Gerçek e-posta almak için script.js dosyasındaki WEB3FORMS_ACCESS_KEY değerini güncelleyin.";
+                    formFeedback.className = "form-feedback success";
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+
+                    setTimeout(() => {
+                        formFeedback.style.display = 'none';
+                    }, 6000);
+                }, 1200);
+                return;
+            }
+
+            // Gerçek API Gönderimi
+            const formData = new FormData(contactForm);
+            formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(async (response) => {
+                const result = await response.json();
+                if (response.status === 200) {
+                    // Formu sıfırla ve başarı mesajı göster
+                    contactForm.reset();
+                    formFeedback.textContent = "Mesajınız başarıyla gönderildi! Orçun en kısa sürede sizinle iletişime geçecektir.";
+                    formFeedback.className = "form-feedback success";
+                } else {
+                    // API hatası
+                    formFeedback.textContent = "Bir hata oluştu: " + (result.message || "Mesaj iletilemedi.");
+                    formFeedback.className = "form-feedback error";
+                }
+            })
+            .catch(error => {
+                // Bağlantı hatası
+                formFeedback.textContent = "Bağlantı hatası! Lütfen internetinizi kontrol edip tekrar deneyin.";
+                formFeedback.className = "form-feedback error";
+                console.error("Form error:", error);
+            })
+            .finally(() => {
                 // Butonu eski haline getir
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
 
-                // 5 saniye sonra bildirimi gizle
+                // 6 saniye sonra bildirimi gizle
                 setTimeout(() => {
                     formFeedback.style.display = 'none';
                 }, 6000);
-
-            }, 1500);
+            });
         });
     }
 
