@@ -1861,3 +1861,209 @@ textarea.form-control {
         left: 17px;
     }
 }
+
+/* --- Regresyon Oyun Alani (Playground) --- */
+.playground-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 32px;
+    margin-top: 40px;
+    align-items: stretch;
+}
+
+.playground-canvas-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-glass);
+}
+
+.canvas-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#regression-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.canvas-warning-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 15, 25, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-normal);
+    z-index: 5;
+    backdrop-filter: blur(4px);
+}
+
+.canvas-warning-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.canvas-warning-overlay span {
+    background: var(--bg-glass);
+    border: 1px solid var(--card-border);
+    padding: 16px 24px;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 85%;
+}
+
+.playground-controls {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+
+.playground-controls .btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+}
+
+.playground-stats-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Stats Cards */
+.stat-card {
+    display: flex;
+    padding: 24px;
+    border-radius: var(--radius-md);
+    align-items: center;
+    gap: 20px;
+    transition: transform var(--transition-normal), border-color var(--transition-normal);
+}
+
+.formula-card {
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.08) 0%, rgba(var(--secondary-rgb), 0.04) 100%), var(--bg-glass);
+    border: 1px solid rgba(var(--primary-rgb), 0.15);
+}
+
+.formula-card:hover {
+    border-color: rgba(var(--primary-rgb), 0.3);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--card-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+}
+
+.formula-value {
+    font-size: 1.8rem;
+    color: var(--primary);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    word-break: break-all;
+}
+
+.stats-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.mini-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 10px;
+}
+
+.mini-card .stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+/* Light Theme overrides for canvas warning overlay */
+body.light-theme .canvas-warning-overlay {
+    background-color: rgba(241, 245, 249, 0.75);
+}
+
+/* Responsive Styles for Playground */
+@media (max-width: 992px) {
+    .playground-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .playground-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .playground-controls .btn {
+        justify-content: center;
+    }
+    
+    .stats-mini-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-mini-grid .stat-card {
+        grid-column: span 1 !important;
+    }
+    
+    .formula-value {
+        font-size: 1.4rem;
+    }
+}
+

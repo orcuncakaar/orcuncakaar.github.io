@@ -31,6 +31,7 @@
                 <li><a href="#about" class="nav-link" data-translate="nav-about">Hakkımda</a></li>
                 <li><a href="#skills" class="nav-link" data-translate="nav-skills">Yetenekler</a></li>
                 <li><a href="#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
+                <li><a href="#playground" class="nav-link" data-translate="nav-playground">Oyun Alanı</a></li>
                 <li><a href="#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
                 <li><a href="#certificates" class="nav-link" data-translate="nav-certificates">Sertifikalar</a></li>
                 <li><a href="#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
@@ -401,6 +402,105 @@
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="playground">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-subtitle" data-translate="playground-subtitle">EN KÜÇÜK KARELER (OLS) CANLI GÖRSELLEŞTİRME</span>
+                <h2 class="section-title" data-translate="playground-title">Regresyon Oyun Alanı</h2>
+                <p class="section-desc" data-translate="playground-desc" style="max-width: 800px; margin: 20px auto 0; color: var(--text-secondary); font-size: 1rem; line-height: 1.6;">
+                    Grafik alanına tıklayarak veri noktaları ekleyin. JavaScript arka planda Ordinary Least Squares (OLS) regresyon modelini anlık olarak hesaplayıp, regresyon doğrusunu canlı olarak çizecektir.
+                </p>
+            </div>
+            
+            <div class="playground-grid reveal">
+                <!-- Sol Kolon: Grafik Canvas Alanı -->
+                <div class="playground-canvas-wrapper glass-card">
+                    <div class="canvas-container">
+                        <canvas id="regression-canvas"></canvas>
+                        <div id="playground-canvas-warning" class="canvas-warning-overlay active">
+                            <span data-translate="playground-warning">Hesaplama yapabilmek için lütfen grafik üzerine tıklayarak en az 2 nokta yerleştirin.</span>
+                        </div>
+                    </div>
+                    <div class="playground-controls">
+                        <button id="btn-clear-playground" class="btn btn-secondary">
+                            <svg viewBox="0 0 24 24" width="18" height="18" style="fill: currentColor;">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                            <span data-translate="playground-btn-clear">Temizle</span>
+                        </button>
+                        <button id="btn-random-playground" class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" width="18" height="18" style="fill: currentColor;">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                            </svg>
+                            <span data-translate="playground-btn-random">Rastgele Noktalar Ekle</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Sağ Kolon: İstatistik Paneli -->
+                <div class="playground-stats-wrapper">
+                    
+                    <!-- Formül Kartı (Büyük ve Odak Noktası) -->
+                    <div class="stat-card formula-card glass-card">
+                        <div class="stat-icon" style="background: rgba(var(--primary-rgb), 0.1); border-color: rgba(var(--primary-rgb), 0.2);">
+                            <span style="font-family: var(--font-heading); font-weight: 800; color: var(--primary); font-size: 1.1rem;">f(x)</span>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label" data-translate="playground-stat-formula">Model Formülü</span>
+                            <div class="stat-value formula-value" id="reg-formula">y = β₀ + β₁x</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Küçük İstatistik Kartları Grid'i -->
+                    <div class="stats-mini-grid">
+                        
+                        <!-- Korelasyon (r) -->
+                        <div class="stat-card mini-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label" data-translate="playground-stat-corr">Korelasyon Katsayısı (r)</span>
+                            </div>
+                            <div class="stat-value" id="reg-corr">-</div>
+                        </div>
+                        
+                        <!-- Belirlilik Katsayısı (R2) -->
+                        <div class="stat-card mini-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label" data-translate="playground-stat-r2">Belirlilik Katsayısı (R²)</span>
+                            </div>
+                            <div class="stat-value" id="reg-r2">-</div>
+                        </div>
+                        
+                        <!-- Eğim (m) -->
+                        <div class="stat-card mini-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label" data-translate="playground-stat-slope">Eğim (Slope / m)</span>
+                            </div>
+                            <div class="stat-value" id="reg-slope">-</div>
+                        </div>
+                        
+                        <!-- Kesişim (c) -->
+                        <div class="stat-card mini-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label" data-translate="playground-stat-intercept">Kesişim (y-Intercept / c)</span>
+                            </div>
+                            <div class="stat-value" id="reg-intercept">-</div>
+                        </div>
+                        
+                        <!-- Gözlem Sayısı (N) -->
+                        <div class="stat-card mini-card glass-card" style="grid-column: span 2;">
+                            <div class="stat-header">
+                                <span class="stat-label" data-translate="playground-stat-points">Gözlem Sayısı (N)</span>
+                            </div>
+                            <div class="stat-value" id="reg-n">0</div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
             </div>
         </div>
