@@ -509,6 +509,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const elSlope = document.getElementById('reg-slope');
         const elIntercept = document.getElementById('reg-intercept');
         const elN = document.getElementById('reg-n');
+        const elSSE = document.getElementById('reg-sse');
+        const toggleResiduals = document.getElementById('toggle-residuals');
 
         let points = []; // Canvas koordinatlarındaki {x, y} dizisi
 
@@ -564,6 +566,12 @@ document.addEventListener('DOMContentLoaded', () => {
             drawRegression();
         });
 
+        if (toggleResiduals) {
+            toggleResiduals.addEventListener('change', () => {
+                drawRegression();
+            });
+        }
+
         function calculateRegression() {
             const N = points.length;
             elN.textContent = N;
@@ -575,6 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 elR2.textContent = '-';
                 elSlope.textContent = '-';
                 elIntercept.textContent = '-';
+                if (elSSE) elSSE.textContent = '-';
                 return;
             }
 
@@ -625,6 +634,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const r2 = r * r;
 
+            // Hata Kareler Toplamı (SSE) hesaplaması
+            let sse = 0;
+            mathPoints.forEach(p => {
+                const yPred = slope * p.x + intercept;
+                const error = p.y - yPred;
+                sse += error * error;
+            });
+
             // Sonuçları göster
             const sign = intercept >= 0 ? '+' : '-';
             const absIntercept = Math.abs(intercept).toFixed(2);
@@ -633,6 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elR2.textContent = r2.toFixed(4);
             elSlope.textContent = slope.toFixed(4);
             elIntercept.textContent = intercept.toFixed(2);
+            if (elSSE) elSSE.textContent = sse.toFixed(2);
 
             regCanvas.calculatedModel = { slope, intercept };
         }
@@ -707,6 +725,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 const yStartCanvas = (H - 30) - yStartMath;
                 const xEndCanvas = xEndMath + 30;
                 const yEndCanvas = (H - 30) - yEndMath;
+
+                // 3.0 Hata (Artık / Residual) Çizgilerinin Çizilmesi (Eğer gösterge aktifse)
+                if (toggleResiduals && toggleResiduals.checked) {
+                    regCtx.strokeStyle = isLight ? 'rgba(220, 38, 38, 0.45)' : 'rgba(239, 68, 68, 0.5)';
+                    regCtx.lineWidth = 1.5;
+                    regCtx.setLineDash([4, 4]); // Kesikli çizgi
+
+                    points.forEach(p => {
+                        const xMath = p.x - 30;
+                        const yLineMath = slope * xMath + intercept;
+                        const yLineCanvas = (H - 30) - yLineMath;
+
+                        regCtx.beginPath();
+                        regCtx.moveTo(p.x, p.y);
+                        regCtx.lineTo(p.x, yLineCanvas);
+                        regCtx.stroke();
+                    });
+
+                    regCtx.setLineDash([]); // Çizgi desenini sıfırla
+                }
 
                 // Çizgi gradyanı oluştur
                 const lineGradient = regCtx.createLinearGradient(xStartCanvas, 0, xEndCanvas, 0);
