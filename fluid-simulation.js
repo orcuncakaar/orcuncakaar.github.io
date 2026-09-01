@@ -24,12 +24,12 @@
         SIM_RESOLUTION: 128,
         DYE_RESOLUTION: 512,
         CAPTURE_RESOLUTION: 512,
-        DENSITY_DISSIPATION: 2.0, // Smooth, organic watercolor diffusion
-        VELOCITY_DISSIPATION: 1.5, // Fluid, natural fluid glide
+        DENSITY_DISSIPATION: 0.9, // Iz saniyeler boyunca kaliyor, hizli sonmuyor
+        VELOCITY_DISSIPATION: 0.5, // Akis kendi kendine surmeye devam ediyor
         PRESSURE: 0.8,
         PRESSURE_ITERATIONS: 20,
-        CURL: 24, // Organic watercolor eddies & marbling
-        SPLAT_RADIUS: 0.13, // Soft watercolor brush stroke width
+        CURL: 20, // Daha genis, daha yumusak girdaplar
+        SPLAT_RADIUS: 0.18, // Daha genis ve yumusak firca izi
         SPLAT_FORCE: 3000, // Gentle, responsive fluid physics
         SHADING: true,
         COLORFUL: true,
@@ -293,8 +293,10 @@
                 gl_FragColor = vec4(pigmentColor * alpha, alpha);
             } else {
                 // Dark mode: Luminous glowing watercolor nebula
-                float alpha = clamp(density * 0.58 + edgeFringe * 0.25, 0.0, 0.52);
-                gl_FragColor = vec4(pigmentColor * 1.15 * alpha, alpha);
+                // Iz uzun sure kaldigi icin yogunluk dusuruldu; birikince
+                // metnin okunurlugunu bozmasin diye tavan alpha da kisildi.
+                float alpha = clamp(density * 0.40 + edgeFringe * 0.18, 0.0, 0.34);
+                gl_FragColor = vec4(pigmentColor * 1.0 * alpha, alpha);
             }
         }
     `;

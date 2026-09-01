@@ -1176,11 +1176,11 @@ ul {
 }
 
 /* TILE 2: ANALYTICAL FOCUS & SPECIALIZATION (Spans 4 cols) */
+/* Hero kutulari tek renk: renkli olan yalnizca laboratuvar kutusu, cunku
+   tiklanabilir olan o. Renk boylece sus degil, "buraya girilir" bilgisi. */
 .tile-academic {
     grid-column: span 4;
     padding: 30px 26px;
-    background: linear-gradient(135deg, rgba(109, 40, 217, 0.16) 0%, rgba(56, 189, 248, 0.05) 100%), var(--bg-glass);
-    border: 1px solid rgba(109, 40, 217, 0.28);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1514,9 +1514,8 @@ ul {
 }
 
 .light-theme .tile-academic {
-    background: linear-gradient(135deg, rgba(109, 40, 217, 0.10) 0%, rgba(255, 255, 255, 0.70) 100%);
-    border: 1px solid rgba(109, 40, 217, 0.25);
-    box-shadow: 0 8px 24px -4px rgba(109, 40, 217, 0.08);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.50) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.90);
 }
 
 .light-theme .tile-lab {
