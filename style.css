@@ -1738,7 +1738,6 @@ ul {
     grid-column: span 2;
     grid-row: span 2;
     background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.06) 0%, rgba(var(--secondary-rgb), 0.03) 100%), var(--bg-glass);
-    justify-content: space-between;
 }
 
 .bento-card-main .bio-lead {
@@ -1762,21 +1761,21 @@ ul {
 
 .strengths-desc {
     font-size: 0.88rem;
-    margin-bottom: 20px !important;
+    margin-bottom: 14px !important;
 }
 
 .bento-strengths-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 4px;
 }
 
 .strength-badge {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 14px;
+    padding: 8px 14px;
     border-radius: var(--radius-sm);
     background-color: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
