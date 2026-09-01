@@ -2152,27 +2152,15 @@ ul {
 .project-image {
     position: relative;
     height: 200px;
-    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.15) 0%, rgba(var(--secondary-rgb), 0.15) 100%);
+    /* Duz renk: gradyan yok, dolayisiyla bantlanacak renk basamagi da yok.
+       Onceki iki deneme (SVG ve PNG gurultu katmani) bantlanmayi kirdi ama
+       karo tekrari bazi ekran olceklemelerinde ince bir dikey cizgi birakti. */
+    background: rgba(var(--primary-rgb), 0.10);
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid var(--card-border);
     overflow: hidden;
-}
-
-/* Gradyanin kontrasti dusuk oldugu icin 8-bit renkte basamaklaniyor ve kartin
-   uzerinde isik huzmesi gibi seritler olusuyordu. Ustteki ince gurultu bu
-   basamaklari kiriyor (dithering). Karo PNG: piksel degerleri kesin, bu yuzden
-   SVG'de oldugu gibi karo sinirinda kenar cizgisi olusmuyor. overlay harmani
-   ortalamayi degistirmedigi icin gradyanin rengi de aynen kaliyor. */
-.project-image:not(.project-image--photo)::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/png;base64,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");
-    mix-blend-mode: overlay;
-    opacity: 1;
-    pointer-events: none;
 }
 
 .project-image svg {
