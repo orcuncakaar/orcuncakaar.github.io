@@ -19,6 +19,16 @@
         return;
     }
 
+    // Telefon ve tabletlerde WebGL sik sik yazilimla ciziliyor; surekli donen
+    // simulasyon ana is parcacigini dolduruyor ve pil tuketiyor. Hareket
+    // azaltma yolundaki ayni sabit gradyana dusuyoruz, renkler degismiyor.
+    const kucukEkran = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+    const kabaIsaretci = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    if (kucukEkran || kabaIsaretci) {
+        canvas.classList.add('fluid-static');
+        return;
+    }
+
     // Simulation Configuration (Organic Wet Watercolor Diffusion)
     const config = {
         SIM_RESOLUTION: 128,
