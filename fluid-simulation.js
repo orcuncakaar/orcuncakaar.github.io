@@ -22,15 +22,15 @@
     // Simulation Configuration (Organic Wet Watercolor Diffusion)
     const config = {
         SIM_RESOLUTION: 128,
-        DYE_RESOLUTION: 512,
+        DYE_RESOLUTION: 1024,
         CAPTURE_RESOLUTION: 512,
-        DENSITY_DISSIPATION: 0.9, // Iz saniyeler boyunca kaliyor, hizli sonmuyor
-        VELOCITY_DISSIPATION: 0.5, // Akis kendi kendine surmeye devam ediyor
-        PRESSURE: 0.8,
+        DENSITY_DISSIPATION: 0.5, // Boya saniyelerce kaliyor (referans ayari)
+        VELOCITY_DISSIPATION: 3.0, // Hareket hizla duruluyor: savrulma degil, duran boya
+        PRESSURE: 0.1,
         PRESSURE_ITERATIONS: 20,
-        CURL: 20, // Daha genis, daha yumusak girdaplar
-        SPLAT_RADIUS: 0.18, // Daha genis ve yumusak firca izi
-        SPLAT_FORCE: 3000, // Gentle, responsive fluid physics
+        CURL: 3, // Neredeyse girdapsiz: ipeksi, sakin akis
+        SPLAT_RADIUS: 0.2, // Genis, yumusak yikama alani
+        SPLAT_FORCE: 6000, // Daha uzun, akici firca izleri
         SHADING: true,
         COLORFUL: true,
         PAUSED: false,
@@ -48,6 +48,12 @@
     if (!ext.supportLinearFiltering) {
         config.DYE_RESOLUTION = 256;
         config.SHADING = false;
+    }
+
+    // Yuksek boya cozunurlugu masaustunde ince detay veriyor ama telefonda
+    // gereksiz GPU yuku; kucuk ekranlarda yariya indiriliyor.
+    if (window.innerWidth < 900 || (navigator.maxTouchPoints || 0) > 0) {
+        config.DYE_RESOLUTION = Math.min(config.DYE_RESOLUTION, 512);
     }
 
     function getWebGLContext(targetCanvas) {
@@ -276,7 +282,7 @@
             float T = length(texture2D(uTexture, vT).rgb);
             float B = length(texture2D(uTexture, vB).rgb);
             vec2 grad = vec2(R - L, T - B);
-            float edgeFringe = length(grad) * 2.8;
+            float edgeFringe = length(grad) * 1.4;
 
             // Fluid hue angle & watercolor color bleed
             float hue = atan(c.g - c.b, c.r - c.g) * 0.1591549 + 0.5;
@@ -284,19 +290,22 @@
             vec3 watercolor = watercolorPalette(phase);
 
             // Blend pure pigment with watercolor spectral bleed
-            vec3 pigmentColor = mix(c * 1.1, watercolor * 1.3, 0.7);
+            vec3 pigmentColor = mix(c * 1.25, watercolor * 1.15, 0.32);
 
             if (isLight > 0.5) {
-                // Light mode: Soft wet watercolor wash on white paper
-                // Airy center with delicate pigment accumulation along ridges
-                float alpha = clamp(density * 0.52 + edgeFringe * 0.22, 0.0, 0.46);
-                gl_FragColor = vec4(pigmentColor * alpha, alpha);
+                // Acik tema: beyaz kagit uzerinde pastel suluboya.
+                // Pigment bir miktar beyaza cekiliyor (pastel), buna karsilik
+                // tavan saydamlik yukseltiliyor: renk soluk degil, hafif okunuyor.
+                vec3 pastel = mix(pigmentColor, vec3(1.0), 0.16);
+                float alpha = clamp(density * 0.66 + edgeFringe * 0.16, 0.0, 0.58);
+                gl_FragColor = vec4(pastel * alpha, alpha);
             } else {
-                // Dark mode: Luminous glowing watercolor nebula
-                // Iz uzun sure kaldigi icin yogunluk dusuruldu; birikince
-                // metnin okunurlugunu bozmasin diye tavan alpha da kisildi.
-                float alpha = clamp(density * 0.40 + edgeFringe * 0.18, 0.0, 0.34);
-                gl_FragColor = vec4(pigmentColor * 1.0 * alpha, alpha);
+                // Koyu tema: karanlikta parlayan nebula.
+                // Renk doygunlugu artiriliyor ama tavan saydamlik dusuk
+                // tutuluyor; boylece iz birikse bile metin okunur kaliyor.
+                vec3 glow = mix(pigmentColor, pigmentColor * 1.35, 0.6);
+                float alpha = clamp(density * 0.48 + edgeFringe * 0.16, 0.0, 0.40);
+                gl_FragColor = vec4(glow * alpha, alpha);
             }
         }
     `;
@@ -621,13 +630,29 @@
         { r: 0.24, g: 0.58, b: 0.98 }  // Cobalt Sky Blue
     ];
 
+    // Renk her hareket olayinda degismiyor; zamanla yavasca kayiyor ve iki palet
+    // rengi arasinda gecis yapiyor. Boylece tek bir firca izi tek renkte kaliyor,
+    // gokkusagi karmasi olusmuyor -- referans efektteki davranis bu.
+    let colorPhase = 0;
+    let lastColorTime = 0;
+    const COLOR_DRIFT_MS = 1500; // bir palet renginden digerine gecis suresi
+
     function generateColor() {
-        colorStep = (colorStep + 1) % watercolorPalette.length;
-        const c = watercolorPalette[colorStep];
+        const now = (typeof performance !== 'undefined' ? performance.now() : Date.now());
+        if (lastColorTime === 0) lastColorTime = now;
+        colorPhase += (now - lastColorTime) / COLOR_DRIFT_MS;
+        lastColorTime = now;
+
+        const n = watercolorPalette.length;
+        const base = Math.floor(colorPhase);
+        const f = colorPhase - base;
+        const a = watercolorPalette[((base % n) + n) % n];
+        const b = watercolorPalette[((base + 1) % n + n) % n];
+
         return {
-            r: c.r * 0.9,
-            g: c.g * 0.9,
-            b: c.b * 0.9
+            r: (a.r + (b.r - a.r) * f) * 0.9,
+            g: (a.g + (b.g - a.g) * f) * 0.9,
+            b: (a.b + (b.b - a.b) * f) * 0.9
         };
     }
 
