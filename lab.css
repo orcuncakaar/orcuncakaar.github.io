@@ -605,6 +605,32 @@ input:checked + .slider::before {
     }
 }
 
+/* Mobil: iki sekme yan yana 528px tutuyordu ve sayfayi yatay kaydirilabilir
+   yapiyordu (navbar'in ortalanmamis gorunmesinin sebebi de buydu).
+   Hap tasarimi korunuyor, butonlar genisligi esit paylasiyor. */
+@media (max-width: 640px) {
+    .lab-tab-bar {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .lab-tab-btn {
+        flex: 1 1 0;
+        min-width: 0;
+        justify-content: center;
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 0.78rem;
+        white-space: normal;
+        line-height: 1.25;
+    }
+
+    .lab-tab-btn svg {
+        flex: 0 0 auto;
+    }
+}
+
 @media (max-width: 576px) {
     .point-quick-entry {
         justify-content: space-between;
