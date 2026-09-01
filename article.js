@@ -443,6 +443,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
 
+            // Yazi govdesi posts-data.js'te "images/..." gibi goreli yollar tasiyor.
+            // /post/<slug>.html adresinde bu yol /post/images/... olarak cozuluyor ve
+            // gorseller 404 veriyor; sayfa bir alt dizindeyse yollari bir ust dizine tasi.
+            if (location.pathname.includes('/post/')) {
+                enrichedHtml = enrichedHtml.replace(
+                    /(\ssrc|\shref)="(?!https?:|\/\/|#|data:|mailto:|tel:|\.\.\/|\/)([^"]+)"/g,
+                    (_, attr, url) => attr + '="../' + url + '"'
+                );
+            }
+
             articleBodyContent.innerHTML = enrichedHtml;
 
             // Kod Bloklarına Kopyalama Butonu Ekleme
