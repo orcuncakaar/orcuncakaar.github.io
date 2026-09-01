@@ -1318,6 +1318,8 @@ ul {
 .chip-dot.stats { background-color: #ec4899; }
 .chip-dot.git { background-color: #f97316; }
 .chip-dot.mat { background-color: #06b6d4; }
+.chip-dot.spss { background-color: #3f68a8; }
+.chip-dot.xls { background-color: #1f7244; }
 
 /* TILE 4: INTERACTIVE LAB (Spans 5 cols) */
 .tile-lab {
@@ -1752,28 +1754,28 @@ ul {
     font-weight: 600;
 }
 
-.bento-card-tools {
+.bento-card-strengths {
     grid-column: span 1;
     grid-row: span 2;
     background: linear-gradient(135deg, rgba(var(--secondary-rgb), 0.04) 0%, rgba(var(--primary-rgb), 0.02) 100%), var(--bg-glass);
 }
 
-.tools-desc {
+.strengths-desc {
     font-size: 0.88rem;
     margin-bottom: 20px !important;
 }
 
-.bento-tools-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+.bento-strengths-list {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
     margin-top: 10px;
 }
 
-.tool-badge {
+.strength-badge {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     padding: 10px 14px;
     border-radius: var(--radius-sm);
     background-color: rgba(255, 255, 255, 0.03);
@@ -1784,84 +1786,31 @@ ul {
     transition: all var(--transition-normal);
 }
 
-.tool-dot {
+.strength-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
+    flex-shrink: 0;
     background-color: var(--text-muted);
     transition: transform var(--transition-fast), background-color var(--transition-fast);
 }
 
-.tool-badge.rstudio:hover {
-    color: #214a7f;
-    border-color: rgba(33, 74, 127, 0.4);
-    background-color: rgba(33, 74, 127, 0.08);
-    box-shadow: 0 0 12px rgba(33, 74, 127, 0.2);
+.strength-badge:hover {
+    color: var(--primary);
+    border-color: rgba(var(--primary-rgb), 0.4);
+    background-color: rgba(var(--primary-rgb), 0.08);
+    box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.15);
     transform: translateY(-2px);
 }
-.tool-badge.rstudio:hover .tool-dot {
-    background-color: #214a7f;
+
+.strength-badge:hover .strength-dot {
+    background-color: var(--primary);
     transform: scale(1.3);
 }
 
-.tool-badge.python:hover {
-    color: #ffd43b;
-    border-color: rgba(55, 118, 171, 0.4);
-    background-color: rgba(55, 118, 171, 0.08);
-    box-shadow: 0 0 12px rgba(255, 212, 59, 0.15);
-    transform: translateY(-2px);
-}
-.tool-badge.python:hover .tool-dot {
-    background-color: #ffd43b;
-    transform: scale(1.3);
-}
-
-.tool-badge.sql:hover {
-    color: #00a2ed;
-    border-color: rgba(0, 162, 237, 0.4);
-    background-color: rgba(0, 162, 237, 0.08);
-    box-shadow: 0 0 12px rgba(0, 162, 237, 0.2);
-    transform: translateY(-2px);
-}
-.tool-badge.sql:hover .tool-dot {
-    background-color: #00a2ed;
-    transform: scale(1.3);
-}
-
-.tool-badge.matlab:hover {
-    color: #d12c00;
-    border-color: rgba(209, 44, 0, 0.4);
-    background-color: rgba(209, 44, 0, 0.08);
-    box-shadow: 0 0 12px rgba(209, 44, 0, 0.2);
-    transform: translateY(-2px);
-}
-.tool-badge.matlab:hover .tool-dot {
-    background-color: #d12c00;
-    transform: scale(1.3);
-}
-
-.tool-badge.spss:hover {
-    color: #3f68a8;
-    border-color: rgba(63, 104, 168, 0.4);
-    background-color: rgba(63, 104, 168, 0.08);
-    box-shadow: 0 0 12px rgba(63, 104, 168, 0.2);
-    transform: translateY(-2px);
-}
-.tool-badge.spss:hover .tool-dot {
-    background-color: #3f68a8;
-    transform: scale(1.3);
-}
-
-.tool-badge.excel:hover {
-    color: #1f7244;
-    border-color: rgba(31, 114, 68, 0.4);
-    background-color: rgba(31, 114, 68, 0.08);
-    box-shadow: 0 0 12px rgba(31, 114, 68, 0.2);
-    transform: translateY(-2px);
-}
-.tool-badge.excel:hover .tool-dot {
-    background-color: #1f7244;
-    transform: scale(1.3);
+.light-theme .strength-badge {
+    background-color: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.06);
 }
 
 .bento-card-hobby {
@@ -1985,7 +1934,7 @@ ul {
         grid-column: span 2;
     }
 
-    .bento-card-tools {
+    .bento-card-strengths {
         grid-column: span 2;
     }
 
@@ -2006,106 +1955,11 @@ ul {
     }
 
     .bento-card-main,
-    .bento-card-tools,
+    .bento-card-strengths,
     .bento-card-hobby {
         grid-column: span 1;
         grid-row: span 1;
     }
-}
-
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-.skills-category {
-    padding: 32px;
-}
-
-.skills-category-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.skills-category-title::before {
-    content: '';
-    width: 4px;
-    height: 24px;
-    background: linear-gradient(to bottom, var(--primary), var(--secondary));
-    border-radius: var(--radius-full);
-}
-
-.skills-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.skill-tag {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    background-color: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    transition: all var(--transition-normal);
-    cursor: default;
-}
-
-.skill-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    display: inline-block;
-    transition: all var(--transition-normal);
-}
-
-.dot-stat {
-    background-color: var(--primary);
-    box-shadow: 0 0 8px var(--primary);
-}
-
-.dot-prog {
-    background-color: var(--secondary);
-    box-shadow: 0 0 8px var(--secondary);
-}
-
-.dot-soft {
-    background-color: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-}
-
-.skill-tag:hover {
-    transform: translateY(-2px);
-    border-color: var(--card-border-hover);
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.08);
-}
-
-.skill-tag:hover .skill-dot {
-    transform: scale(1.3);
-}
-
-.light-theme .skill-tag {
-    background-color: rgba(0, 0, 0, 0.02);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    color: var(--text-secondary);
-}
-
-.light-theme .skill-tag:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-    border-color: var(--card-border-hover);
-    color: var(--text-primary);
 }
 
 .project-filter-group {
@@ -2794,10 +2648,6 @@ textarea.form-control {
 }
 
 @media (max-width: 1024px) {
-    .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
     .hero-title {
         font-size: 3.2rem;
     }
@@ -2981,10 +2831,6 @@ textarea.form-control {
 
     .stat-box {
         flex: 1;
-    }
-
-    .skills-grid {
-        grid-template-columns: 1fr;
     }
 
     .timeline::after {
