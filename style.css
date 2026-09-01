@@ -2142,6 +2142,9 @@ ul {
 }
 
 .project-card {
+    /* Govde ic bosluguna tek kaynak: hem .project-body hem de tam genislige
+       tasan ayirac cizgisi bu degeri kullanir, ikisi birbirinden kaymaz. */
+    --project-body-pad: 24px;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -2175,7 +2178,7 @@ ul {
 }
 
 .project-body {
-    padding: 24px;
+    padding: var(--project-body-pad);
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -2245,9 +2248,14 @@ ul {
     gap: 10px;
     flex-wrap: wrap;
     align-items: center;
+    /* Kartin ikinci yatay cizgisi. Gorsel altindaki ayirac kenardan kenara
+       oldugu icin bu da tam genislige tasiniyor; butonlar padding ile ayni
+       24px hizasinda kaliyor, yani yerlesim degismiyor. */
     border-top: 1px solid var(--card-border);
-    padding-top: 18px;
     margin-top: auto;
+    margin-left: calc(var(--project-body-pad) * -1);
+    margin-right: calc(var(--project-body-pad) * -1);
+    padding: 18px var(--project-body-pad) 0;
 }
 
 .project-link {
