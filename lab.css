@@ -1,0 +1,911 @@
+/* ==========================================================================
+   ORÇUN ÇAKAR — DATA SCIENCE & STATISTICS INTERACTIVE LAB
+   OLS Regression Playground • Central Limit Theorem (CLT) Live Simulator
+   ========================================================================== */
+
+/* --- DATA SCIENCE & STATISTICS LAB TABS --- */
+.lab-tab-bar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 28px auto 10px auto;
+    width: 100%;
+}
+
+.lab-tab-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-full);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.lab-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.24s cubic-bezier(0.25, 1, 0.5, 1);
+    white-space: nowrap;
+}
+
+.lab-tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lab-tab-btn.active {
+    background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 18px rgba(109, 40, 217, 0.45);
+}
+
+.light-theme .lab-tab-btn.active {
+    color: #ffffff;
+}
+
+.light-theme .lab-tab-bar {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Lab Panel Transition */
+.lab-panel {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.lab-panel:not(.active) {
+    display: none !important;
+}
+
+.lab-panel.active {
+    display: grid !important;
+    animation: labFadeIn 0.22s ease-out forwards;
+}
+
+@keyframes labFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Regresyon Oyun Alani (Playground) --- */
+.playground-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.55fr);
+    gap: 32px;
+    margin-top: 30px;
+    align-items: stretch;
+}
+
+.playground-canvas-wrapper, .playground-stats-wrapper {
+    min-width: 0;
+}
+
+.playground-canvas-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-glass);
+}
+
+.canvas-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#regression-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.canvas-warning-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none !important;
+    transition: opacity var(--transition-normal);
+    z-index: 5;
+}
+
+.canvas-warning-overlay * {
+    pointer-events: none !important;
+}
+
+.canvas-warning-overlay.active {
+    opacity: 1;
+    pointer-events: none !important;
+}
+
+.canvas-warning-overlay span {
+    background: var(--bg-glass);
+    border: 1px solid var(--card-border);
+    padding: 12px 20px;
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    max-width: 85%;
+    pointer-events: none !important;
+}
+
+.playground-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.playground-toolbar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.point-quick-entry {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    background: var(--bg-tertiary);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--card-border);
+}
+
+.point-entry-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.point-input-pair {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.point-input-pair label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--primary);
+}
+
+.point-input-pair input {
+    width: 68px;
+    padding: 5px 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    outline: none;
+    transition: all var(--transition-fast);
+}
+
+.point-input-pair input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.3);
+}
+
+.light-theme .point-input-pair input {
+    background-color: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.btn-point-add-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-point-add-compact:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(139, 92, 246, 0.35);
+}
+
+.playground-actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.playground-controls .btn-ctrl {
+    padding: 9px 15px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    gap: 6px;
+}
+
+.playground-controls .btn-ctrl:disabled {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.switch input {
+    display: none !important;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background: #94a3b8;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+input:checked + .slider {
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.3) 0%, rgba(var(--secondary-rgb), 0.15) 100%);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.35), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider::before {
+    background: #ffffff;
+    transform: translateX(24px);
+    box-shadow: 0 0 10px #ffffff, 0 0 15px var(--secondary), 0 0 25px var(--primary);
+}
+
+/* Light Theme overrides for Toggle Switch */
+.light-theme .slider {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .slider::before {
+    background: #64748b;
+}
+
+.light-theme input:checked + .slider {
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.15) 0%, rgba(var(--secondary-rgb), 0.1) 100%);
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme input:checked + .slider::before {
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.4), 0 2px 4px rgba(109, 40, 217, 0.2);
+}
+
+.slider.round {
+    border-radius: var(--radius-full);
+}
+
+.slider.round::before {
+    border-radius: 50%;
+}
+
+.toggle-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    user-select: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.toggle-label:hover {
+    color: var(--text-primary);
+}
+
+.toggle-container:has(input:checked) .toggle-label {
+    color: var(--text-primary);
+}
+
+.playground-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.select-wrapper select {
+    padding: 10px 32px 10px 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all var(--transition-normal);
+}
+
+.select-wrapper select option {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+
+.select-wrapper select:hover, .select-wrapper select:focus {
+    border-color: var(--primary);
+    color: var(--text-primary);
+    background-color: rgba(var(--primary-rgb), 0.05);
+}
+
+.select-wrapper svg {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: fill var(--transition-fast);
+}
+
+.select-wrapper select:hover + svg, .select-wrapper select:focus + svg {
+    fill: var(--primary) !important;
+}
+
+/* Light Theme overrides for select */
+.light-theme .select-wrapper select {
+    background-color: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.light-theme .select-wrapper select:hover, .light-theme .select-wrapper select:focus {
+    background-color: rgba(109, 40, 217, 0.04);
+}
+
+.playground-controls .btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+}
+
+.playground-stats-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+
+/* Stats Cards */
+.stat-card {
+    display: flex;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    align-items: center;
+    gap: 16px;
+    transition: transform var(--transition-normal), border-color var(--transition-normal);
+}
+
+.formula-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 18px;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.08) 0%, rgba(var(--secondary-rgb), 0.04) 100%), var(--bg-glass);
+    border: 1px solid rgba(var(--primary-rgb), 0.18);
+}
+
+.formula-card:hover {
+    border-color: rgba(var(--primary-rgb), 0.35);
+}
+
+.formula-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.stat-icon-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background: rgba(var(--primary-rgb), 0.12);
+    border: 1px solid rgba(var(--primary-rgb), 0.25);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 0.76rem;
+    color: var(--primary);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--card-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stat-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+.formula-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    width: 100%;
+}
+
+.formula-value::-webkit-scrollbar {
+    display: none;
+}
+
+.stats-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    flex: 1;
+}
+
+.mini-card {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px 16px;
+    gap: 4px;
+    height: 100%;
+}
+
+.mini-card .stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* Light Theme overrides for canvas warning overlay */
+.light-theme .canvas-warning-overlay {
+    background-color: rgba(241, 245, 249, 0.75);
+}
+
+/* Responsive Styles for Playground */
+@media (max-width: 992px) {
+    .playground-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .playground-toolbar-row,
+    .playground-actions-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .playground-buttons {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+    .point-quick-entry {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .playground-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .playground-controls .btn-ctrl {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .stats-mini-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-mini-grid .stat-card {
+        grid-column: span 1 !important;
+    }
+    
+    .formula-value {
+        font-size: 1.4rem;
+    }
+}
+
+/* ==========================================================================
+   CENTRAL LIMIT THEOREM & PROBABILITY LAB (CLT) - COMPACT HARMONIOUS LAYOUT
+   ========================================================================== */
+
+.clt-canvas-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 22px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-glass);
+}
+
+.clt-dual-canvas-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+.clt-sub-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+}
+
+.clt-canvas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    min-height: 22px;
+}
+
+.clt-canvas-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.clt-badge {
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.clt-badge-cyan {
+    background: rgba(6, 182, 212, 0.15);
+    color: #67e8f9;
+    border-color: rgba(6, 182, 212, 0.25);
+}
+
+.clt-dist-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.84rem;
+}
+
+.clt-theoretical-params {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.clt-gauss-badge {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.82rem;
+}
+
+.clt-sample-count-badge {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.clt-canvas-container-box {
+    position: relative;
+    width: 100%;
+    height: 225px;
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#clt-parent-canvas,
+#clt-sampling-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.clt-controls-compact {
+    margin-top: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.clt-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.clt-select-wrapper {
+    min-width: 200px;
+    flex: 1;
+}
+
+.clt-n-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.clt-n-label {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+.clt-n-pills {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: var(--bg-secondary);
+    padding: 2px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--card-border);
+}
+
+.clt-n-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.clt-n-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.clt-n-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(109, 40, 217, 0.4);
+}
+
+.light-theme .clt-n-btn.active {
+    color: #ffffff;
+}
+
+.clt-actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.clt-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.btn-clt-sm {
+    padding: 8px 14px !important;
+    font-size: 0.84rem !important;
+    gap: 6px;
+}
+
+.clt-stats-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.clt-stats-wrapper .formula-card {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+}
+
+.clt-stats-wrapper .formula-value {
+    font-size: 1.3rem;
+    margin: 4px 0;
+}
+
+.clt-formula-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.text-gradient-green {
+    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* CLT Responsive Media Queries */
+@media (max-width: 992px) {
+    .clt-dual-canvas-grid {
+        grid-template-columns: 1fr;
+    }
+    .clt-canvas-container-box {
+        height: 180px;
+    }
+    .clt-action-buttons {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+    .clt-toolbar-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .clt-select-wrapper {
+        width: 100%;
+    }
+    .clt-n-selector {
+        justify-content: space-between;
+        width: 100%;
+    }
+    .clt-action-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+    }
+    .btn-clt-sm {
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   EDITORIAL / RESEARCH JOURNAL + DATA LAB BLOG STYLES
+   ========================================================================== */
+
+.font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+}
+
+.journal-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
