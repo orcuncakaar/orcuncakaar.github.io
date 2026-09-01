@@ -2152,7 +2152,11 @@ ul {
 .project-image {
     position: relative;
     height: 200px;
-    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.15) 0%, rgba(var(--secondary-rgb), 0.15) 100%);
+    /* Alt katman gradyan; ust katman ince gurultu. Gurultu olmadan dusuk kontrastli
+       gradyan 8-bit renkte basamaklaniyor ve kartin uzerinde isik huzmesi gibi
+       sert seritler olusuyor. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, rgba(var(--primary-rgb), 0.15) 0%, rgba(var(--secondary-rgb), 0.15) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
