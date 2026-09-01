@@ -1,0 +1,7 @@
+# robots.txt for https://orcuncakar.com
+User-agent: *
+Allow: /
+Disallow: /archive/
+
+# Sitemap Konumu
+Sitemap: https://orcuncakar.com/sitemap.xml
