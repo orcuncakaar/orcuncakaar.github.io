@@ -2710,6 +2710,7 @@ ul {
 .contact-method-details p {
     font-size: 0.9rem;
     color: var(--text-secondary);
+    overflow-wrap: anywhere;
 }
 
 .contact-form {
@@ -3071,7 +3072,7 @@ textarea.form-control {
     }
 
     .contact-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .contact-form {

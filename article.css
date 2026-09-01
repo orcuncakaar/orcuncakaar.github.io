@@ -945,6 +945,33 @@
     .quick-read-grid {
         grid-template-columns: 1fr;
     }
+
+    /* Geri baglantisi + uc buton tek satirda 375px'i asiyordu; butonlar
+       kendi satirina aliniyor, geri baglantisi ucuncu satira sarmiyor. */
+    .article-editorial-action-bar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .article-back-link {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    /* width:100% yetmiyor: flex ogesi varsayilan flex-shrink:1 ile alt satira
+       inmek yerine sıkışıyor. flex-basis + shrink:0 sarmayi zorluyor. */
+    .article-toolbar-actions {
+        flex: 0 0 100%;
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .article-toolbar-btn {
+        padding: 6px 10px;
+        font-size: 0.76rem;
+        white-space: nowrap;
+    }
 }
 
 .quick-read-card {
