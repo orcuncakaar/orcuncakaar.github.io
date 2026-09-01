@@ -1971,94 +1971,6 @@ ul {
     transition-delay: 150ms;
 }
 
-.bento-card-collab {
-    grid-column: span 3;
-    background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.04) 0%, rgba(var(--secondary-rgb), 0.04) 100%), var(--bg-glass);
-    border: 1px solid rgba(var(--primary-rgb), 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 40px;
-    min-height: 100px;
-}
-
-.bento-collab-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 30px;
-    z-index: 2;
-}
-
-.collab-pulse-box {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.pulse-ring {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid var(--accent);
-    background-color: transparent;
-    animation: beacon-pulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
-    opacity: 0;
-}
-
-.pulse-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: var(--accent);
-    box-shadow: 0 0 12px var(--accent);
-    z-index: 1;
-}
-
-@keyframes beacon-pulse {
-    0% {
-        transform: scale(0.6);
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 0.4;
-    }
-    100% {
-        transform: scale(1.6);
-        opacity: 0;
-    }
-}
-
-.collab-text {
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    line-height: 1.5;
-    flex-grow: 1;
-    margin: 0;
-}
-
-.bento-collab-btn {
-    flex-shrink: 0;
-    padding: 12px 24px !important;
-    font-size: 0.95rem !important;
-    white-space: nowrap;
-}
-
-.bento-collab-btn svg {
-    transition: transform var(--transition-fast);
-}
-
-.bento-collab-btn:hover svg {
-    transform: translateX(4px);
-}
-
 @media (max-width: 992px) {
     .bento-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -2078,11 +1990,6 @@ ul {
         grid-column: span 1;
         min-height: 180px;
     }
-
-    .bento-card-collab {
-        grid-column: span 2;
-        padding: 30px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -2097,21 +2004,9 @@ ul {
 
     .bento-card-main,
     .bento-card-tools,
-    .bento-card-hobby,
-    .bento-card-collab {
+    .bento-card-hobby {
         grid-column: span 1;
         grid-row: span 1;
-    }
-
-    .bento-collab-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .bento-collab-btn {
-        width: 100%;
-        justify-content: center;
     }
 }
 
