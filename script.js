@@ -514,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'about': 'about',
         'skills': 'about',
         'projects': 'projects',
-        'playground': 'projects',
+        'playground': 'playground',
         'timeline': 'timeline',
         'certificates': 'timeline',
         'contact': 'contact'
