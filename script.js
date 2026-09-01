@@ -175,10 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
-    const skillsSection = document.getElementById('skills');
     const aboutSection = document.getElementById('about');
-    
-    if (skillsSection) scrollObserver.observe(skillsSection);
+
     if (aboutSection) scrollObserver.observe(aboutSection);
 
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -389,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const compactSectionLabel = document.querySelector('#compact-section-label .compact-text');
     let lastScrollPos = window.scrollY || 0;
 
-    const sectionOrder = ['home', 'about', 'skills', 'projects', 'playground', 'timeline', 'certificates', 'contact'];
+    const sectionOrder = ['home', 'about', 'projects', 'playground', 'timeline', 'certificates', 'contact'];
     let currentSectionIndex = 0;
     let isTextMorphing = false;
 
@@ -512,7 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sectionNavMap = {
         'home': 'home',
         'about': 'about',
-        'skills': 'about',
         'projects': 'projects',
         'playground': 'playground',
         'timeline': 'timeline',
