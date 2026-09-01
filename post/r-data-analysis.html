@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+                    document.documentElement.classList.add('light-theme');
+                } else {
+                    document.documentElement.classList.remove('light-theme');
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Eski paylasim linkleri (article.html?id=...) canonical adrese tasinir.
+        // post/<slug>.html sayfalari bu sablondan uretildigi icin orada erken cikar.
+        (function () {
+            try {
+                if (/\/post\//.test(location.pathname)) return;
+                var id = new URLSearchParams(location.search).get('id');
+                if (id && /^[A-Za-z0-9_-]+$/.test(id)) {
+                    location.replace('post/' + id + '.html' + location.hash);
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <title id="page-head-title">İstatistiğin Gücü: R ile Veri Analizi ve Modelleme | Orçun Çakar</title>
+
+    <meta name="description" id="meta-description" content="R Studio kullanarak istatistiksel veri analizi süreçlerini, veri görselleştirmeyi ve temel doğrusal regresyon modellemelerini nasıl gerçekleştirdiğimi anlatıyorum.">
+    <meta name="keywords" id="meta-keywords" content="İstatistik, R Studio, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar">
+    <meta name="author" content="Orçun Çakar">
+    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/post/r-data-analysis.html">
+
+    <!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp) -->
+    <meta property="og:title" id="og-title" content="İstatistiğin Gücü: R ile Veri Analizi ve Modelleme | Orçun Çakar">
+    <meta property="og:description" id="og-description" content="R Studio kullanarak istatistiksel veri analizi süreçlerini, veri görselleştirmeyi ve temel doğrusal regresyon modellemelerini nasıl gerçekleştirdiğimi anlatıyorum.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" id="og-url" content="https://orcuncakar.com/post/r-data-analysis.html">
+    <meta property="og:image" id="og-image" content="https://orcuncakar.com/images/hanta_plot_7.png">
+    <meta property="og:site_name" content="Orçun Çakar">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="İstatistiğin Gücü: R ile Veri Analizi ve Modelleme | Orçun Çakar">
+    <meta name="twitter:description" id="twitter-description" content="R Studio kullanarak istatistiksel veri analizi süreçlerini, veri görselleştirmeyi ve temel doğrusal regresyon modellemelerini nasıl gerçekleştirdiğimi anlatıyorum.">
+    <meta name="twitter:image" id="twitter-image" content="https://orcuncakar.com/images/hanta_plot_7.png">
+
+    <!-- Schema.org JSON-LD Structured Data (TechArticle) -->
+    <script type="application/ld+json" id="article-schema">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "İstatistiğin Gücü: R ile Veri Analizi ve Modelleme",
+  "description": "R Studio kullanarak istatistiksel veri analizi süreçlerini, veri görselleştirmeyi ve temel doğrusal regresyon modellemelerini nasıl gerçekleştirdiğimi anlatıyorum.",
+  "image": "https://orcuncakar.com/images/hanta_plot_7.png",
+  "inLanguage": "tr",
+  "author": {
+    "@type": "Person",
+    "name": "Orçun Çakar",
+    "jobTitle": "Data Science & Machine Learning Specialist",
+    "url": "https://orcuncakar.com"
+  },
+  "datePublished": "2026-05-15",
+  "keywords": "İstatistik, R Studio, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://orcuncakar.com/post/r-data-analysis.html"
+  }
+}
+    </script>
+
+    <!-- Mobile Browser & PWA Support -->
+    <meta name="theme-color" content="#0b0f19" id="meta-theme-color">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Orçun Çakar">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
+
+    <!-- Google Fonts (Preconnected & Parallel Loading) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
+
+    <link rel="stylesheet" href="../style.css?v=2.12.1">
+    <link rel="stylesheet" href="../article.css?v=2.12.1">
+</head>
+<body class="article-reading-body">
+    <a class="skip-link" href="#article-main" data-translate="skip-link">İçeriğe atla</a>
+
+    <!-- NANO READING PROGRESS BAR -->
+    <div class="article-reading-progress" id="article-progress-bar" aria-hidden="true"></div>
+
+    <!-- NAVİGASYON BAR -->
+    <nav class="navbar" id="main-navbar">
+        <div class="navbar-dock" id="navbar-dock">
+            <div class="navbar-pill-wrapper" id="navbar-pill-wrapper">
+                <!-- Dynamic Island Mini Kapsül Görünümü -->
+                <div class="navbar-compact-view" id="navbar-compact-view">
+                    <a href="../index.html#home" class="compact-brand">Orçun</a>
+                    <div class="nav-divider"></div>
+                    <div class="compact-current-section" id="compact-section-label">
+                        <span class="compact-text" data-translate="nav-blog">Blog</span>
+                    </div>
+                </div>
+
+                <!-- Tam Menü Görünümü -->
+                <div class="navbar-full-view" id="navbar-full-view">
+                    <ul class="nav-links" id="navbar-links">
+                        <li class="nav-indicator-pill" id="nav-indicator-pill" aria-hidden="true"></li>
+                        <li><a href="../index.html#home" class="nav-link" data-translate="nav-home">Ana Sayfa</a></li>
+                        <li><a href="../index.html#about" class="nav-link" data-translate="nav-about">Hakkımda</a></li>
+                        <li><a href="../index.html#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
+                        <li><a href="../index.html#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
+                        <li><a href="../blog.html" class="nav-link active" data-translate="nav-blog">Blog</a></li>
+                        <li><a href="../index.html#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
+                    </ul>
+                    
+                    <div class="nav-divider"></div>
+                    
+                    <div class="nav-actions">
+                        <button class="lang-toggle-btn" id="lang-toggle" aria-label="Dili Değiştir / Change Language">
+                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/>
+                            </svg>
+                            <span class="lang-text">EN</span>
+                        </button>
+                        
+                        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Temayı Değiştir">
+                            <svg class="sun-icon" viewBox="0 0 24 24">
+                                <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.01c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                            </svg>
+                            <svg class="moon-icon" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                            </svg>
+                        </button>
+
+                        <button class="hamburger" id="mobile-menu-btn" aria-label="Menüyü Aç">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bağımsız Ayrı Yüzde Uydu Hapı -->
+            <div class="navbar-percent-pill" id="navbar-percent-pill" aria-label="Sayfa İlerleme Yüzdesi">
+                <span id="compact-scroll-percent">0%</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SAYFA İÇERİK KAPSAYICISI / PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrapper" id="page-content-wrapper">
+
+        <!-- MAIN ARTICLE CONTAINER -->
+        <main class="article-main-container" id="article-main">
+            <div class="container article-shell">
+
+                <!-- 0. EDITORIAL TOP ACTION BAR -->
+                <div class="article-editorial-action-bar">
+                    <a href="../blog.html" class="article-back-link font-mono" id="article-back-btn">
+                        <span class="back-arrow">←</span>
+                        <span data-translate="article-back">Yazılara Dön</span>
+                    </a>
+
+                    <div class="article-toolbar-actions">
+                        <button class="article-toolbar-btn toc-btn font-mono" id="article-mobile-toc-btn" aria-label="İçindekiler" aria-expanded="false" aria-controls="mobile-toc-sheet">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"/>
+                                <line x1="8" y1="12" x2="21" y2="12"/>
+                                <line x1="8" y1="18" x2="21" y2="18"/>
+                                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                <line x1="3" y1="18" x2="3.01" y2="18"/>
+                            </svg>
+                            <span data-translate="article-toc-btn">İçindekiler</span>
+                        </button>
+
+                        <button class="article-toolbar-btn ai-btn font-mono" id="article-ai-btn" aria-label="Yapay Zeka Özeti" aria-expanded="false" aria-controls="article-ai-sidecar">
+                            <span class="ai-sparkle-dot">✦</span>
+                            <span data-translate="blog-ai-btn-text">AI Özeti</span>
+                        </button>
+
+                        <button class="article-toolbar-btn share-btn font-mono" id="article-share-btn" title="Bağlantıyı Kopyala" aria-label="Paylaş">
+                            <svg class="share-icon-default" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                                <polyline points="16 6 12 2 8 6"/>
+                                <line x1="12" y1="2" x2="12" y2="15"/>
+                            </svg>
+                            <svg class="share-icon-copied" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span class="share-btn-text" data-translate="article-share">Paylaş</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 1. EDITORIAL ARTICLE HEADER -->
+                <header class="article-header" id="article-header">
+                    <div class="article-header-meta-top font-mono">
+                        <span class="article-note-num" id="article-note-num">RESEARCH NOTE / 001</span>
+                        <span class="meta-sep">/</span>
+                        <span class="article-cat-badge" id="article-cat-badge">İSTATİSTİK &amp; HESAPLAMALI ANALİTİK</span>
+                    </div>
+
+                    <h1 class="article-heading-title" id="article-title">İstatistiğin Gücü: R ile Veri Analizi ve Modelleme</h1>
+
+                    <p class="article-lead-excerpt" id="article-subtitle">R Studio kullanarak istatistiksel veri analizi süreçlerini, veri görselleştirmeyi ve temel doğrusal regresyon modellemelerini nasıl gerçekleştirdiğimi anlatıyorum.</p>
+
+                    <div class="article-header-meta-bottom font-mono">
+                        <span id="article-date">15 Mayıs 2026</span>
+                        <span class="meta-dot">·</span>
+                        <span id="article-readtime">6 dk okuma</span>
+                        <span class="meta-dot">·</span>
+                        <span class="author-label" data-translate="article-author">Orçun Çakar</span>
+                    </div>
+
+                    <div class="article-tags-cluster font-mono" id="article-tags"><span class="article-topic-tag">#İstatistik</span><span class="article-topic-tag">#R Studio</span></div>
+                </header>
+
+                <!-- 2. STRUCTURED QUICK READ / 60 SECONDS -->
+                <section class="article-quick-read" id="article-quick-read">
+                    <div class="quick-read-banner font-mono">
+                        <div class="quick-read-badge-group">
+                            <span class="quick-read-indicator-dot"></span>
+                            <span class="quick-read-title" data-translate="article-quick-read-title">HIZLI ÖZET / 60 SN</span>
+                        </div>
+                        <span class="quick-read-tag font-mono">EXECUTIVE SYNTHESIS</span>
+                    </div>
+
+                    <div class="quick-read-grid" id="quick-read-grid">
+                        <!-- JS ile yapılandırılmış Amaç, Veri, Model, Sonuç maddeleri -->
+                    </div>
+                </section>
+
+                <!-- 3. ARTICLE BODY & TWO-COLUMN LAYOUT (DESKTOP RAIL + MAIN TEXT) -->
+                <div class="article-layout-grid">
+                    
+                    <!-- MAIN READING COLUMN (MAX 740px) -->
+                    <article class="article-content-column">
+                        <div class="article-prose-content" id="article-body-content">
+<h2>R ile Veri Bilimine Giriş</h2><p>Bir istatistik öğrencisi olarak, verilerin arkasındaki hikayeyi ortaya çıkarmak için en güçlü silahlarımdan biri şüphesiz <strong>R Studio</strong>'dur. R dili, veri analizi ve istatistiksel hesaplama için özel olarak tasarlanmış yapısıyla veri bilimcileri için eşsiz bir ekosistem sunar.</p><p>Bu yazıda, bir veri setini ele aldığımızda izlediğimiz temel adımlardan ve R'ın güçlü kütüphanelerinden bahsedeceğim.</p><h2 id="r-preprocessing">1. Veri Keşfi ve Ön İşleme</h2><p>Veri analizi projelerinin %80'i veri temizleme ve ön işleme adımlarında geçer. R ekosisteminde, <code>tidyverse</code> paketi (özellikle <code>dplyr</code> and <code>tidyr</code>) veri manipülasyonunu son derece sezgisel ve hızlı hale getirir. Kayıp gözlemleri (NA) analiz etmek, değişken tiplerini düzenlemek ve filtrelemeler yapmak tek satırlık boru hattı (pipe) <code>%>%</code> işlemleriyle çözülebilir.</p><pre><code>library(dplyr)
+
+# Veriyi temizleme ve filtreleme örneği
+clean_data <- raw_data %>%
+  filter(!is.na(Gelir)) %>%
+  mutate(Segment = ifelse(Gelir > 50000, 'Yüksek', 'Standart'))</code></pre><h2 id="r-visualization">2. Veriyi Görselleştirmek (ggplot2)</h2><p>İstatistiksel bulguları görselleştirmeden sunmak, hikayenin yarım kalmasına neden olur. R'ın en popüler grafik kütüphanesi olan <code>ggplot2</code>, 'Grammar of Graphics' (Grafik Grameri) felsefesini kullanır. Bu sayede verilerimizi katman katman işleyerek göz alıcı ve akademik standartlarda grafikler elde edebiliriz.</p><p>Örneğin, bir dağılım grafiğine doğrusal eğilim çizgisi eklemek sadece birkaç satır sürer:</p><pre><code>library(ggplot2)
+
+ggplot(data = clean_data, aes(x = Yas, y = Gelir, color = Segment)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = 'lm', se = TRUE) +
+  theme_minimal() +
+  labs(title = 'Yaş ve Gelir İlişkisi', x = 'Yaş', y = 'Gelir (TL)')</code></pre><h2 id="r-modeling">3. İstatistiki Modelleme (Regresyon)</h2><p>Grafiklerimizi inceledikten sonra, değişkenler arasındaki ilişkilerin istatistiksel olarak anlamlı olup olmadığını test etmek için doğrusal regresyon analizine geçeriz. R içinde yerleşik olarak bulunan <code>lm()</code> fonksiyonu, En Küçük Kareler (OLS) yöntemini kullanarak modeli saniyeler içinde kurar.</p><p><code>summary(model)</code> çıktısını aldığımızda elde ettiğimiz R² (Belirlilik Katsayısı), p-değerleri ve F-istatistiği, modelimizin veriyi ne kadar iyi açıkladığını ve katsayılarımızın anlamlılığını doğrular. Bu süreç, teorik istatistik bilgilerimizin gerçek veri setlerinde nasıl canlandığını gösteren en heyecan verici adımdır.</p><h2 id="r-conclusion">Sonuç</h2><p>R Studio, akademik çalışmalarımda ve veri analitiği stajımda en çok başvurduğum araçlardan biri. Eğer istatistiksel analizi derinlemesine öğrenmek ve veri bilimine sağlam bir temel ile girmek istiyorsanız, R'ı kesinlikle öğrenim listenizin en üst sıralarına eklemelisiniz.</p>
+                        </div>
+
+                        <!-- 4. ACADEMIC REFERENCES SECTION -->
+                        <section class="article-references-section" id="article-references">
+                            <h3 class="references-heading font-mono" data-translate="article-references-title">KAYNAKLAR & VERİ KÜMELERİ</h3>
+                            <ol class="references-list font-mono" id="references-list">
+                                <!-- Dinamik kaynaklar eklenecek -->
+                            </ol>
+                        </section>
+
+                        <!-- 5. NEXT RESEARCH NOTE FOOTER -->
+                        <section class="article-next-navigation" id="article-next-footer">
+                            <div class="next-nav-label font-mono" id="next-nav-label">SONRAKİ ARAŞTIRMA NOTU / 001</div>
+                            <a href="#" class="next-nav-card" id="next-nav-card">
+                                <div class="next-card-text">
+                                    <h4 class="next-card-title" id="next-post-title">...</h4>
+                                    <p class="next-card-meta font-mono" id="next-post-meta">...</p>
+                                </div>
+                                <div class="next-card-arrow font-mono">→</div>
+                            </a>
+                        </section>
+                    </article>
+
+                    <!-- STICKY TABLE OF CONTENTS RAIL (DESKTOP) -->
+                    <aside class="article-toc-rail" id="article-toc-rail">
+                        <div class="toc-rail-inner">
+                            <div class="toc-rail-header font-mono" data-translate="article-toc-title">İÇİNDEKİLER</div>
+                            <nav class="toc-rail-nav" aria-label="İçindekiler">
+                                <ul class="toc-rail-list font-mono" id="toc-rail-list">
+                                    <!-- JS ile dinamik numaralı editoryal liste -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </aside>
+
+                </div>
+
+            </div>
+        </main>
+
+        <!-- ALT BİLGİ / FOOTER -->
+        <footer class="footer journal-footer" data-stagger="5">
+            <div class="container">
+                <div class="footer-socials">
+                    <a href="https://github.com/orcuncakaar" target="_blank" rel="noopener noreferrer" class="social-icon-btn github" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/or%C3%A7un-%C3%A7akar-31036220a/" target="_blank" rel="noopener noreferrer" class="social-icon-btn linkedin" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="https://www.kaggle.com/orunakar" target="_blank" rel="noopener noreferrer" class="social-icon-btn kaggle" aria-label="Kaggle">
+                        <svg viewBox="0 0 32 32"><path d="M22.42 3.24a1.86 1.86 0 0 0-1.5-.74h-4.32a1.44 1.44 0 0 0-1.28.74L8.71 14.88V3.3a1.8 1.8 0 0 0-1.8-1.8H2.57A1.8 1.8 0 0 0 .77 3.3v25.4a1.8 1.8 0 0 0 1.8 1.8H6.9a1.8 1.8 0 0 0 1.8-1.8v-7.14l3.19-3.23L20.67 29a1.82 1.82 0 0 0 1.54.82h4.59a1.32 1.32 0 0 0 1.13-2 1.77 1.77 0 0 0-.25-.33L16.42 16.29 27.24 3.73a1.4 1.4 0 0 0 .17-.49z"/></svg>
+                    </a>
+                </div>
+                
+                <p class="footer-text">
+                    &copy; <span id="current-year"></span> Orçun Çakar | <span data-translate="footer-copyright">Tüm Hakları Saklıdır.</span>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 6. FLOATING AI RESEARCH SIDECAR (NON-BLOCKING ASSISTANT) -->
+    <aside class="article-ai-sidecar" id="article-ai-sidecar" role="region" aria-label="Yapay Zeka Araştırma Asistanı">
+        <div class="ai-sidecar-header">
+            <div class="ai-sidecar-title-group">
+                <span class="ai-sidecar-sparkle" id="ai-sidecar-sparkle">✦</span>
+                <div class="ai-sidecar-headings">
+                    <span class="ai-sidecar-main-title font-mono" id="ai-sidecar-title" data-translate="blog-ai-title">YAPAY ZEKÂ ÖZETİ</span>
+                    <span class="ai-sidecar-meta font-mono" id="ai-sidecar-meta" data-translate="article-ai-readtime">~45 saniyede oku</span>
+                </div>
+            </div>
+            <button class="ai-sidecar-close-btn" id="article-ai-close-btn" aria-label="Kapat">✕</button>
+        </div>
+
+        <!-- DECORATIVE SYNTHESIS LINE (SINGLE SWEEP LIGHT) -->
+        <div class="ai-synthesis-line" id="ai-synthesis-line" aria-hidden="true">
+            <div class="synthesis-sweep-light"></div>
+        </div>
+
+        <div class="ai-sidecar-body">
+            <!-- TAB 1: ANA BULGULAR (3 STRUCTURED BULLETS + MAKALEDE GÖR) -->
+            <div class="ai-tab-pane active" id="ai-pane-findings">
+                <div class="ai-findings-section-header font-mono" id="ai-findings-badge" data-translate="ai-findings-label">
+                    3 ANA BULGU
+                </div>
+                <div class="ai-findings-list" id="ai-findings-list">
+                    <!-- JS ile dinamik doldurulur -->
+                </div>
+            </div>
+
+            <!-- TAB 2: METODOLOJİ -->
+            <div class="ai-tab-pane" id="ai-pane-methodology">
+                <div class="ai-distilled-card font-mono" id="ai-methodology-content"></div>
+            </div>
+
+            <!-- TAB 3: SONUÇ -->
+            <div class="ai-tab-pane" id="ai-pane-conclusion">
+                <div class="ai-distilled-card font-mono" id="ai-conclusion-content"></div>
+            </div>
+        </div>
+
+        <!-- MINIMAL EDITORIAL TABS -->
+        <div class="ai-sidecar-tabs font-mono" id="ai-sidecar-tabs">
+            <button class="ai-tab-btn active" data-tab="findings" data-translate="ai-tab-findings">Ana Bulgular</button>
+            <span class="ai-tab-dot">·</span>
+            <button class="ai-tab-btn" data-tab="methodology" data-translate="ai-tab-methodology">Metodoloji</button>
+            <span class="ai-tab-dot">·</span>
+            <button class="ai-tab-btn" data-tab="conclusion" data-translate="ai-tab-conclusion">Sonuç</button>
+        </div>
+
+        <div class="ai-sidecar-footer font-mono">
+            <span data-translate="ai-sidecar-disclaimer">AI tarafından oluşturulan özet · Makale içeriğine dayanır</span>
+        </div>
+    </aside>
+
+    <!-- MOBILE TOC BOTTOM SHEET (MOBİL İÇİNDEKİLER PANELİ) -->
+    <div class="mobile-toc-sheet" id="mobile-toc-sheet" role="dialog" aria-modal="true" aria-label="İçindekiler">
+        <div class="mobile-toc-backdrop" id="mobile-toc-backdrop"></div>
+        <div class="mobile-toc-panel">
+            <div class="mobile-toc-header font-mono">
+                <span data-translate="article-toc-title">İÇİNDEKİLER</span>
+                <button class="mobile-toc-close" id="mobile-toc-close" aria-label="Kapat">✕</button>
+            </div>
+            <ul class="mobile-toc-list font-mono" id="mobile-toc-list">
+                <!-- JS ile yüklenecek liste -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- SCROLL TO TOP BUTON -->
+    <button class="scroll-top-btn" id="scroll-to-top" aria-label="Sayfanın En Üstüne Çık">
+        <svg viewBox="0 0 24 24">
+            <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+        </svg>
+    </button>
+
+    <!-- SCRIPTLER -->
+    <script src="../translations.js?v=2.12.1" defer></script>
+    <script src="../posts-data.js?v=2.12.1" defer></script>
+    <script src="../site-shell.js?v=2.12.1" defer></script>
+    <script src="../article.js?v=2.12.1" defer></script>
+</body>
+</html>
