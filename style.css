@@ -2911,6 +2911,59 @@ textarea.form-control {
         display: none;
     }
 
+    /* Mini ada (dynamic island) mobilde de calisiyor. Masaustunde compact
+       moda gecince .navbar-full-view tamamen soluyor; mobilde bunu aynen
+       yapamayiz cunku hamburger onun icinde ve menuye ulasmanin tek yolu o.
+       Bu yuzden compact modda dil/tema dugmeleri gizlenip hamburger
+       erisilebilir birakiliyor: "Orcun | Bolum  hamburger". */
+    .navbar-pill-wrapper.is-compact .navbar-full-view {
+        opacity: 1;
+        position: relative;
+        transform: none;
+        pointer-events: auto !important;
+    }
+
+    .navbar-pill-wrapper.is-compact .navbar-full-view *,
+    .navbar-pill-wrapper.is-compact .navbar-full-view .nav-actions {
+        pointer-events: auto !important;
+    }
+
+    .navbar-pill-wrapper.is-compact .navbar-full-view .nav-actions {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+
+    .navbar-pill-wrapper.is-compact .lang-toggle-btn,
+    .navbar-pill-wrapper.is-compact .theme-toggle-btn {
+        display: none;
+    }
+
+    /* Dar telefonlarda (<=400px) uydu yuzde hapi ekranin sagindan tasiyordu.
+       Hapi kucult, boslugu daralt ve uzun bolum adlarinin ("Experience")
+       kapsulu genisletmesini engelle. */
+    @media (max-width: 400px) {
+        .navbar-percent-pill {
+            left: calc(100% + 6px);
+            padding: 6px 10px;
+            min-width: 44px;
+            height: 36px;
+            font-size: 0.8rem;
+        }
+
+        .compact-current-section {
+            padding: 0 12px;
+            max-width: 104px;
+            overflow: hidden;
+        }
+
+        .compact-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
     .nav-links {
         position: fixed;
         top: 68px;

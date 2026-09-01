@@ -432,8 +432,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleDynamicIsland() {
-        if (!navbarPill || window.innerWidth <= 1024) return;
+        if (!navbarPill) return;
         const currentScroll = window.scrollY || window.pageYOffset;
+
+        // Mobil menu acikken kucultme: menu navbar'a bagli konumlaniyor,
+        // altindan kapsul degisirse kullanici baglamini kaybediyor.
+        if (navbarLinks && navbarLinks.classList.contains('active')) {
+            lastScrollPos = currentScroll;
+            return;
+        }
 
         // Sayfanın en üstünde (Hero / Ana Sayfa bölümü) her zaman tam açık
         if (currentScroll <= 140) {
