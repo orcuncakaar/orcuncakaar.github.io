@@ -1584,7 +1584,11 @@ ul {
     }
 
     .hero-subtitle {
-        font-size: 1.3rem;
+        /* En uzun ifade ("Makine Ogrenmesi Gelistiricisi") dar ekranda iki
+           satira dusuyordu; daktilo ifade degistirdikce satir sayisi degisince
+           duzen zipliyordu. Yazi viewport ile olcekleniyor ki hepsi tek satirda
+           kalsin. Ust sinir eski tasarim boyutu. */
+        font-size: clamp(0.9rem, calc(6.3vw - 6.3px), 1.3rem);
     }
 
     .btn-group {
@@ -3046,10 +3050,6 @@ textarea.form-control {
 @media (max-width: 480px) {
     .hero-title {
         font-size: 2.2rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1.4rem;
     }
 
     .about-stats {
