@@ -1099,7 +1099,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const blogNavLink = document.querySelector('.navbar .nav-link[href="blog.html"]');
+    // post/<slug>.html sayfalarinda link '../blog.html' oldugu icin once .active aranir.
+    const blogNavLink = document.querySelector('.navbar .nav-link.active') || document.querySelector('.navbar .nav-link[href$="blog.html"]');
     if (blogNavLink) {
         setTimeout(() => updateSlidingPill(blogNavLink, true), 60);
     }
