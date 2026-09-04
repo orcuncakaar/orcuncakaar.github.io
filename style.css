@@ -964,17 +964,29 @@ ul {
     opacity: 0.88;
 }
 
-/* Simülasyon çalışmadığında (hareket azaltma tercihi) kanvas boş kalmasın */
-#fluid-canvas.fluid-static {
-    background:
+/* Simülasyon çalışmadığında kanvas boş kalmasın. Gradyan tek yerde tanımlı:
+   hareket azaltma tercihinde JS `.fluid-static` ekliyor, telefon/tablette ise
+   fluid-simulation.js hiç indirilmediği için aynı görünümü medya sorgusu veriyor. */
+#fluid-canvas {
+    --fluid-static-bg:
         radial-gradient(55% 50% at 25% 30%, rgba(139, 92, 246, 0.30), transparent 70%),
         radial-gradient(50% 50% at 78% 65%, rgba(16, 185, 129, 0.22), transparent 70%);
 }
 
-.light-theme #fluid-canvas.fluid-static {
-    background:
+.light-theme #fluid-canvas {
+    --fluid-static-bg:
         radial-gradient(55% 50% at 25% 30%, rgba(109, 40, 217, 0.16), transparent 70%),
         radial-gradient(50% 50% at 78% 65%, rgba(5, 150, 105, 0.14), transparent 70%);
+}
+
+#fluid-canvas.fluid-static {
+    background: var(--fluid-static-bg);
+}
+
+@media (max-width: 900px), (pointer: coarse) {
+    #fluid-canvas {
+        background: var(--fluid-static-bg);
+    }
 }
 
 .hero .container {
@@ -3029,14 +3041,6 @@ textarea.form-control {
 
     /* Akışkan simülasyon yerine sabit gradyan (JS tarafı da başlatmıyor) */
     #fluid-canvas {
-        background:
-            radial-gradient(55% 50% at 25% 30%, rgba(139, 92, 246, 0.30), transparent 70%),
-            radial-gradient(50% 50% at 78% 65%, rgba(16, 185, 129, 0.22), transparent 70%);
-    }
-
-    .light-theme #fluid-canvas {
-        background:
-            radial-gradient(55% 50% at 25% 30%, rgba(109, 40, 217, 0.16), transparent 70%),
-            radial-gradient(50% 50% at 78% 65%, rgba(5, 150, 105, 0.14), transparent 70%);
+        background: var(--fluid-static-bg);
     }
 }

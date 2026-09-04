@@ -3,6 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const docEl = document.documentElement;
 
+    // Ilk boyamadan once senkron yerlesim okumasi yapmayalim. PSI'nin 4x yavaslatilmis
+    // CPU'sunda scrollHeight / getBoundingClientRect tum sayfanin yerlesimini zorluyor
+    // ve bu is FCP'nin onune giriyor. Ihtiyaci olan yerler ilk kare cizildikten sonra
+    // calisiyor; kullanicinin gordugu sirada bir degisiklik yok.
+    const afterFirstPaint = (fn) => {
+        requestAnimationFrame(() => requestAnimationFrame(fn));
+    };
+
     // --- NAVBAR ELEMANLARI & SLIDING PILL ---
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navbarLinks = document.getElementById('navbar-links');
@@ -742,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
     };
 
-    recalcDocHeight();
+    afterFirstPaint(recalcDocHeight);
     window.addEventListener('resize', recalcDocHeight, { passive: true });
     window.addEventListener('load', recalcDocHeight);
     if (typeof ResizeObserver !== 'undefined') {
@@ -1602,8 +1610,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return grad;
         }
 
-        // Canvas'ı ilk kez başlat
-        setTimeout(resizeRegCanvas, 200);
+        // Canvas'ı ilk kez başlat (ekranin altinda kaliyor, ilk boyamayi bekletmesin)
+        afterFirstPaint(() => setTimeout(resizeRegCanvas, 200));
 
         // Tema değişiminde renkleri yeniden yükle
         window.addEventListener('themeChanged', () => {
