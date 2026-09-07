@@ -2,7 +2,7 @@
   "name": "Orçun Çakar — İstatistik & Veri Bilimi",
   "short_name": "Orçun Çakar",
   "description": "İstatistik, Veri Bilimi, Makine Öğrenmesi ve Yapay Zekâ Araştırmaları Portfolyosu",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0b0f19",
   "theme_color": "#0b0f19",

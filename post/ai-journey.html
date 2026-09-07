@@ -24,7 +24,7 @@
                 if (/\/post\//.test(location.pathname)) return;
                 var id = new URLSearchParams(location.search).get('id');
                 if (id && /^[A-Za-z0-9_-]+$/.test(id)) {
-                    location.replace('post/' + id + '.html' + location.hash);
+                    location.replace('/post/' + id + location.hash);
                 }
             } catch (e) {}
         })();
@@ -34,13 +34,13 @@
     <meta name="description" id="meta-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
     <meta name="keywords" id="meta-keywords" content="Yapay Zeka, Makine Öğrenmesi, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar">
     <meta name="author" content="Orçun Çakar">
-    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/post/ai-journey.html">
+    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/post/ai-journey">
 
     <!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp) -->
     <meta property="og:title" id="og-title" content="Yapay Zeka ve Makine Öğrenmesi Yolculuğum | Orçun Çakar">
     <meta property="og:description" id="og-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
     <meta property="og:type" content="article">
-    <meta property="og:url" id="og-url" content="https://orcuncakar.com/post/ai-journey.html">
+    <meta property="og:url" id="og-url" content="https://orcuncakar.com/post/ai-journey">
     <meta property="og:image" id="og-image" content="https://orcuncakar.com/images/hanta_plot_8.png">
     <meta property="og:site_name" content="Orçun Çakar">
 
@@ -69,7 +69,7 @@
   "keywords": "Yapay Zeka, Makine Öğrenmesi, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://orcuncakar.com/post/ai-journey.html"
+    "@id": "https://orcuncakar.com/post/ai-journey"
   }
 }
     </script>
@@ -89,8 +89,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="../style.css?v=2.13.8">
-    <link rel="stylesheet" href="../article.css?v=2.13.8">
+    <link rel="stylesheet" href="../style.css?v=2.14.0">
+    <link rel="stylesheet" href="../article.css?v=2.14.0">
 </head>
 <body class="article-reading-body">
     <a class="skip-link" href="#article-main" data-translate="skip-link">İçeriğe atla</a>
@@ -104,7 +104,7 @@
             <div class="navbar-pill-wrapper" id="navbar-pill-wrapper">
                 <!-- Dynamic Island Mini Kapsül Görünümü -->
                 <div class="navbar-compact-view" id="navbar-compact-view">
-                    <a href="../index.html#home" class="compact-brand">Orçun</a>
+                    <a href="/" class="compact-brand">Orçun</a>
                     <div class="nav-divider"></div>
                     <div class="compact-current-section" id="compact-section-label">
                         <span class="compact-text" data-translate="nav-blog">Blog</span>
@@ -115,12 +115,12 @@
                 <div class="navbar-full-view" id="navbar-full-view">
                     <ul class="nav-links" id="navbar-links">
                         <li class="nav-indicator-pill" id="nav-indicator-pill" aria-hidden="true"></li>
-                        <li><a href="../index.html#home" class="nav-link" data-translate="nav-home">Ana Sayfa</a></li>
-                        <li><a href="../index.html#about" class="nav-link" data-translate="nav-about">Hakkımda</a></li>
-                        <li><a href="../index.html#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
-                        <li><a href="../index.html#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
-                        <li><a href="../blog.html" class="nav-link active" data-translate="nav-blog">Blog</a></li>
-                        <li><a href="../index.html#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
+                        <li><a href="/" class="nav-link" data-translate="nav-home">Ana Sayfa</a></li>
+                        <li><a href="/#about" class="nav-link" data-translate="nav-about">Hakkımda</a></li>
+                        <li><a href="/#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
+                        <li><a href="/#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
+                        <li><a href="/blog" class="nav-link active" data-translate="nav-blog">Blog</a></li>
+                        <li><a href="/#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
                     </ul>
                     
                     <div class="nav-divider"></div>
@@ -167,7 +167,7 @@
 
                 <!-- 0. EDITORIAL TOP ACTION BAR -->
                 <div class="article-editorial-action-bar">
-                    <a href="../blog.html" class="article-back-link font-mono" id="article-back-btn">
+                    <a href="/blog" class="article-back-link font-mono" id="article-back-btn">
                         <span class="back-arrow">←</span>
                         <span data-translate="article-back">Yazılara Dön</span>
                     </a>
@@ -387,9 +387,9 @@
     </button>
 
     <!-- SCRIPTLER -->
-    <script src="../translations.js?v=2.13.8" defer></script>
-    <script src="../posts-data.js?v=2.13.8" defer></script>
-    <script src="../site-shell.js?v=2.13.8" defer></script>
-    <script src="../article.js?v=2.13.8" defer></script>
+    <script src="../translations.js?v=2.14.0" defer></script>
+    <script src="../posts-data.js?v=2.14.0" defer></script>
+    <script src="../site-shell.js?v=2.14.0" defer></script>
+    <script src="../article.js?v=2.14.0" defer></script>
 </body>
 </html>

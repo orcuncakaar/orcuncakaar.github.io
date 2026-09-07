@@ -10,7 +10,7 @@
 
   <!-- Blog / Araştırma Notları Listesi -->
   <url>
-    <loc>https://orcuncakar.com/blog.html</loc>
+    <loc>https://orcuncakar.com/blog</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -18,25 +18,25 @@
 
   <!-- Makaleler (canonical adresler) -->
   <url>
-    <loc>https://orcuncakar.com/post/r-data-analysis.html</loc>
+    <loc>https://orcuncakar.com/post/r-data-analysis</loc>
     <lastmod>2026-05-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://orcuncakar.com/post/ai-journey.html</loc>
+    <loc>https://orcuncakar.com/post/ai-journey</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://orcuncakar.com/post/sql-importance.html</loc>
+    <loc>https://orcuncakar.com/post/sql-importance</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://orcuncakar.com/post/hantavirus-analysis.html</loc>
+    <loc>https://orcuncakar.com/post/hantavirus-analysis</loc>
     <lastmod>2026-05-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

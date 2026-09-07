@@ -72,12 +72,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.13.8">
+    <link rel="stylesheet" href="style.css?v=2.14.0">
     <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
          media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
          simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
-    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.13.8'; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.13.8"></noscript>
+    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.14.0'; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=2.14.0"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -103,7 +103,7 @@
                         <li><a href="#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
                         <li><a href="#playground" class="nav-link" data-translate="nav-playground">Laboratuvar</a></li>
                         <li><a href="#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
-                        <li><a href="blog.html" class="nav-link" data-translate="nav-blog">Blog</a></li>
+                        <li><a href="/blog" class="nav-link" data-translate="nav-blog">Blog</a></li>
                         <li><a href="#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
                     </ul>
                     
@@ -456,7 +456,7 @@
                             <span class="project-tag">Pandas</span>
                         </div>
                         <div class="project-links">
-                            <a href="post/hantavirus-analysis.html" class="project-link project-link-primary">
+                            <a href="/post/hantavirus-analysis" class="project-link project-link-primary">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                                 <span data-translate="proj-btn-case-study">Case Study / Rapor</span>
                                 <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1219,8 +1219,8 @@
     </footer>
     </div>
 
-    <script src="translations.js?v=2.13.8" defer></script>
-    <script src="site-shell.js?v=2.13.8" defer></script>
+    <script src="translations.js?v=2.14.0" defer></script>
+    <script src="site-shell.js?v=2.14.0" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1229,10 +1229,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.13.8';
+            s.src = 'fluid-simulation.js?v=2.14.0';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.13.8" defer></script>
+    <script src="script.js?v=2.14.0" defer></script>
 </body>
 </html>

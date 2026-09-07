@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         navLinks.forEach(l => {
-            if (!l.getAttribute('href').includes('blog.html')) {
+            if (!l.getAttribute('href').includes('/blog')) {
                 l.classList.remove('active');
             }
         });
@@ -2283,16 +2283,16 @@ document.addEventListener('DOMContentLoaded', () => {
             nanoBar.style.width = '0%';
         }, 220);
 
-        // Sayfa adını alma yardımcısı
+        // Sayfa kimligi: uzantisiz, normalize edilmis yol.
+        // /blog ile /blog.html, /post/x ile /post/x.html ayni sayfa sayilir.
         function getPageName(urlStr) {
             try {
                 const url = new URL(urlStr, window.location.origin);
-                let path = url.pathname;
-                let page = path.substring(path.lastIndexOf('/') + 1);
-                if (page === '' || page === '/') {
-                    page = 'index.html';
-                }
-                return page;
+                const path = url.pathname
+                    .replace(/\.html?$/i, '')
+                    .replace(/\/index$/i, '')
+                    .replace(/\/$/, '');
+                return path || '/';
             } catch (e) {
                 return '';
             }
@@ -2368,7 +2368,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 1. Navbar Active Indicator'ı hedef sekmeye anında kaydır
             if (typeof updateSlidingPill === 'function') {
-                const targetNavLink = document.querySelector(`.nav-links a[href*="${targetPg}"]`) || link;
+                const targetNavLink = document.querySelector(`.nav-links a[href="${targetPg}"]`)
+                    || document.querySelector(`.nav-links a[href^="${targetPg}#"]`)
+                    || link;
                 if (targetNavLink) {
                     document.querySelectorAll('.nav-links .nav-link').forEach(l => l.classList.remove('active'));
                     targetNavLink.classList.add('active');

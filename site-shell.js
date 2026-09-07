@@ -2,7 +2,7 @@
  * site-shell.js
  * Orçun Çakar — Ortak Arayüz & Kabuk Motoru (Core UI Shell)
  * 
- * Bu dosya tüm sayfalarda (index.html, blog.html, article.html) ortak olan:
+ * Bu dosya tüm sayfalarda (ana sayfa, /blog, yazı sayfaları) ortak olan:
  * 1. Tema Yönetimi (Dark / Light Mode)
  * 2. Dil ve Çeviri Yönetimi (TR / EN & Data-Translate)
  * 3. Scroll-To-Top ve Dinamik Telif Yılı
@@ -11,6 +11,23 @@
 
 (function () {
     'use strict';
+
+    // Eski .html adresleri (yer imi, arama sonucu, paylasilmis link) hala
+    // calisiyor; adres cubugunda temiz halini gostermek icin yolu duzeltiyoruz.
+    // Sunucu GitHub Pages'te zaten /blog -> blog.html eslemesini yapiyor,
+    // bu yalnizca gorunum duzeltmesi: replaceState sayfayi yeniden yuklemez.
+    (function normalizeCleanUrl() {
+        try {
+            if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+            const p = location.pathname;
+            let clean = null;
+            if (/\/index\.html$/i.test(p)) clean = p.replace(/index\.html$/i, '');
+            else if (/\.html$/i.test(p)) clean = p.replace(/\.html$/i, '');
+            if (clean && clean !== p) {
+                history.replaceState(history.state, '', clean + location.search + location.hash);
+            }
+        } catch (e) {}
+    })();
 
     const SiteShell = {
         currentLang: 'tr',

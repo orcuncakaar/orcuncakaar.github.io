@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof renderTagsFilter === 'function') renderTagsFilter();
         if (typeof renderBlogPosts === 'function') renderBlogPosts();
         setTimeout(() => {
-            const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+            const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
             if (activeLink && typeof updateSlidingPill === 'function') updateSlidingPill(activeLink);
         }, 80);
     });
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 featuredContainer.innerHTML = `
                     <div class="featured-bento-grid">
                         <!-- TILE 1: MAIN HERO ARTICLE -->
-                        <a href="post/${featuredPost.id}.html" class="bento-tile bento-tile-main" aria-label="${featuredPost.title}">
+                        <a href="/post/${featuredPost.id}" class="bento-tile bento-tile-main" aria-label="${featuredPost.title}">
                             <div class="bento-main-top">
                                 <div class="bento-top-row font-mono">
                                     <span class="featured-label-badge">${featuredLabelText}</span>
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </a>
 
                         <!-- TILE 2: DATA LAB VISUALIZATION -->
-                        <a href="post/${featuredPost.id}.html" class="bento-tile bento-tile-visual" aria-label="${featuredPost.title} - Data Lab">
+                        <a href="/post/${featuredPost.id}" class="bento-tile bento-tile-visual" aria-label="${featuredPost.title} - Data Lab">
                             <div class="bento-tile-header font-mono">
                                 <span class="bento-visual-title">${currentLang === 'tr' ? 'DATA LAB · MODEL ÇIKTISI' : 'DATA LAB · MODEL RESULTS'}</span>
                                 <span class="bento-status-badge font-mono">CASE STUDY</span>
@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </a>
 
                         <!-- TILE 3: KEY EMPIRICAL FINDINGS -->
-                        <a href="post/${featuredPost.id}.html" class="bento-tile bento-tile-stat" aria-label="${featuredPost.title} - Model Metrikleri">
+                        <a href="/post/${featuredPost.id}" class="bento-tile bento-tile-stat" aria-label="${featuredPost.title} - Model Metrikleri">
                             <div class="bento-stat-item">
                                 <div class="bento-stat-val font-mono">0.0706</div>
                                 <div class="bento-stat-label">${currentLang === 'tr' ? 'Random Forest Hata Skoru (MSE)' : 'Random Forest Model Error (MSE)'}</div>
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const item = document.createElement('a');
             item.className = 'journal-article-item';
-            item.href = `post/${post.id}.html`;
+            item.href = `/post/${post.id}`;
             item.setAttribute('aria-label', post.title);
             item.innerHTML = `
                 <div class="article-num font-mono">${num}</div>
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- MAKALE SAYFASINA YÖNLENDİRME (FULL-PAGE RESEARCH NOTE ROUTE) ---
     function openArticleReader(post) {
         if (!post || !post.id) return;
-        window.location.href = `post/${post.id}.html`;
+        window.location.href = `/post/${post.id}`;
     }
 
     // Tüm blog render ve filtre fonksiyonları hazır olduğunda başlat
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (navbarLinks) {
         navbarLinks.addEventListener('mouseleave', () => {
-            const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+            const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
             if (activeLink) {
                 updateSlidingPill(activeLink);
             }
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('resize', () => {
-        const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+        const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
         if (activeLink) {
             updateSlidingPill(activeLink);
         }
@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentScroll <= 140) {
             if (navbarPill.classList.contains('is-compact')) {
                 navbarPill.classList.remove('is-compact');
-                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
                 if (active) updateSlidingPill(active);
             }
             lastScrollPos = currentScroll;
@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (currentScroll < lastScrollPos - 25) {
             if (navbarPill.classList.contains('is-compact')) {
                 navbarPill.classList.remove('is-compact');
-                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
                 if (active) updateSlidingPill(active);
             }
         }
@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const expandMenu = () => {
             if (navbarPill && navbarPill.classList.contains('is-compact')) {
                 navbarPill.classList.remove('is-compact');
-                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
                 if (active) updateSlidingPill(active, true);
             }
         };
@@ -514,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navbarPill) {
         navbarPill.addEventListener('mouseenter', () => {
             if (navbarPill.classList.contains('is-compact')) {
-                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+                const active = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
                 if (active) updateSlidingPill(active, true);
             }
         });
@@ -528,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sayfa açılışında blog aktif sekmesini konumlandır
     setTimeout(() => {
-        const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+        const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
         if (activeLink) {
             updateSlidingPill(activeLink, true);
         }
@@ -591,7 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         setTimeout(() => {
-            const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="blog.html"]');
+            const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
             if (activeLink) {
                 updateSlidingPill(activeLink, true);
             }
@@ -803,11 +803,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- ESKİ LİNKLER İÇİN GERİYE DÖNÜK YÖNLENDİRME (blog.html?post=... -> post/<slug>.html) ---
+    // --- ESKİ LİNKLER İÇİN GERİYE DÖNÜK YÖNLENDİRME (/blog?post=... -> /post/<slug>) ---
     const urlParams = new URLSearchParams(window.location.search);
     const legacyPostId = urlParams.get('post') || urlParams.get('id');
     if (legacyPostId) {
-        window.location.replace(`post/${legacyPostId}.html`);
+        window.location.replace(`/post/${legacyPostId}`);
     }
 
     // --- ULTRA-SNAPPY NATIVE PAGE TRANSITIONS ---
@@ -830,16 +830,16 @@ document.addEventListener('DOMContentLoaded', () => {
             nanoBar.style.width = '0%';
         }, 220);
 
-        // Sayfa adını alma yardımcısı
+        // Sayfa kimligi: uzantisiz, normalize edilmis yol.
+        // /blog ile /blog.html, /post/x ile /post/x.html ayni sayfa sayilir.
         function getPageName(urlStr) {
             try {
                 const url = new URL(urlStr, window.location.origin);
-                let path = url.pathname;
-                let page = path.substring(path.lastIndexOf('/') + 1);
-                if (page === '' || page === '/') {
-                    page = 'index.html';
-                }
-                return page;
+                const path = url.pathname
+                    .replace(/\.html?$/i, '')
+                    .replace(/\/index$/i, '')
+                    .replace(/\/$/, '');
+                return path || '/';
             } catch (e) {
                 return '';
             }
@@ -915,7 +915,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 1. Navbar Active Indicator'ı hedef sekmeye anında kaydır
             if (typeof updateSlidingPill === 'function') {
-                const targetNavLink = document.querySelector(`.nav-links a[href*="${targetPg}"]`) || link;
+                const targetNavLink = document.querySelector(`.nav-links a[href="${targetPg}"]`)
+                    || document.querySelector(`.nav-links a[href^="${targetPg}#"]`)
+                    || link;
                 if (targetNavLink) {
                     document.querySelectorAll('.nav-links .nav-link').forEach(l => l.classList.remove('active'));
                     targetNavLink.classList.add('active');
