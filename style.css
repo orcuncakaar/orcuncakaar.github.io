@@ -2368,11 +2368,20 @@ ul {
     z-index: 2;
 }
 
+/* Rozet artik kurum logosunu tasiyor. Logolar farkli zeminler icin uretilmis:
+   Stanford ve VBO beyaz zeminli, Academy Club siyah cizimli seffaf, Google ve
+   Pierian renkli seffaf. Tek bir zeminde hepsinin okunmasi icin rozet sabit
+   beyaz; logolarin kendisine dokunulmuyor (renk/oran degistirmek marka
+   kurallarina aykiri olurdu). Genislik esnek, cunku Academy Club bir kelime
+   markasi (6:1) digerleri kare. */
 .certificate-badge {
-    width: 46px;
     height: 46px;
+    min-width: 46px;
+    max-width: 132px;
+    padding: 0 10px;
+    flex: 0 0 auto;
     border-radius: var(--radius-sm);
-    background: rgba(var(--primary-rgb), 0.08);
+    background: #ffffff;
     border: 1px solid rgba(var(--primary-rgb), 0.15);
     display: flex;
     justify-content: center;
@@ -2380,17 +2389,19 @@ ul {
     transition: all var(--transition-normal);
 }
 
+/* Logoyu dondurmuyoruz: olcek buyutmek serbest ama markayi egmek degil. */
 .certificate-card:hover .certificate-badge {
-    transform: scale(1.05) rotate(3deg);
+    transform: scale(1.05);
     border-color: rgba(var(--primary-rgb), 0.3);
-    background: rgba(var(--primary-rgb), 0.15);
 }
 
-.certificate-badge svg {
-    width: 22px;
-    height: 22px;
-    fill: var(--primary);
-    transition: fill var(--transition-normal);
+.certificate-badge img {
+    max-height: 30px;
+    max-width: 112px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
 }
 
 .certificate-card:hover .certificate-badge svg {
