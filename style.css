@@ -3044,3 +3044,66 @@ textarea.form-control {
         background: var(--fluid-static-bg);
     }
 }
+
+/* ===================================================================
+   MOBİLDE KART YÜZEYİ: BULANIKLIK YERİNE PİŞİRİLMİŞ YÜZEY
+   -------------------------------------------------------------------
+   Ölçüm: 375x812 ekranda boyanan backdrop-filter alanının %96'sı
+   kartlara ait (tek başına hero kartı 199.909 px², ekranın %66'sı),
+   navbar yalnızca %3,4. Bulanıklaştırma maliyeti alanla ölçeklendiği
+   için kartları düz yüzeye çevirmek maliyetin neredeyse tamamını alıyor.
+
+   Navbar (.navbar-pill-wrapper, .nav-links, .navbar-percent-pill,
+   .compact-current-section) BİLEREK dokunulmadan bırakıldı: cam hissini
+   taşıyan asıl öğe o ve alanı küçük olduğu için maliyeti önemsiz.
+
+   Masaüstünde hiçbir şey değişmiyor; orada PSI zaten 99.
+   =================================================================== */
+@media (max-width: 900px) {
+    :root {
+        --card-baked: #0c101c;
+        --card-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%);
+        --card-wash-1: rgba(139, 92, 246, 0.14);
+        --card-wash-2: rgba(16, 185, 129, 0.10);
+    }
+
+    .light-theme {
+        --card-baked: #fcfdfe;
+        --card-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.40) 100%);
+        --card-wash-1: rgba(109, 40, 217, 0.07);
+        --card-wash-2: rgba(5, 150, 105, 0.06);
+    }
+
+    /* Bu ögeler kartların İÇİNDE duruyor. Arkalarındaki yüzey artık düz bir
+       renk ve düz rengi bulanıklaştırmak aynı rengi veriyor; dolayısıyla
+       filtreyi kaldırmak görünümü değiştirmiyor, yalnızca maliyeti düşürüyor. */
+    .hero-status-pill,
+    .btn-outline,
+    .btn-secondary,
+    .social-bento-btn,
+    .project-link {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    /* Kartların kendisi: saydam yüzey + bulanıklık yerine pişirilmiş yüzey.
+       Renk, mevcut camın düz arka plan üstündeki bileşimi alınarak seçildi. */
+    .glass-card,
+    .light-theme .glass-card {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--card-sheen), var(--card-baked);
+    }
+
+    /* Hero kartlarının arkasında sabit gradyan var (akışkan simülasyon
+       mobilde zaten kapalı). Camın oradaki görüntüsü karta gradyan olarak
+       yazılıyor; alfa değerleri kartın geçirgenliğinden türetildi. */
+    .bento-hero-tile.glass-card,
+    .light-theme .bento-hero-tile.glass-card {
+        background:
+            var(--card-sheen),
+            radial-gradient(70% 60% at 18% 22%, var(--card-wash-1), transparent 72%),
+            radial-gradient(60% 60% at 85% 78%, var(--card-wash-2), transparent 72%),
+            var(--card-baked);
+    }
+}
