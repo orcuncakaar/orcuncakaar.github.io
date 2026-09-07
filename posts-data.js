@@ -1,7 +1,7 @@
 /**
  * posts-data.js
  * Makale ve Araştırma Notları Veritabanı
- * Yalnızca blog.html ve article.html sayfalarında yüklenerek ana sayfa hızını maksimumda tutar.
+ * Yalnızca /blog ve yazı sayfalarında yüklenerek ana sayfa hızını maksimumda tutar.
  */
 
 window.blogPostsData = {

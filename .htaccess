@@ -49,6 +49,14 @@
 
     # Archive klasörüne erişimi 403 Forbidden ile engelle
     RewriteRule ^archive(/.*)?$ - [F,L,NC]
+
+    # Uzantısız temiz adresler (/blog -> blog.html, /post/x -> post/x.html).
+    # GitHub Pages bunu kendiliğinden yapıyor; bu kural yalnızca Apache'ye
+    # taşınırsa linklerin kırılmaması için burada.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.+)$ $1.html [L]
 </IfModule>
 
 # -------------------------------------------------------------------------

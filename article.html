@@ -24,7 +24,7 @@
                 if (/\/post\//.test(location.pathname)) return;
                 var id = new URLSearchParams(location.search).get('id');
                 if (id && /^[A-Za-z0-9_-]+$/.test(id)) {
-                    location.replace('post/' + id + '.html' + location.hash);
+                    location.replace('/post/' + id + location.hash);
                 }
             } catch (e) {}
         })();
@@ -34,13 +34,13 @@
     <meta name="description" id="meta-description" content="Veri Bilimi, İstatistik, Makine Öğrenmesi ve Yapay Zekâ üzerine teknik araştırma notları ve analitik yayınlar.">
     <meta name="keywords" id="meta-keywords" content="Veri Bilimi, İstatistik, Makine Öğrenmesi, Araştırma Notu, Orçun Çakar">
     <meta name="author" content="Orçun Çakar">
-    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/article.html">
+    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/blog">
 
     <!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp) -->
     <meta property="og:title" id="og-title" content="Araştırma Notu | Orçun Çakar">
     <meta property="og:description" id="og-description" content="Veri Bilimi, İstatistik ve Makine Öğrenmesi üzerine teknik araştırma notları.">
     <meta property="og:type" content="article">
-    <meta property="og:url" id="og-url" content="https://orcuncakar.com/article.html">
+    <meta property="og:url" id="og-url" content="https://orcuncakar.com/blog">
     <meta property="og:image" id="og-image" content="https://orcuncakar.com/images/hanta_plot_9.png">
     <meta property="og:site_name" content="Orçun Çakar">
 
@@ -81,8 +81,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.13.8">
-    <link rel="stylesheet" href="article.css?v=2.13.8">
+    <link rel="stylesheet" href="style.css?v=2.14.0">
+    <link rel="stylesheet" href="article.css?v=2.14.0">
 </head>
 <body class="article-reading-body">
     <a class="skip-link" href="#article-main" data-translate="skip-link">İçeriğe atla</a>
@@ -96,7 +96,7 @@
             <div class="navbar-pill-wrapper" id="navbar-pill-wrapper">
                 <!-- Dynamic Island Mini Kapsül Görünümü -->
                 <div class="navbar-compact-view" id="navbar-compact-view">
-                    <a href="index.html#home" class="compact-brand">Orçun</a>
+                    <a href="/" class="compact-brand">Orçun</a>
                     <div class="nav-divider"></div>
                     <div class="compact-current-section" id="compact-section-label">
                         <span class="compact-text" data-translate="nav-blog">Blog</span>
@@ -107,12 +107,12 @@
                 <div class="navbar-full-view" id="navbar-full-view">
                     <ul class="nav-links" id="navbar-links">
                         <li class="nav-indicator-pill" id="nav-indicator-pill" aria-hidden="true"></li>
-                        <li><a href="index.html#home" class="nav-link" data-translate="nav-home">Ana Sayfa</a></li>
-                        <li><a href="index.html#about" class="nav-link" data-translate="nav-about">Hakkımda</a></li>
-                        <li><a href="index.html#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
-                        <li><a href="index.html#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
-                        <li><a href="blog.html" class="nav-link active" data-translate="nav-blog">Blog</a></li>
-                        <li><a href="index.html#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
+                        <li><a href="/" class="nav-link" data-translate="nav-home">Ana Sayfa</a></li>
+                        <li><a href="/#about" class="nav-link" data-translate="nav-about">Hakkımda</a></li>
+                        <li><a href="/#projects" class="nav-link" data-translate="nav-projects">Projeler</a></li>
+                        <li><a href="/#timeline" class="nav-link" data-translate="nav-timeline">Deneyim</a></li>
+                        <li><a href="/blog" class="nav-link active" data-translate="nav-blog">Blog</a></li>
+                        <li><a href="/#contact" class="nav-link" data-translate="nav-contact">İletişim</a></li>
                     </ul>
                     
                     <div class="nav-divider"></div>
@@ -159,7 +159,7 @@
 
                 <!-- 0. EDITORIAL TOP ACTION BAR -->
                 <div class="article-editorial-action-bar">
-                    <a href="blog.html" class="article-back-link font-mono" id="article-back-btn">
+                    <a href="/blog" class="article-back-link font-mono" id="article-back-btn">
                         <span class="back-arrow">←</span>
                         <span data-translate="article-back">Yazılara Dön</span>
                     </a>
@@ -379,9 +379,9 @@
     </button>
 
     <!-- SCRIPTLER -->
-    <script src="translations.js?v=2.13.8" defer></script>
-    <script src="posts-data.js?v=2.13.8" defer></script>
-    <script src="site-shell.js?v=2.13.8" defer></script>
-    <script src="article.js?v=2.13.8" defer></script>
+    <script src="translations.js?v=2.14.0" defer></script>
+    <script src="posts-data.js?v=2.14.0" defer></script>
+    <script src="site-shell.js?v=2.14.0" defer></script>
+    <script src="article.js?v=2.14.0" defer></script>
 </body>
 </html>

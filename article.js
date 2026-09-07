@@ -61,14 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // URL'den Post ID Alma
     const urlParams = new URLSearchParams(window.location.search);
-    // post/<slug>.html statik sayfalarinda ?id= yok; yazi kimligi yoldan turetilir.
-    const pathPostId = (/\/post\/([A-Za-z0-9_-]+)\.html?$/.exec(window.location.pathname) || [])[1];
+    // /post/<slug> statik sayfalarinda ?id= yok; yazi kimligi yoldan turetilir.
+    const pathPostId = (/\/post\/([A-Za-z0-9_-]+)(?:\.html?)?$/.exec(window.location.pathname) || [])[1];
     let currentPostId = urlParams.get('id') || pathPostId || 'hantavirus-analysis';
 
-    // Canonical adres artik post/<slug>.html. Bagli linkler sayfanin bulundugu
-    // dizine gore uretilir: post/ icindeyken kardes, kokteyken alt dizin.
-    const inPostDir = /\/post\//.test(window.location.pathname);
-    const postHref = (id) => (inPostDir ? '' : 'post/') + id + '.html';
+    // Canonical adres artik uzantisiz /post/<slug>. Kokten mutlak yol veriyoruz;
+    // boylece hem kokteki hem /post/ icindeki sayfalardan ayni link calisiyor.
+    const postHref = (id) => '/post/' + id;
 
     // 3. YAPILANDIRILMIŞ HIZLI ÖZET & AKADEMİK KAYNAK VERİTABANI
     const articleSynthesisDB = {
@@ -267,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (articleHeadTitle) articleHeadTitle.textContent = pageTitleText;
 
         const description = post.summary || 'Veri Bilimi, İstatistik ve Makine Öğrenmesi üzerine teknik araştırma notu.';
-        const currentUrl = `https://orcuncakar.com/post/${post.id}.html`;
+        const currentUrl = `https://orcuncakar.com/post/${post.id}`;
         const keywords = (post.tags || []).join(', ') + ', Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar';
 
         // 1. Meta Description & Keywords & Canonical
@@ -444,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Yazi govdesi posts-data.js'te "images/..." gibi goreli yollar tasiyor.
-            // /post/<slug>.html adresinde bu yol /post/images/... olarak cozuluyor ve
+            // /post/<slug> adresinde bu yol /post/images/... olarak cozuluyor ve
             // gorseller 404 veriyor; sayfa bir alt dizindeyse yollari bir ust dizine tasi.
             if (location.pathname.includes('/post/')) {
                 enrichedHtml = enrichedHtml.replace(
@@ -972,7 +971,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Paylaşılacak temiz URL
             let shareUrl = window.location.href;
             if (!window.location.protocol.startsWith('http')) {
-                shareUrl = `https://orcuncakar.com/post/${currentPostId}.html`;
+                shareUrl = `https://orcuncakar.com/post/${currentPostId}`;
             }
 
             const pageTitle = document.title || 'Araştırma Notu | Orçun Çakar';
@@ -1099,8 +1098,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // post/<slug>.html sayfalarinda link '../blog.html' oldugu icin once .active aranir.
-    const blogNavLink = document.querySelector('.navbar .nav-link.active') || document.querySelector('.navbar .nav-link[href$="blog.html"]');
+    // Link artik her sayfada kokten mutlak ('/blog'); yine de once .active aranir.
+    const blogNavLink = document.querySelector('.navbar .nav-link.active') || document.querySelector('.navbar .nav-link[href="/blog"]');
     if (blogNavLink) {
         setTimeout(() => updateSlidingPill(blogNavLink, true), 60);
     }

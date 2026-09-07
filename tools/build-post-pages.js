@@ -68,10 +68,11 @@ const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
 // --- 5. Şablon --------------------------------------------------------------
 const template = r('article.html');
 
-// Göreli varlık yollarını bir üst dizine taşı (post/ alt klasöründe çalışacak)
+// Göreli varlık yollarını bir üst dizine taşı (post/ alt klasöründe çalışacak).
+// Sayfa linkleri ("/", "/blog", "/post/...") kökten mutlak; onlara dokunma.
 function rebase(html) {
     return html.replace(
-        /(\shref|\ssrc)="(?!https?:|\/\/|#|data:|mailto:|tel:|\.\.\/)([^"]+)"/g,
+        /(\shref|\ssrc)="(?!https?:|\/|#|data:|mailto:|tel:|\.\.\/)([^"]+)"/g,
         (_, attr, url) => attr + '="../' + url + '"'
     );
 }
@@ -93,7 +94,7 @@ const built = [];
 
 for (const post of posts) {
     const synthesis = extractSynthesis(post.id);
-    const url = SITE + '/post/' + post.id + '.html';
+    const url = SITE + '/post/' + post.id;
     const pageTitle = post.title + ' | Orçun Çakar';
     const description = post.summary;
     const keywords = (post.tags || []).join(', ') +
@@ -166,7 +167,7 @@ for (const post of posts) {
 // --- 7. sitemap.xml ---------------------------------------------------------
 const today = '2026-09-01';
 const urls = built.map((b) => '  <url>\n' +
-    '    <loc>' + SITE + '/post/' + b.id + '.html</loc>\n' +
+    '    <loc>' + SITE + '/post/' + b.id + '</loc>\n' +
     '    <lastmod>' + b.published + '</lastmod>\n' +
     '    <changefreq>monthly</changefreq>\n' +
     '    <priority>0.8</priority>\n' +
@@ -178,7 +179,7 @@ const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '  <url>\n    <loc>' + SITE + '/</loc>\n    <lastmod>' + today + '</lastmod>\n' +
     '    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>\n\n' +
     '  <!-- Blog / Araştırma Notları Listesi -->\n' +
-    '  <url>\n    <loc>' + SITE + '/blog.html</loc>\n    <lastmod>' + today + '</lastmod>\n' +
+    '  <url>\n    <loc>' + SITE + '/blog</loc>\n    <lastmod>' + today + '</lastmod>\n' +
     '    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n\n' +
     '  <!-- Makaleler (canonical adresler) -->\n' +
     urls + '\n</urlset>\n';
