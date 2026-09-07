@@ -29,6 +29,40 @@
         return;
     }
 
+    // Masaustunde de WebGL yazilimla cizilebiliyor: surucusu olmayan makineler,
+    // uzak masaustu oturumlari, sanal sunucular ve olcum ortamlari. Orada ayni
+    // dongu ana is parcacigini kilitliyor -- PageSpeed'in GPU'suz sunucusunda
+    // TBT 9,3 sn olculdu, gercek GPU'lu tarayicida ayni sayfada 9 saniye boyunca
+    // tek bir uzun gorev bile cikmiyor. Yani maliyet kodun agirligi degil,
+    // yazilim cizici. Surucu adi yazilim cizici diyorsa telefondakiyle ayni
+    // sabit gradyana dusuyoruz; ekran karti olan ziyaretcide hicbir sey degismez.
+    function yazilimlaCiziliyor() {
+        try {
+            const deneme = document.createElement('canvas');
+            const gl = deneme.getContext('webgl') || deneme.getContext('experimental-webgl');
+            if (!gl) return true; // WebGL hic yoksa simulasyon zaten calismaz
+
+            const bilgi = gl.getExtension('WEBGL_debug_renderer_info');
+            const adlar = [];
+            if (bilgi) adlar.push(gl.getParameter(bilgi.UNMASKED_RENDERER_WEBGL));
+            adlar.push(gl.getParameter(gl.RENDERER));
+
+            const kaybet = gl.getExtension('WEBGL_lose_context');
+            if (kaybet) kaybet.loseContext();
+
+            const ad = adlar.filter(Boolean).join(' ');
+            if (!ad) return false; // Ad gizlenmisse mevcut davranisi bozma
+            return /swiftshader|llvmpipe|softpipe|software|basic render|mesa offscreen/i.test(ad);
+        } catch (e) {
+            return false; // Tespit edemedik: eskisi gibi calis
+        }
+    }
+
+    if (yazilimlaCiziliyor()) {
+        canvas.classList.add('fluid-static');
+        return;
+    }
+
     // Simulation Configuration (Organic Wet Watercolor Diffusion)
     const config = {
         SIM_RESOLUTION: 128,
