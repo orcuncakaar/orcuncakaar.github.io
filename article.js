@@ -320,6 +320,18 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(schemaScript);
         }
 
+        // Yayin tarihi sabit yazilmisti: JS calistiran tarayici/botlar butun
+        // yazilarda ayni tarihi goruyordu. Yazinin kendi tarihinden turetiyoruz.
+        const AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+        const isoTarih = (trTarih) => {
+            const m = /^(\d{1,2})\s+(\S+)\s+(\d{4})$/.exec(String(trTarih || '').trim());
+            if (!m) return null;
+            const ay = AYLAR.indexOf(m[2]);
+            if (ay < 0) return null;
+            return m[3] + '-' + String(ay + 1).padStart(2, '0') + '-' + m[1].padStart(2, '0');
+        };
+
         const structuredData = {
             "@context": "https://schema.org",
             "@type": "TechArticle",
@@ -330,10 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
             "author": {
                 "@type": "Person",
                 "name": "Orçun Çakar",
-                "jobTitle": "Data Science & Machine Learning Specialist",
+                "jobTitle": "Statistics Student",
                 "url": "https://orcuncakar.com"
             },
-            "datePublished": "2026-02-10",
+            "datePublished": isoTarih(post.date) || undefined,
             "keywords": keywords,
             "mainEntityOfPage": {
                 "@type": "WebPage",
