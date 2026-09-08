@@ -72,12 +72,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.14.5">
+    <link rel="stylesheet" href="style.css?v=2.14.6">
     <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
          media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
          simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
-    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.14.5'; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.14.5"></noscript>
+    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.14.6'; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=2.14.6"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -993,16 +993,21 @@
                         </div>
                         <span class="certificate-issuer">Stanford Online</span>
                     </div>
-                    <h3 class="certificate-title">Introduction to Statistics</h3>
+                    <h3 class="certificate-title" id="cert-title-1">Introduction to Statistics</h3>
                     <p class="certificate-desc" data-translate="cert1-desc">
                         İstatistiksel düşünme, veri analizi, olasılık teorisi, örneklem yöntemleri, güven aralıkları ve hipotez testleri üzerine akademik düzeyde kapsamlı eğitim.
                     </p>
-                    <div class="certificate-verify">
-                        <svg viewBox="0 0 24 24">
+                    <a class="certificate-verify certificate-verify-link" href="https://coursera.org/verify/9YOT2TXD16PO"
+                       target="_blank" rel="noopener noreferrer"
+                       aria-labelledby="cert-verify-1 cert-title-1">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
-                    </div>
+                        <span id="cert-verify-1" data-translate="cert-verify-link">Sertifikayı Doğrula</span>
+                        <svg class="certificate-verify-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M14 3h7v7h-2V6.41l-9.3 9.3-1.41-1.42 9.29-9.29H14V3zM5 5h5v2H7v10h10v-3h2v5H5V5z"/>
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="certificate-card glass-card reveal">
@@ -1033,16 +1038,21 @@
                         </div>
                         <span class="certificate-issuer">Academy Club</span>
                     </div>
-                    <h3 class="certificate-title">Python 100 Day Bootcamp</h3>
+                    <h3 class="certificate-title" id="cert-title-3">Python 100 Day Bootcamp</h3>
                     <p class="certificate-desc" data-translate="cert3-desc">
                         Python ile nesne yönelimli programlama (OOP), veri yapıları, karmaşık algoritmalar, hata yönetimi, otomasyonlar ve gerçek dünya uygulamaları geliştirme üzerine yoğunlaştırılmış program.
                     </p>
-                    <div class="certificate-verify">
-                        <svg viewBox="0 0 24 24">
+                    <a class="certificate-verify certificate-verify-link" href="https://www.udemy.com/certificate/UC-01e20d3d-0b8b-4dce-92ff-4e6c36d94a7b/"
+                       target="_blank" rel="noopener noreferrer"
+                       aria-labelledby="cert-verify-3 cert-title-3">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
-                    </div>
+                        <span id="cert-verify-3" data-translate="cert-verify-link">Sertifikayı Doğrula</span>
+                        <svg class="certificate-verify-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M14 3h7v7h-2V6.41l-9.3 9.3-1.41-1.42 9.29-9.29H14V3zM5 5h5v2H7v10h10v-3h2v5H5V5z"/>
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="certificate-card glass-card reveal">
@@ -1053,16 +1063,21 @@
                         </div>
                         <span class="certificate-issuer">Veri Bilimi Okulu</span>
                     </div>
-                    <h3 class="certificate-title">Python A-Z™: Veri Bilimi ve ML</h3>
+                    <h3 class="certificate-title" id="cert-title-4">Python A-Z™: Veri Bilimi ve ML</h3>
                     <p class="certificate-desc" data-translate="cert4-desc">
                         Sıfırdan ileri düzeye makine öğrenmesi algoritmaları (regresyon, sınıflandırma, kümeleme), veri ön işleme, özellik mühendisliği (feature engineering) ve istatistiksel modelleme eğitim kampı.
                     </p>
-                    <div class="certificate-verify">
-                        <svg viewBox="0 0 24 24">
+                    <a class="certificate-verify certificate-verify-link" href="https://www.udemy.com/certificate/UC-e53450be-bd20-4f14-8d48-8fcfb1070a61/"
+                       target="_blank" rel="noopener noreferrer"
+                       aria-labelledby="cert-verify-4 cert-title-4">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
-                    </div>
+                        <span id="cert-verify-4" data-translate="cert-verify-link">Sertifikayı Doğrula</span>
+                        <svg class="certificate-verify-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M14 3h7v7h-2V6.41l-9.3 9.3-1.41-1.42 9.29-9.29H14V3zM5 5h5v2H7v10h10v-3h2v5H5V5z"/>
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="certificate-card glass-card reveal">
@@ -1073,16 +1088,21 @@
                         </div>
                         <span class="certificate-issuer">Pierian Data (Udemy)</span>
                     </div>
-                    <h3 class="certificate-title">The Complete SQL Bootcamp</h3>
+                    <h3 class="certificate-title" id="cert-title-5">The Complete SQL Bootcamp</h3>
                     <p class="certificate-desc" data-translate="cert5-desc">
                         PostgreSQL ile ilişkisel veritabanı sorgulama dilleri, karmaşık tablolarda join operasyonları, veri gruplama ve filtreleme, alt sorgular (subqueries) ve veritabanı şeması tasarlama yetkinliği.
                     </p>
-                    <div class="certificate-verify">
-                        <svg viewBox="0 0 24 24">
+                    <a class="certificate-verify certificate-verify-link" href="https://www.udemy.com/certificate/UC-b68b2b79-70c0-4749-ac2d-bc6d68d71e4d/"
+                       target="_blank" rel="noopener noreferrer"
+                       aria-labelledby="cert-verify-5 cert-title-5">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        <span data-translate="cert-verify">Doğrulanmış Başarı</span>
-                    </div>
+                        <span id="cert-verify-5" data-translate="cert-verify-link">Sertifikayı Doğrula</span>
+                        <svg class="certificate-verify-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M14 3h7v7h-2V6.41l-9.3 9.3-1.41-1.42 9.29-9.29H14V3zM5 5h5v2H7v10h10v-3h2v5H5V5z"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1200,8 +1220,8 @@
     </footer>
     </div>
 
-    <script src="translations.js?v=2.14.5" defer></script>
-    <script src="site-shell.js?v=2.14.5" defer></script>
+    <script src="translations.js?v=2.14.6" defer></script>
+    <script src="site-shell.js?v=2.14.6" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1210,10 +1230,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.14.5';
+            s.src = 'fluid-simulation.js?v=2.14.6';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.14.5" defer></script>
+    <script src="script.js?v=2.14.6" defer></script>
 </body>
 </html>

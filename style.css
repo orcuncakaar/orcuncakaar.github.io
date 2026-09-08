@@ -2450,6 +2450,37 @@ ul {
     fill: currentColor;
 }
 
+/* Dogrulama adresi olan kartlarda rozet bir baglantiya donusuyor. */
+a.certificate-verify-link {
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+a.certificate-verify-link:hover,
+a.certificate-verify-link:focus-visible {
+    color: var(--primary);
+}
+
+a.certificate-verify-link:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.certificate-verify .certificate-verify-arrow {
+    width: 11px;
+    height: 11px;
+    opacity: 0.7;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+a.certificate-verify-link:hover .certificate-verify-arrow,
+a.certificate-verify-link:focus-visible .certificate-verify-arrow {
+    opacity: 1;
+    transform: translate(1px, -1px);
+}
+
 .contact-grid {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
