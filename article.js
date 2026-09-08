@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 currentPostId = nextPost.id;
                 history.pushState(null, '', postHref(nextPost.id));
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: window.kaydirmaDavranisi() });
                 renderArticle();
             };
         }
@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     window.scrollTo({
                         top: offsetPosition,
-                        behavior: 'smooth'
+                        behavior: window.kaydirmaDavranisi()
                     });
                 }
             });
@@ -603,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const bodyRect = document.body.getBoundingClientRect().top;
                         const elementRect = targetEl.getBoundingClientRect().top;
                         const offsetPosition = (elementRect - bodyRect) - offset;
-                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                        window.scrollTo({ top: offsetPosition, behavior: window.kaydirmaDavranisi() });
                     }
                 });
                 mobLi.appendChild(mobA);
@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const bodyRect = document.body.getBoundingClientRect().top;
                         const elementRect = targetEl.getBoundingClientRect().top;
                         const offsetPosition = (elementRect - bodyRect) - offset;
-                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                        window.scrollTo({ top: offsetPosition, behavior: window.kaydirmaDavranisi() });
 
                         // Soft Highlight Effect (800-1100ms)
                         targetEl.classList.remove('section-soft-glow');
@@ -1063,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: window.kaydirmaDavranisi() });
         });
     }
 
