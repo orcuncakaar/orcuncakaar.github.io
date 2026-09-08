@@ -133,7 +133,7 @@ for (const post of posts) {
         author: {
             '@type': 'Person',
             name: 'Orçun Çakar',
-            jobTitle: 'Data Science & Machine Learning Specialist',
+            jobTitle: 'Statistics Student',
             url: SITE
         },
         datePublished: published,
