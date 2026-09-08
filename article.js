@@ -588,10 +588,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const mobA = document.createElement('a');
                 mobA.className = 'mobile-toc-link font-mono';
                 mobA.href = `#${heading.id}`;
+                mobA.setAttribute('data-target', heading.id);
                 mobA.innerHTML = `<span class="toc-item-num">${numStr}</span> <span>${cleanTitle}</span>`;
                 mobA.addEventListener('click', (e) => {
                     e.preventDefault();
-                    if (mobileTocSheet) mobileTocSheet.classList.remove('active');
+                    // Paneli kisayoldan gizlemek yetmiyor: kaydirma kilidini
+                    // (body.sheet-open -> touch-action: none) yalnizca
+                    // closeMobileToc kaldiriyor. Kaldirilmazsa panel kapandiktan
+                    // sonra sayfa parmakla kaydirilamaz halde kaliyor.
+                    closeMobileToc();
                     const targetEl = document.getElementById(heading.id);
                     if (targetEl) {
                         const offset = 90;
@@ -630,7 +635,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const tocLinks = document.querySelectorAll('.toc-rail-link');
+        const tocLinks = document.querySelectorAll('.toc-rail-link, .mobile-toc-link');
         tocLinks.forEach(link => {
             if (link.getAttribute('data-target') === activeId) {
                 link.classList.add('active');
@@ -884,7 +889,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (mobileTocBtn) {
             mobileTocBtn.setAttribute('aria-expanded', 'false');
-            mobileTocBtn.focus();
+            // preventScroll olmadan odaklanmak sayfayi arac cubuguna kaydirir
+            // ve bir baslige gitme emrinin ustune biner.
+            mobileTocBtn.focus({ preventScroll: true });
         }
     }
 
