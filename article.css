@@ -699,7 +699,6 @@
     gap: 16px;
     margin-bottom: 28px;
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .article-back-link {
@@ -713,7 +712,6 @@
     letter-spacing: 0.02em;
     padding: 6px 14px;
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     border-radius: var(--radius-full);
     transition: all var(--transition-fast);
 }
@@ -743,7 +741,6 @@
     align-items: center;
     gap: 6px;
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     color: var(--text-secondary);
     padding: 6px 14px;
     font-size: 0.82rem;
@@ -820,7 +817,6 @@
 .article-header {
     margin-bottom: 36px;
     padding-bottom: 28px;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .article-header-meta-top {
@@ -878,7 +874,6 @@
     font-size: 0.78rem;
     padding: 4px 10px;
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     color: var(--text-secondary);
 }
@@ -886,7 +881,6 @@
 /* 5. Structured Quick Read (HIZLI ÖZET / 60 SN) */
 .article-quick-read {
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 48px;
@@ -905,7 +899,6 @@
     justify-content: space-between;
     margin-bottom: 20px;
     padding-bottom: 14px;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .quick-read-badge-group {
@@ -976,7 +969,6 @@
 
 .quick-read-card {
     background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 14px 16px;
 }
@@ -1053,7 +1045,6 @@
 
 .article-prose-content h3 {
     font-size: 1.35rem;
-    border-bottom: 1px solid var(--border-color);
     padding-bottom: 8px;
 }
 
@@ -1076,7 +1067,6 @@
     color: var(--accent);
     padding: 2px 6px;
     border-radius: 4px;
-    border: 1px solid var(--border-color);
 }
 
 .article-prose-content pre {
@@ -1107,7 +1097,6 @@
 /* Research Notebook Output Blocks */
 .notebook-output-block {
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     border-left: 3px solid var(--accent);
     border-radius: 8px;
     padding: 20px;
@@ -1187,7 +1176,6 @@
 }
 
 .toc-rail-inner {
-    border-left: 1px solid var(--border-color);
     padding-left: 18px;
 }
 
@@ -1246,7 +1234,6 @@
 .article-references-section {
     margin-top: 56px;
     padding-top: 32px;
-    border-top: 1px solid var(--border-color);
 }
 
 .references-heading {
@@ -1288,7 +1275,6 @@
 .article-next-navigation {
     margin-top: 48px;
     padding-top: 28px;
-    border-top: 1px solid var(--border-color);
 }
 
 .next-nav-label {
@@ -1305,7 +1291,6 @@
     justify-content: space-between;
     gap: 20px;
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 20px 24px;
     text-decoration: none;
@@ -1396,7 +1381,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px 14px 20px;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .ai-sidecar-title-group {
@@ -1445,7 +1429,9 @@
 .ai-sidecar-close-btn:hover {
     color: var(--text-primary);
     background: var(--bg-tertiary);
-    border-color: var(--border-color);
+    /* Tanimsiz --border-color currentColor'a dusuyordu; bugunku
+       goruntu korunsun diye deger acikca yazildi. */
+    border-color: currentColor;
 }
 
 /* Decorative Synthesis Line (Single Sweep Light) */
@@ -1453,7 +1439,6 @@
     position: relative;
     height: 1.5px;
     width: 100%;
-    background: var(--border-color);
     overflow: hidden;
 }
 
@@ -1518,7 +1503,6 @@
 
 .ai-finding-card {
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 14px 16px;
 }
@@ -1587,7 +1571,6 @@
 
 .ai-distilled-card {
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 16px;
     font-size: 0.86rem;
@@ -1607,7 +1590,6 @@
     gap: 8px;
     padding: 10px 20px;
     background: var(--bg-tertiary);
-    border-top: 1px solid var(--border-color);
 }
 
 .light-theme .ai-sidecar-tabs {
@@ -1650,7 +1632,6 @@
 
 .ai-sidecar-footer {
     padding: 10px 20px;
-    border-top: 1px solid var(--border-color);
     font-size: 0.70rem;
     color: var(--text-muted);
     background: var(--bg-secondary);
