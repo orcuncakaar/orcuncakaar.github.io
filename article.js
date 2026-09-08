@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "author": {
                 "@type": "Person",
                 "name": "Orçun Çakar",
-                "jobTitle": "Statistics Student & Data Analytics Intern",
+                "jobTitle": "Statistics Student & Data Science / Machine Learning Intern",
                 "url": "https://orcuncakar.com"
             },
             "datePublished": isoTarih(post.date) || undefined,
