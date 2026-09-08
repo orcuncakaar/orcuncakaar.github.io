@@ -1900,6 +1900,22 @@ body.sheet-open {
 }
 
 /* 12. Mobile TOC Bottom Sheet */
+/* Panel kendi opak yuzeyini kullaniyor. --bg-secondary acik temada
+   rgba(255,255,255,0.60): bolum arka plani icin dogru, ama kararmis sayfanin
+   ustundeki bir panelde altindaki yaziyi gosteriyordu. Acik tema degeri, o
+   yari saydam beyazin --bg-primary uzerindeki bilesimi. */
+:root {
+    --toc-sheet-surface: #111827;
+    --toc-sheet-line: rgba(255, 255, 255, 0.10);
+    --toc-sheet-grip: rgba(255, 255, 255, 0.22);
+}
+
+.light-theme {
+    --toc-sheet-surface: #fbfdfe;
+    --toc-sheet-line: rgba(15, 23, 42, 0.10);
+    --toc-sheet-grip: rgba(15, 23, 42, 0.18);
+}
+
 .mobile-toc-sheet {
     position: fixed;
     inset: 0;
@@ -1927,10 +1943,10 @@ body.sheet-open {
     bottom: 0;
     left: 0;
     right: 0;
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
+    background: var(--toc-sheet-surface);
+    border-top: 1px solid var(--toc-sheet-line);
     border-radius: 20px 20px 0 0;
-    padding: 20px 20px calc(30px + env(safe-area-inset-bottom, 0px)) 20px;
+    padding: 14px 20px calc(30px + env(safe-area-inset-bottom, 0px)) 20px;
     max-height: 75vh;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -1944,13 +1960,22 @@ body.sheet-open {
     transform: translateY(0);
 }
 
+/* Parmakla asagi cekilebilecegini anlatan tutamac. */
+.mobile-toc-panel::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 4px;
+    margin: 0 auto 12px;
+    border-radius: 999px;
+    background: var(--toc-sheet-grip);
+}
+
 .mobile-toc-header {
     position: sticky;
-    top: -20px;
+    top: -14px;
     z-index: 10;
-    background: var(--bg-secondary);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--toc-sheet-surface);
     padding-top: 6px;
     display: flex;
     align-items: center;
@@ -1958,9 +1983,9 @@ body.sheet-open {
     font-size: 0.88rem;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--toc-sheet-line);
 }
 
 .mobile-toc-close {
@@ -1968,7 +1993,15 @@ body.sheet-open {
     border: none;
     color: var(--text-muted);
     font-size: 1.1rem;
+    line-height: 1;
     cursor: pointer;
+    /* Dokunma hedefi en az 44px olsun; ikon kucuk kalmaya devam ediyor. */
+    min-width: 44px;
+    min-height: 44px;
+    margin: -12px -12px -12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .mobile-toc-list {
@@ -1977,7 +2010,7 @@ body.sheet-open {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 2px;
 }
 
 .mobile-toc-link {
@@ -1987,5 +2020,23 @@ body.sheet-open {
     color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.92rem;
-    padding: 8px 0;
+    /* Tek satirlik maddede bile 44px'lik dokunma hedefi kaliyor. */
+    min-height: 44px;
+    padding: 10px 8px 10px 12px;
+    border-left: 2px solid transparent;
+    border-radius: 0 8px 8px 0;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* Masaustundeki ray ile ayni davranis: okunan bolum vurgulanir. */
+.mobile-toc-link.active {
+    color: var(--text-primary);
+    font-weight: 600;
+    border-left-color: var(--accent);
+    background: rgba(var(--primary-rgb), 0.06);
+}
+
+.mobile-toc-link.active .toc-item-num {
+    opacity: 1;
+    font-weight: 700;
 }
