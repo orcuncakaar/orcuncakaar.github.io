@@ -171,7 +171,8 @@ for (const post of posts) {
 }
 
 // --- 7. sitemap.xml ---------------------------------------------------------
-const today = '2026-09-01';
+// Sabit yazilmisti; ana sayfa ve blog listesi degistikce lastmod geride kaliyordu.
+const today = new Date().toISOString().slice(0, 10);
 const urls = built.map((b) => '  <url>\n' +
     '    <loc>' + SITE + '/post/' + b.id + '</loc>\n' +
     '    <lastmod>' + b.published + '</lastmod>\n' +
