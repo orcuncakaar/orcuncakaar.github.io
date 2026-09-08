@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Orcun Cakar — Arastirma Notlari</title>
+    <link>https://orcuncakar.com/blog</link>
+    <description>Istatistik, veri bilimi ve makine ogrenmesi uzerine teknik arastirma notlari.</description>
+    <language>tr</language>
+    <atom:link href="https://orcuncakar.com/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 22 May 2026 09:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Hantavirüs Ekolojik Modelleme ve Veri Bilimi Çalışması</title>
+      <link>https://orcuncakar.com/post/hantavirus-analysis</link>
+      <guid isPermaLink="true">https://orcuncakar.com/post/hantavirus-analysis</guid>
+      <pubDate>Fri, 22 May 2026 09:00:00 GMT</pubDate>
+      <description>Makine öğrenmesi modelleri ve ekolojik veri analitiği teknikleriyle Hantavirüs vakalarını, yayılım dinamiklerini ve çevresel risk haritasını inceliyorum.</description>
+    </item>
+    <item>
+      <title>İstatistiğin Gücü: R ile Veri Analizi ve Modelleme</title>
+      <link>https://orcuncakar.com/post/r-data-analysis</link>
+      <guid isPermaLink="true">https://orcuncakar.com/post/r-data-analysis</guid>
+      <pubDate>Fri, 15 May 2026 09:00:00 GMT</pubDate>
+      <description>R Studio kullanarak istatistiksel veri analizi süreçlerini, veri görselleştirmeyi ve temel doğrusal regresyon modellemelerini nasıl gerçekleştirdiğimi anlatıyorum.</description>
+    </item>
+    <item>
+      <title>Yapay Zeka ve Makine Öğrenmesi Yolculuğum</title>
+      <link>https://orcuncakar.com/post/ai-journey</link>
+      <guid isPermaLink="true">https://orcuncakar.com/post/ai-journey</guid>
+      <pubDate>Sat, 02 May 2026 09:00:00 GMT</pubDate>
+      <description>Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.</description>
+    </item>
+    <item>
+      <title>Veri Biliminde SQL'in Önemi ve Sorgu Optimizasyonu</title>
+      <link>https://orcuncakar.com/post/sql-importance</link>
+      <guid isPermaLink="true">https://orcuncakar.com/post/sql-importance</guid>
+      <pubDate>Mon, 20 Apr 2026 09:00:00 GMT</pubDate>
+      <description>Veri bilimi projelerinde SQL sorgularının rolünü, büyük veri kümeleriyle çalışırken join operasyonlarını ve performans artırıcı sorgu yazım tekniklerini ele alıyorum.</description>
+    </item>
+  </channel>
+</rss>

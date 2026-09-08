@@ -161,7 +161,13 @@ for (const post of posts) {
         '\n' + content + '\n                        ');
 
     fs.writeFileSync(path.join(ROOT, 'post', post.id + '.html'), html, 'utf8');
-    built.push({ id: post.id, published: published, bytes: Buffer.byteLength(html) });
+    built.push({
+        id: post.id,
+        published: published,
+        title: post.title,
+        summary: post.summary,
+        bytes: Buffer.byteLength(html)
+    });
 }
 
 // --- 7. sitemap.xml ---------------------------------------------------------
@@ -186,8 +192,38 @@ const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n' +
 
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap, 'utf8');
 
+// --- 8. feed.xml (RSS 2.0) --------------------------------------------------
+// Yaziyi duzenli takip etmek isteyen okuyucu icin. Sirali: en yeni ustte.
+const rssTarih = (iso) => new Date(iso + 'T09:00:00Z').toUTCString();
+
+const feedSirali = built.slice().sort((a, b) => (a.published < b.published ? 1 : -1));
+
+const feedItems = feedSirali.map((b) => '    <item>\n' +
+    '      <title>' + escText(b.title) + '</title>\n' +
+    '      <link>' + SITE + '/post/' + b.id + '</link>\n' +
+    '      <guid isPermaLink="true">' + SITE + '/post/' + b.id + '</guid>\n' +
+    '      <pubDate>' + rssTarih(b.published) + '</pubDate>\n' +
+    '      <description>' + escText(b.summary) + '</description>\n' +
+    '    </item>').join('\n');
+
+const feed = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n' +
+    '  <channel>\n' +
+    '    <title>Orcun Cakar — Arastirma Notlari</title>\n' +
+    '    <link>' + SITE + '/blog</link>\n' +
+    '    <description>Istatistik, veri bilimi ve makine ogrenmesi uzerine teknik arastirma notlari.</description>\n' +
+    '    <language>tr</language>\n' +
+    '    <atom:link href="' + SITE + '/feed.xml" rel="self" type="application/rss+xml" />\n' +
+    (feedSirali.length ? '    <lastBuildDate>' + rssTarih(feedSirali[0].published) + '</lastBuildDate>\n' : '') +
+    feedItems + '\n' +
+    '  </channel>\n' +
+    '</rss>\n';
+
+fs.writeFileSync(path.join(ROOT, 'feed.xml'), feed, 'utf8');
+
 console.log('Uretilen sayfalar:');
 for (const b of built) {
     console.log('  post/' + b.id + '.html  ' + b.published + '  ' + (b.bytes / 1024).toFixed(1) + ' KB');
 }
 console.log('sitemap.xml guncellendi (' + (built.length + 2) + ' URL, sorgu parametreli adres yok)');
+console.log('feed.xml guncellendi (' + feedSirali.length + ' yazi, en yeni ustte)');

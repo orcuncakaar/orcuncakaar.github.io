@@ -102,9 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typedTextSpan) {
             typedTextSpan.textContent = '';
         }
-        if (textArray.length) {
-            typingTimeout = setTimeout(type, 500);
+        if (!textArray.length) return;
+
+        // Hareket azaltma tercihi acikken sonsuz yaz/sil dongusu calismasin:
+        // ilk ifade dogrudan yazilir ve orada kalir. Zamanlayici kurulmuyor.
+        const hareketAzalt = window.matchMedia
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (hareketAzalt) {
+            if (typedTextSpan) {
+                typedTextSpan.textContent = textArray[0];
+            }
+            return;
         }
+
+        typingTimeout = setTimeout(type, 500);
     }
 
     // Dil değiştiğinde daktilo, oyun alanı ve kayan hapı güncelle
@@ -302,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pillWrapper = document.getElementById('navbar-pill-wrapper');
             if (pillWrapper) pillWrapper.classList.remove('is-compact');
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: window.kaydirmaDavranisi() });
         });
         compactBrand.addEventListener('mouseenter', (e) => {
             e.stopPropagation();
@@ -343,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 2. Hedef bölüme doğru pürüzsüz kaydır
                 if (targetId === 'home') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({ top: 0, behavior: window.kaydirmaDavranisi() });
                 } else if (targetSection) {
                     const navbarOffset = 80;
                     const elementPosition = targetSection.getBoundingClientRect().top;
@@ -351,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     window.scrollTo({
                         top: offsetPosition,
-                        behavior: 'smooth'
+                        behavior: window.kaydirmaDavranisi()
                     });
                 }
             }
@@ -790,7 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth'
+                behavior: window.kaydirmaDavranisi()
             });
         });
     }

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+                    document.documentElement.classList.add('light-theme');
+                } else {
+                    document.documentElement.classList.remove('light-theme');
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayfa bulunamadı | Orçun Çakar</title>
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#0b0f19" id="meta-theme-color">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
+
+    <link rel="stylesheet" href="/style.css?v=2.16.0">
+    <style>
+        /* Sayfa tek ekranlik ve bagimsiz: navbar/JS kabugu olmadan da dogru
+           gorunmesi gerekiyor, cunku buraya her turlu yanlis adresten gelinir. */
+        .nf-wrap {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 24px;
+            gap: 8px;
+        }
+
+        .nf-code {
+            font-family: var(--font-heading), sans-serif;
+            font-size: clamp(4.5rem, 18vw, 9rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .nf-title {
+            font-family: var(--font-heading), sans-serif;
+            font-size: clamp(1.25rem, 4vw, 1.75rem);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .nf-desc {
+            max-width: 46ch;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: 6px;
+        }
+
+        .nf-desc-en {
+            max-width: 46ch;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .nf-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .nf-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 0 18px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--card-border);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color var(--transition-fast), border-color var(--transition-fast);
+        }
+
+        .nf-link:hover {
+            color: var(--text-primary);
+            border-color: var(--card-border-hover);
+        }
+
+        .nf-link.nf-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .nf-link.nf-primary:hover {
+            color: #ffffff;
+            filter: brightness(1.08);
+        }
+    </style>
+</head>
+<body>
+    <main class="nf-wrap">
+        <p class="nf-code">404</p>
+        <h1 class="nf-title">Bu adreste bir sayfa yok</h1>
+        <p class="nf-desc">
+            Aradığın sayfa taşınmış, adı değişmiş ya da adres yanlış yazılmış olabilir.
+            Aşağıdan devam edebilirsin.
+        </p>
+        <p class="nf-desc-en">
+            The page you are looking for doesn’t exist. Use the links below to continue.
+        </p>
+
+        <nav class="nf-links" aria-label="Site bağlantıları">
+            <a class="nf-link nf-primary" href="/">Ana Sayfa</a>
+            <a class="nf-link" href="/blog">Blog</a>
+            <a class="nf-link" href="/#projects">Projeler</a>
+            <a class="nf-link" href="/#playground">Laboratuvar</a>
+            <a class="nf-link" href="/#contact">İletişim</a>
+        </nav>
+    </main>
+</body>
+</html>

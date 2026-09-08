@@ -9,6 +9,18 @@
  * işlevlerini tek merkezden yönetir.
  */
 
+/**
+ * Hareket azaltma tercihi acikken yumusak kaydirmayi kapatir.
+ * CSS'teki `scroll-behavior: auto !important` yalnizca ornek kaydirmalari
+ * etkiliyor; scrollTo'ya acikca 'smooth' verilirse tarayici yine animasyon
+ * yapiyor. Kaydirma anindaki tercihi okuyoruz, sayfa yuklenirkenkini degil.
+ */
+window.kaydirmaDavranisi = function () {
+    return (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+        ? 'auto'
+        : 'smooth';
+};
+
 (function () {
     'use strict';
 
@@ -187,7 +199,7 @@
             scrollTopBtn.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
-                    behavior: 'smooth'
+                    behavior: window.kaydirmaDavranisi()
                 });
             });
         },
