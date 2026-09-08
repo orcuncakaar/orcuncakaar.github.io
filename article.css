@@ -1941,6 +1941,29 @@ body.sheet-open {
     transform: translateY(0);
 }
 
+/* Basligi cok olan yazilarda liste panele sigmiyor ve panel kaydirilabilir
+   hale geliyor (hantavirus yazisi: 10 baslik, digerleri 5). Varsayilan
+   kaydirma cubugu 9px yer kaplayip yuvarlak koseye dayaniyordu; inceltilip
+   panelin kendi rengine cekildi, ustten/alttan bosluk birakildi. */
+.mobile-toc-panel {
+    scrollbar-width: thin;
+    scrollbar-color: var(--toc-sheet-grip) transparent;
+}
+
+.mobile-toc-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mobile-toc-panel::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 16px 0;
+}
+
+.mobile-toc-panel::-webkit-scrollbar-thumb {
+    background: var(--toc-sheet-grip);
+    border-radius: 999px;
+}
+
 /* Parmakla asagi cekilebilecegini anlatan tutamac. */
 .mobile-toc-panel::before {
     content: "";
