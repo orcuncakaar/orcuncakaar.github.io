@@ -10,13 +10,13 @@ window.blogPostsData = {
         "id": "r-data-analysis",
         "title": "İstatistiğin Gücü: R ile Veri Analizi ve Modelleme",
         "date": "15 Mayıs 2026",
-        "readTime": "6",
+        "readTime": "2",
         "tags": [
             "İstatistik",
             "R Studio"
         ],
         "summary": "R Studio kullanarak istatistiksel veri analizi süreçlerini, veri görselleştirmeyi ve temel doğrusal regresyon modellemelerini nasıl gerçekleştirdiğimi anlatıyorum.",
-        "content": "<h2>R ile Veri Bilimine Giriş</h2><p>Bir istatistik öğrencisi olarak, verilerin arkasındaki hikayeyi ortaya çıkarmak için en güçlü silahlarımdan biri şüphesiz <strong>R Studio</strong>'dur. R dili, veri analizi ve istatistiksel hesaplama için özel olarak tasarlanmış yapısıyla veri bilimcileri için eşsiz bir ekosistem sunar.</p><p>Bu yazıda, bir veri setini ele aldığımızda izlediğimiz temel adımlardan ve R'ın güçlü kütüphanelerinden bahsedeceğim.</p><h2 id=\"r-preprocessing\">1. Veri Keşfi ve Ön İşleme</h2><p>Veri analizi projelerinin %80'i veri temizleme ve ön işleme adımlarında geçer. R ekosisteminde, <code>tidyverse</code> paketi (özellikle <code>dplyr</code> and <code>tidyr</code>) veri manipülasyonunu son derece sezgisel ve hızlı hale getirir. Kayıp gözlemleri (NA) analiz etmek, değişken tiplerini düzenlemek ve filtrelemeler yapmak tek satırlık boru hattı (pipe) <code>%>%</code> işlemleriyle çözülebilir.</p><pre><code>library(dplyr)\n\n# Veriyi temizleme ve filtreleme örneği\nclean_data <- raw_data %>%\n  filter(!is.na(Gelir)) %>%\n  mutate(Segment = ifelse(Gelir > 50000, 'Yüksek', 'Standart'))</code></pre><h2 id=\"r-visualization\">2. Veriyi Görselleştirmek (ggplot2)</h2><p>İstatistiksel bulguları görselleştirmeden sunmak, hikayenin yarım kalmasına neden olur. R'ın en popüler grafik kütüphanesi olan <code>ggplot2</code>, 'Grammar of Graphics' (Grafik Grameri) felsefesini kullanır. Bu sayede verilerimizi katman katman işleyerek göz alıcı ve akademik standartlarda grafikler elde edebiliriz.</p><p>Örneğin, bir dağılım grafiğine doğrusal eğilim çizgisi eklemek sadece birkaç satır sürer:</p><pre><code>library(ggplot2)\n\nggplot(data = clean_data, aes(x = Yas, y = Gelir, color = Segment)) +\n  geom_point(alpha = 0.6) +\n  geom_smooth(method = 'lm', se = TRUE) +\n  theme_minimal() +\n  labs(title = 'Yaş ve Gelir İlişkisi', x = 'Yaş', y = 'Gelir (TL)')</code></pre><h2 id=\"r-modeling\">3. İstatistiki Modelleme (Regresyon)</h2><p>Grafiklerimizi inceledikten sonra, değişkenler arasındaki ilişkilerin istatistiksel olarak anlamlı olup olmadığını test etmek için doğrusal regresyon analizine geçeriz. R içinde yerleşik olarak bulunan <code>lm()</code> fonksiyonu, En Küçük Kareler (OLS) yöntemini kullanarak modeli saniyeler içinde kurar.</p><p><code>summary(model)</code> çıktısını aldığımızda elde ettiğimiz R² (Belirlilik Katsayısı), p-değerleri ve F-istatistiği, modelimizin veriyi ne kadar iyi açıkladığını ve katsayılarımızın anlamlılığını doğrular. Bu süreç, teorik istatistik bilgilerimizin gerçek veri setlerinde nasıl canlandığını gösteren en heyecan verici adımdır.</p><h2 id=\"r-conclusion\">Sonuç</h2><p>R Studio, akademik çalışmalarımda ve veri bilimi stajımda en çok başvurduğum araçlardan biri. Eğer istatistiksel analizi derinlemesine öğrenmek ve veri bilimine sağlam bir temel ile girmek istiyorsanız, R'ı kesinlikle öğrenim listenizin en üst sıralarına eklemelisiniz.</p>",
+        "content": "<h2>R ile Veri Bilimine Giriş</h2><p>Bir istatistik öğrencisi olarak, verilerin arkasındaki hikayeyi ortaya çıkarmak için en güçlü silahlarımdan biri şüphesiz <strong>R Studio</strong>'dur. R dili, veri analizi ve istatistiksel hesaplama için özel olarak tasarlanmış yapısıyla veri bilimcileri için eşsiz bir ekosistem sunar.</p><p>Bu yazıda, bir veri setini ele aldığımızda izlediğimiz temel adımlardan ve R'ın güçlü kütüphanelerinden bahsedeceğim.</p><h2 id=\"r-preprocessing\">1. Veri Keşfi ve Ön İşleme</h2><p>Bir veri analizi projesinde zamanın büyük bölümü modelleme değil, veri temizleme ve ön işleme adımlarında geçer. R ekosisteminde <code>tidyverse</code> paketi (özellikle <code>dplyr</code> ve <code>tidyr</code>) veri manipülasyonunu son derece sezgisel ve hızlı hale getirir. Kayıp gözlemleri (NA) analiz etmek, değişken tiplerini düzenlemek ve filtrelemeler yapmak tek satırlık boru hattı (pipe) <code>%>%</code> işlemleriyle çözülebilir.</p><pre><code>library(dplyr)\n\n# Veriyi temizleme ve filtreleme örneği\nclean_data <- raw_data %>%\n  filter(!is.na(Gelir)) %>%\n  mutate(Segment = ifelse(Gelir > 50000, 'Yüksek', 'Standart'))</code></pre><h2 id=\"r-visualization\">2. Veriyi Görselleştirmek (ggplot2)</h2><p>İstatistiksel bulguları görselleştirmeden sunmak, hikayenin yarım kalmasına neden olur. R'ın en popüler grafik kütüphanesi olan <code>ggplot2</code>, 'Grammar of Graphics' (Grafik Grameri) felsefesini kullanır. Bu sayede verilerimizi katman katman işleyerek göz alıcı ve akademik standartlarda grafikler elde edebiliriz.</p><p>Örneğin, bir dağılım grafiğine doğrusal eğilim çizgisi eklemek sadece birkaç satır sürer:</p><pre><code>library(ggplot2)\n\nggplot(data = clean_data, aes(x = Yas, y = Gelir, color = Segment)) +\n  geom_point(alpha = 0.6) +\n  geom_smooth(method = 'lm', se = TRUE) +\n  theme_minimal() +\n  labs(title = 'Yaş ve Gelir İlişkisi', x = 'Yaş', y = 'Gelir (TL)')</code></pre><h2 id=\"r-modeling\">3. İstatistiki Modelleme (Regresyon)</h2><p>Grafiklerimizi inceledikten sonra, değişkenler arasındaki ilişkilerin istatistiksel olarak anlamlı olup olmadığını test etmek için doğrusal regresyon analizine geçeriz. R içinde yerleşik olarak bulunan <code>lm()</code> fonksiyonu, En Küçük Kareler (OLS) yöntemini kullanarak modeli saniyeler içinde kurar.</p><p><code>summary(model)</code> çıktısını aldığımızda elde ettiğimiz R² (Belirlilik Katsayısı), p-değerleri ve F-istatistiği, modelimizin veriyi ne kadar iyi açıkladığını ve katsayılarımızın anlamlılığını doğrular. Bu süreç, teorik istatistik bilgilerimizin gerçek veri setlerinde nasıl canlandığını gösteren en heyecan verici adımdır.</p><h2 id=\"r-conclusion\">Sonuç</h2><p>R Studio, akademik çalışmalarımda ve veri bilimi stajımda en çok başvurduğum araçlardan biri. Eğer istatistiksel analizi derinlemesine öğrenmek ve veri bilimine sağlam bir temel ile girmek istiyorsanız, R'ı kesinlikle öğrenim listenizin en üst sıralarına eklemelisiniz.</p>",
         "aiSummary": "<ul><li data-target-id=\"r-preprocessing\"><strong>Gelişmiş Veri Ön İşleme:</strong> tidyverse ekosisteminin (dplyr, tidyr) gücüyle kayıp gözlemlerin (NA) saptanması, dinamik veri filtreleme ve değişken türü dönüştürmelerinin boru hattı (pipe <code>%&gt;%</code>) operatörüyle nasıl optimize edildiği gösterilmektedir.</li><li data-target-id=\"r-visualization\"><strong>Akademik Görselleştirme Standardı:</strong> R'ın en popüler görselleştirme kütüphanesi <code>ggplot2</code>'nin Grafik Grameri felsefesi kullanılarak katman katman scatter plot ve doğrusal En Küçük Kareler (OLS) eğilim çizgilerinin nasıl oluşturulduğu açıklanmaktadır.</li><li data-target-id=\"r-modeling\"><strong>İstatistiksel Modelleme Derinliği:</strong> Yerleşik <code>lm()</code> fonksiyonu ile kurulan regresyon modelinin Belirlilik Katsayısı (R²), F-istatistiği, p-değerleri ve katsayı anlamlılıklarının akademik standartlarda nasıl yorumlanacağı incelenmektedir.</li><li data-target-id=\"r-conclusion\"><strong>Analitik Çıkarım:</strong> Teorik istatistik teorisi ile gerçek dünya veri kümeleri arasında R Studio üzerinden kurulan köprüyle veri analizi süreçlerinde nasıl katma değer sağlandığı özetlenmektedir.</li></ul>",
         "questions": [
             {
@@ -37,7 +37,7 @@ window.blogPostsData = {
         "id": "ai-journey",
         "title": "Yapay Zeka ve Makine Öğrenmesi Yolculuğum",
         "date": "2 Mayıs 2026",
-        "readTime": "8",
+        "readTime": "2",
         "tags": [
             "Yapay Zeka",
             "Makine Öğrenmesi"
@@ -64,7 +64,7 @@ window.blogPostsData = {
         "id": "sql-importance",
         "title": "Veri Biliminde SQL'in Önemi ve Sorgu Optimizasyonu",
         "date": "20 Nisan 2026",
-        "readTime": "5",
+        "readTime": "2",
         "tags": [
             "SQL & Veritabanı"
         ],
@@ -90,7 +90,7 @@ window.blogPostsData = {
         "id": "hantavirus-analysis",
         "title": "Hantavirüs Ekolojik Modelleme ve Veri Bilimi Çalışması",
         "date": "22 Mayıs 2026",
-        "readTime": "12",
+        "readTime": "10",
         "tags": [
             "Makine Öğrenmesi",
             "Ekoloji"
@@ -119,7 +119,7 @@ window.blogPostsData = {
         "id": "r-data-analysis",
         "title": "The Power of Statistics: Data Analysis and Modeling with R",
         "date": "May 15, 2026",
-        "readTime": "6",
+        "readTime": "2",
         "tags": [
             "Statistics",
             "R Studio"
@@ -146,7 +146,7 @@ window.blogPostsData = {
         "id": "ai-journey",
         "title": "My Journey into Artificial Intelligence and Machine Learning",
         "date": "May 2, 2026",
-        "readTime": "8",
+        "readTime": "2",
         "tags": [
             "Artificial Intelligence",
             "Machine Learning"
@@ -173,7 +173,7 @@ window.blogPostsData = {
         "id": "sql-importance",
         "title": "The Importance of SQL and Query Optimization in Data Science",
         "date": "April 20, 2026",
-        "readTime": "5",
+        "readTime": "2",
         "tags": [
             "SQL & Database"
         ],
@@ -199,7 +199,7 @@ window.blogPostsData = {
         "id": "hantavirus-analysis",
         "title": "Hantavirus Ecological Modeling and Data Science Study",
         "date": "May 22, 2026",
-        "readTime": "12",
+        "readTime": "10",
         "tags": [
             "Machine Learning",
             "Ecology"
