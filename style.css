@@ -1509,13 +1509,13 @@ ul {
 }
 
 .light-theme .social-bento-btn.kaggle {
-    background: linear-gradient(135deg, rgba(240, 253, 250, 0.90) 0%, rgba(204, 251, 241, 0.55) 100%);
-    border: 1px solid rgba(153, 246, 228, 0.80);
+    background: linear-gradient(135deg, rgba(240, 249, 255, 0.90) 0%, rgba(224, 242, 254, 0.55) 100%);
+    border: 1px solid rgba(186, 230, 253, 0.80);
     color: #0284c7;
 }
 
 .light-theme .social-bento-btn.kaggle:hover {
-    background: linear-gradient(135deg, rgba(204, 251, 241, 0.95) 0%, rgba(153, 246, 228, 0.70) 100%);
+    background: linear-gradient(135deg, rgba(224, 242, 254, 0.95) 0%, rgba(186, 230, 253, 0.70) 100%);
     border-color: #0284c7;
     box-shadow: 0 10px 24px -4px rgba(2, 132, 199, 0.25), inset 0 1.5px 2px 0 rgba(255, 255, 255, 1);
     color: #0284c7;
@@ -1621,13 +1621,116 @@ ul {
     }
 }
 
-.social-icon-btn.kaggle:hover {
-    border-color: #20beff;
-    box-shadow: 0 0 15px rgba(32, 190, 255, 0.2);
+/* Footer sosyal ikonlari. Hero'daki .social-bento-btn ile ayni gorsel dil,
+   footer olceginde kucultulmus hali. Uc marka da ayni sekilde davranir.
+   Hero'dan tek fark: footer zemini (--bg-secondary) duz bir renk oldugu icin
+   backdrop-filter yok; duz rengi bulaniklastirmak ayni rengi verirdi. */
+.social-icon-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.15), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.2);
 }
-.social-icon-btn.kaggle:hover svg {
-    fill: #20beff;
-    transform: scale(1.1);
+
+.social-icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.social-icon-btn:hover svg {
+    transform: scale(1.15);
+}
+
+/* Marka varyantlari (koyu tema) */
+.social-icon-btn.github {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%), var(--bg-glass);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #f1f5f9;
+}
+
+.social-icon-btn.github:hover {
+    transform: translateY(-3px) scale(1.04);
+    border-color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.06) 100%);
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4), 0 0 16px rgba(255, 255, 255, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.social-icon-btn.linkedin {
+    background: linear-gradient(135deg, rgba(10, 102, 194, 0.18) 0%, rgba(10, 102, 194, 0.04) 100%), var(--bg-glass);
+    border: 1px solid rgba(10, 102, 194, 0.32);
+    color: #38bdf8;
+}
+
+.social-icon-btn.linkedin:hover {
+    transform: translateY(-3px) scale(1.04);
+    border-color: #38bdf8;
+    background: linear-gradient(135deg, rgba(10, 102, 194, 0.32) 0%, rgba(10, 102, 194, 0.10) 100%);
+    box-shadow: 0 8px 20px -4px rgba(10, 102, 194, 0.4), 0 0 18px rgba(56, 189, 248, 0.3), inset 0 1px 2px rgba(56, 189, 248, 0.6);
+    color: #ffffff;
+}
+
+.social-icon-btn.kaggle {
+    background: linear-gradient(135deg, rgba(32, 190, 255, 0.18) 0%, rgba(32, 190, 255, 0.04) 100%), var(--bg-glass);
+    border: 1px solid rgba(32, 190, 255, 0.32);
+    color: #20beff;
+}
+
+.social-icon-btn.kaggle:hover {
+    transform: translateY(-3px) scale(1.04);
+    border-color: #20beff;
+    background: linear-gradient(135deg, rgba(32, 190, 255, 0.32) 0%, rgba(32, 190, 255, 0.10) 100%);
+    box-shadow: 0 8px 20px -4px rgba(32, 190, 255, 0.4), 0 0 18px rgba(32, 190, 255, 0.3), inset 0 1px 2px rgba(32, 190, 255, 0.6);
+    color: #ffffff;
+}
+
+/* Marka varyantlari (acik tema) */
+.light-theme .social-icon-btn {
+    box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.06), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+.light-theme .social-icon-btn.github {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.60) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    color: #0f172a;
+}
+
+.light-theme .social-icon-btn.github:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.80) 100%);
+    border-color: rgba(15, 23, 42, 0.2);
+    box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.12), inset 0 1.5px 2px 0 rgba(255, 255, 255, 1);
+}
+
+.light-theme .social-icon-btn.linkedin {
+    background: linear-gradient(135deg, rgba(239, 246, 255, 0.90) 0%, rgba(219, 234, 254, 0.55) 100%);
+    border: 1px solid rgba(191, 219, 254, 0.80);
+    color: #0a66c2;
+}
+
+.light-theme .social-icon-btn.linkedin:hover {
+    background: linear-gradient(135deg, rgba(219, 234, 254, 0.95) 0%, rgba(191, 219, 254, 0.70) 100%);
+    border-color: #0a66c2;
+    box-shadow: 0 8px 20px -4px rgba(10, 102, 194, 0.25), inset 0 1.5px 2px 0 rgba(255, 255, 255, 1);
+    color: #0a66c2;
+}
+
+.light-theme .social-icon-btn.kaggle {
+    background: linear-gradient(135deg, rgba(240, 249, 255, 0.90) 0%, rgba(224, 242, 254, 0.55) 100%);
+    border: 1px solid rgba(186, 230, 253, 0.80);
+    color: #0284c7;
+}
+
+.light-theme .social-icon-btn.kaggle:hover {
+    background: linear-gradient(135deg, rgba(224, 242, 254, 0.95) 0%, rgba(186, 230, 253, 0.70) 100%);
+    border-color: #0284c7;
+    box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.25), inset 0 1.5px 2px 0 rgba(255, 255, 255, 1);
+    color: #0284c7;
 }
 
 .bento-grid {
@@ -2633,11 +2736,6 @@ textarea.form-control {
     justify-content: center;
     gap: 16px;
     margin-bottom: 24px;
-}
-
-.footer-socials .social-icon-btn {
-    width: 44px;
-    height: 44px;
 }
 
 .footer-text {
