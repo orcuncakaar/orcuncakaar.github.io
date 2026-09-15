@@ -1171,8 +1171,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 10. OKUMA İLERLEME ÇUBUĞU & DYNAMIC ISLAND SCROLL
+    // Sayfa yuksekligi her kaydirma olayinda degil, yalnizca boyut degisiminde
+    // olculuyor: asagida progressBar.style.width yaziliyor ve okumayi yazinin
+    // ardindan tekrarlamak her olayda zorunlu yeniden duzen tetikliyordu.
+    let articleDocHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+    const recalcArticleDocHeight = () => {
+        articleDocHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    };
+
+    window.addEventListener('resize', recalcArticleDocHeight, { passive: true });
+    window.addEventListener('load', recalcArticleDocHeight);
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(recalcArticleDocHeight).observe(document.body);
+    }
+
     function handleWindowScroll() {
-        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        // Yazi govdesi JS ile basiliyor; onbellek icerik gelmeden hesaplandiysa
+        // 0 kalabilir. O durumda taze oku ve onbellegi duzelt (nadir yol).
+        if (articleDocHeight <= 0) recalcArticleDocHeight();
+        const docHeight = articleDocHeight;
         const scrollY = window.pageYOffset || document.documentElement.scrollTop;
         const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
 
@@ -1205,7 +1223,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.addEventListener('scroll', handleWindowScroll, { passive: true });
+    // Kare basina bir kez calis: onceki hali her kaydirma olayinda tetikleniyordu.
+    let articleScrollTicking = false;
+    window.addEventListener('scroll', () => {
+        if (!articleScrollTicking) {
+            articleScrollTicking = true;
+            requestAnimationFrame(() => {
+                articleScrollTicking = false;
+                handleWindowScroll();
+            });
+        }
+    }, { passive: true });
     handleWindowScroll();
 
     if (scrollTopBtn) {

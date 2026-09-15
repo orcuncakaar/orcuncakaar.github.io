@@ -636,14 +636,37 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('load', initNavbarState);
     window.addEventListener('pageshow', initNavbarState);
 
-    window.addEventListener('scroll', () => {
+    // Ana sayfadaki kaliba hizalandi: dinleyici passive, is kare basina bir kez
+    // rAF icinde yapiliyor ve sayfa yuksekligi her olayda degil yalnizca boyut
+    // degisiminde olculuyor. Onceki hali her kaydirma olayinda scrollHeight
+    // okuyordu; hemen ustunde handleDynamicIsland sinif yazdigi icin bu okuma
+    // her olayda zorunlu yeniden duzen (forced reflow) tetikliyordu.
+    let blogScrollTicking = false;
+    let blogDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    const recalcBlogDocHeight = () => {
+        blogDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+    };
+
+    window.addEventListener('resize', recalcBlogDocHeight, { passive: true });
+    window.addEventListener('load', recalcBlogDocHeight);
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(recalcBlogDocHeight).observe(document.body);
+    }
+
+    const onBlogScrollFrame = () => {
+        blogScrollTicking = false;
+
         handleTopSunGlow();
         handleDynamicIsland();
-        
+
+        // Yazi listesi JS ile basiliyor; onbellek icerik gelmeden hesaplandiysa
+        // 0 kalabilir. O durumda taze oku ve onbellegi duzelt (nadir yol).
+        if (blogDocHeight <= 0) recalcBlogDocHeight();
+
         const scrollTop = window.scrollY || window.pageYOffset;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = Math.min(100, Math.max(0, Math.round(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0)));
-        
+        const scrollPercent = Math.min(100, Math.max(0, Math.round(blogDocHeight > 0 ? (scrollTop / blogDocHeight) * 100 : 0)));
+
         if (compactScrollPercent) {
             compactScrollPercent.textContent = `${scrollPercent}%`;
         }
@@ -653,7 +676,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             if (scrollTopBtn) scrollTopBtn.classList.remove('show');
         }
-    });
+    };
+
+    window.addEventListener('scroll', () => {
+        if (!blogScrollTicking) {
+            blogScrollTicking = true;
+            requestAnimationFrame(onBlogScrollFrame);
+        }
+    }, { passive: true });
 
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {

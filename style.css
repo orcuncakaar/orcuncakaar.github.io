@@ -77,11 +77,18 @@ html {
     background-color: var(--bg-primary);
 }
 
+/* scroll-behavior BILEREK YOK.
+   Kaydirma kabinda `scroll-behavior: smooth` tanimliyken Chrome kullanicinin
+   tekerlek/trackpad girdisini de animasyona sokuyor: girdiyi dogrudan takip
+   etmek yerine hedefe interpolasyon yapiyor. Etkisi en cok duruştan yeniden
+   baslarken hissediliyor, cunku animasyon sifirdan ivmeleniyor.
+   Sitedeki tum yumusak kaydirmalar zaten JS'ten suruluyor: 11 scrollTo
+   cagrisinin hepsi `behavior: window.kaydirmaDavranisi()` veriyor ve acikca
+   verilen deger CSS'i ezdigi icin capa gezinmesi aynen calisiyor. */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    scroll-behavior: smooth;
 }
 
 body {

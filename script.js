@@ -549,8 +549,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const scrollY = window.scrollY || window.pageYOffset;
-        const windowHeight = window.innerHeight;
-        const docHeight = document.documentElement.scrollHeight;
+        // scrollHeight okumasi zorunlu yeniden duzen tetikliyordu ve bu fonksiyon
+        // her kaydirma karesinde calisiyor. Ayni deger zaten cachedDocHeight'ta
+        // (scrollHeight - innerHeight) tutuluyor; asagidaki dip kontrolu
+        // matematiksel olarak ayni: innerHeight + scrollY >= scrollHeight - 60
+        // <=> scrollY >= (scrollHeight - innerHeight) - 60.
 
         // Sayfa tepesinde iken (Hero / Ana Sayfa)
         if (scrollY < 120) {
@@ -566,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Sayfa en altına inildiyse her zaman İletişim
-        if (windowHeight + scrollY >= docHeight - 60) {
+        if (scrollY >= cachedDocHeight - 60) {
             const contactLink = document.querySelector('.nav-links a[href="#contact"]');
             if (contactLink) {
                 setActiveNav(contactLink);
@@ -748,18 +751,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 80);
     }
 
-    initNavbarState();
-    window.addEventListener('load', initNavbarState);
-    window.addEventListener('pageshow', initNavbarState);
-
     // Scroll işi requestAnimationFrame ile kare başına bir kez çalışır;
     // sayfa yüksekliği her karede değil, yalnızca boyut değiştiğinde ölçülür.
+    // DİKKAT: bu blok initNavbarState() çağrısından ÖNCE durmak zorunda.
+    // initNavbarState -> updateActiveNavLink -> cachedDocHeight zinciri var ve
+    // `let` TDZ'de olduğu için sıralama bozulursa sayfa açılışında
+    // ReferenceError atıp script'in tamamını durdurur.
     let scrollTicking = false;
-    let cachedDocHeight = 0;
+    let cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
 
     const recalcDocHeight = () => {
         cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
     };
+
+    initNavbarState();
+    window.addEventListener('load', initNavbarState);
+    window.addEventListener('pageshow', initNavbarState);
 
     afterFirstPaint(recalcDocHeight);
     window.addEventListener('resize', recalcDocHeight, { passive: true });
