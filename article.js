@@ -77,19 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
             quickRead: {
                 tr: [
                     { label: 'Amaç', val: 'Hantavirüs vakalarının iklimsel ve ekolojik değişkenlerle ilişkisini modellemek ve risk alanlarını saptamak.' },
-                    { label: 'Veri Kümesi', val: 'Kaggle üzerinden 1993–2026 dönemini kapsayan küresel epidemiyoloji ve iklim verileri; klinik kayıtlar sentetiktir.' },
+                    { label: 'Veri Kümesi', val: 'Kaggle üzerinden 1993–2026 dönemini kapsayan küresel epidemiyoloji ve iklim verileri. Veri kümesinin tamamı simüledir; gerçek gözlem içermez.' },
                     { label: 'Model', val: 'Random Forest Regressor, %80/%20 eğitim-test ayrımı. Çapraz doğrulama yapılmadı.' },
                     { label: 'Temel Çıkarım', val: 'Model test setinde R² = -0.04 verdi, yani ortalamayı tahmin etmekten iyi değil. Bu değişken setiyle kemirgen bolluğunda sinyal bulunamadı.' }
                 ],
                 en: [
                     { label: 'Objective', val: 'Model the relationship between Hantavirus outbreaks and ecological/climate variables to map spatial risk.' },
-                    { label: 'Dataset', val: 'Global epidemiological and climate records for 1993–2026 from Kaggle; the clinical records are synthetic.' },
+                    { label: 'Dataset', val: 'Global epidemiological and climate records for 1993–2026 from Kaggle. The dataset is entirely simulated; it contains no real observations.' },
                     { label: 'Architecture', val: 'Random Forest Regressor on an 80/20 train-test split. No cross-validation was performed.' },
                     { label: 'Key Finding', val: 'The model scored R² = -0.04 on the test set, i.e. no better than predicting the mean. No signal for rodent abundance was found in this feature set.' }
                 ]
             },
             references: [
-                { title: 'Kaggle — Hantavirus Global Dataset', desc: 'The only data source used here: country-year case records, environmental metrics, virus strains, and synthetic clinical records.' },
+                { title: 'Khurram Shahzad — Hantavirus (Andes Virus): Global Epidemiology (Kaggle, CC BY-SA 4.0)', desc: 'The only data source used here. Per its data card the dataset is fully simulated: case counts generated from per-country baselines times temporal trends and stochastic noise, fatality rates calibrated to published CFR ranges. kaggle.com/datasets/zkskhurram/hantavirus-andes-virus-global-epidemiology' },
                 { title: 'Breiman, L. (2001)', desc: 'Random Forests. Machine Learning, 45(1), 5-32. DOI: 10.1023/A:1010933404324' },
                 { title: 'World Health Organization (WHO)', desc: 'Hantavirus fact sheets. Background reading on HPS/HFRS epidemiology — not used as a data source.' },
                 { title: 'CDC', desc: 'Hantavirus clinical overview. Background reading on clinical presentation — not used as a data source.' }
@@ -171,23 +171,23 @@ document.addEventListener('DOMContentLoaded', () => {
         'hantavirus-analysis': {
             findings: {
                 tr: [
-                    { num: '01', title: 'Zaman Serisi Epidemiyolojisi', desc: '1993–2026 arasındaki küresel vaka ve ölüm sayıları dalgalı bir seyir izliyor; pikler tek bir değişkenle açıklanmıyor.', targetId: 'hanta-time-series' },
+                    { num: '01', title: 'Veri Simüle — Örüntüler Kurgulanmış', desc: 'Veri kartına göre vaka sayıları stokastik gürültüyle üretilmiş, ölüm oranları literatüre kalibre edilmiş. Serideki eğilim bir bulgu değil, veriye konmuş bir varsayım.', targetId: 'hanta-time-series' },
                     { num: '02', title: 'Ekolojik Değişkenler', desc: 'Yıllık ortalama sıcaklık ile vaka sayısı arasındaki korelasyon zayıf ve negatif (r = -0.26); sıcaklık tek başına vaka hacmini açıklamıyor.', targetId: 'hanta-correlation' },
-                    { num: '03', title: 'Model Performansı', desc: 'Random Forest Regressor test setinde R² = -0.04 verdi, yani ortalamayı tahmin etmekten iyi değil. Gecikmeli değişkenler bu veriyle kemirgen bolluğunu açıklamıyor.', targetId: 'hanta-time-series' }
+                    { num: '03', title: 'Model Performansı — Sinyal Yok', desc: 'Random Forest Regressor test setinde R² = -0.04 verdi, yani ortalamayı tahmin etmekten iyi değil. En olası sebep teknik değil: aranan gecikmeli mekanizma simüle veriye muhtemelen hiç kodlanmamış.', targetId: 'hanta-time-series' }
                 ],
                 en: [
-                    { num: '01', title: 'Time Series Epidemiology', desc: 'Global case and death counts from 1993–2026 follow a fluctuating trend; the peaks are not explained by any single covariate.', targetId: 'hanta-time-series' },
+                    { num: '01', title: 'Simulated Data — Patterns by Construction', desc: 'Per the data card, case counts were generated with stochastic noise and fatality rates calibrated to the literature. The trend in the series is not a finding but an assumption written into the data.', targetId: 'hanta-time-series' },
                     { num: '02', title: 'Ecological Covariates', desc: 'Annual mean temperature correlates weakly and negatively with case counts (r = -0.26); temperature alone does not explain outbreak volume.', targetId: 'hanta-correlation' },
-                    { num: '03', title: 'Model Benchmark', desc: 'The Random Forest Regressor scored R² = -0.04 on the test set, no better than predicting the mean. Lagged covariates do not explain rodent abundance in this dataset.', targetId: 'hanta-time-series' }
+                    { num: '03', title: 'Model Benchmark — No Signal', desc: 'The Random Forest Regressor scored R² = -0.04 on the test set, no better than predicting the mean. The likeliest cause is not technical: the lagged mechanism it searched for was probably never encoded into the simulated data.', targetId: 'hanta-time-series' }
                 ]
             },
             methodology: {
-                tr: 'Kaggle üzerinden sağlanan epidemiyoloji, iklim ve klinik veri kümeleri temizlendi; Pearson korelasyon matrisi, gecikmeli (lag) özellik üretimi ve %80/%20 eğitim-test ayrımıyla eğitilen bir Random Forest Regressor kullanıldı. Çapraz doğrulama yapılmadı, klinik kayıtlar sentetiktir.',
-                en: 'Kaggle epidemiological, climate, and clinical datasets were harmonized; the analysis used Pearson correlation matrices, lagged feature construction, and a Random Forest Regressor trained on an 80/20 split. No cross-validation was performed, and the clinical records are synthetic.'
+                tr: 'Kaggle üzerinden sağlanan epidemiyoloji, iklim ve klinik veri kümeleri temizlendi; Pearson korelasyon matrisi, gecikmeli (lag) özellik üretimi ve %80/%20 eğitim-test ayrımıyla eğitilen bir Random Forest Regressor kullanıldı. Çapraz doğrulama yapılmadı. Veri kümesinin tamamı simüledir, gerçek gözlem içermez.',
+                en: 'Kaggle epidemiological, climate, and clinical datasets were harmonized; the analysis used Pearson correlation matrices, lagged feature construction, and a Random Forest Regressor trained on an 80/20 split. No cross-validation was performed. The dataset is entirely simulated and contains no real observations.'
             },
             conclusion: {
-                tr: 'Gecikmeli ekolojik zincir (yağış → bitki örtüsü → kemirgen) makul bir hipotez, ancak bu veri kümesi hipotezi doğrulamaya yetmedi: model test setinde ortalamayı geçemedi. Erken uyarı iddiası için bölge bazlı, daha uzun soluklu ve gerçek saha verisi gerekiyor.',
-                en: 'The lagged ecological chain (rainfall → vegetation → rodents) is a plausible hypothesis, but this dataset was not enough to confirm it: the model failed to beat the mean on the test set. An early-warning claim would require region-level, longer-span, real field data.'
+                tr: 'Gecikmeli ekolojik zincir (yağış → bitki örtüsü → kemirgen) makul bir hipotez, ancak bu veri kümesi hipotezi test etmeye uygun değil: veri simüle ve aranan mekanizma ona muhtemelen hiç kodlanmamış. Asıl çıkarım modelle ilgili değil, veri seçimiyle ilgili — bir örüntüyü aramadan önce o örüntünün veride bulunabilir olmasının bir sebebi olup olmadığı sorulmalı.',
+                en: 'The lagged ecological chain (rainfall → vegetation → rodents) is a plausible hypothesis, but this dataset is not suited to testing it: the data is simulated and the mechanism was probably never encoded into it. The real takeaway is about data selection rather than modelling — before hunting for a pattern, ask whether there is any reason it should be findable in this data.'
             }
         },
         'r-data-analysis': {
