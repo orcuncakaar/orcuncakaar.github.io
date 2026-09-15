@@ -90,8 +90,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="../style.css?v=2.16.4">
-    <link rel="stylesheet" href="../article.css?v=2.16.4">
+    <link rel="stylesheet" href="../style.css?v=2.16.5">
+    <link rel="stylesheet" href="../article.css?v=2.16.5">
 </head>
 <body class="article-reading-body">
     <a class="skip-link" href="#article-main" data-translate="skip-link">İçeriğe atla</a>
@@ -252,7 +252,7 @@
                         <div class="article-prose-content" id="article-body-content">
 <h2>Giriş: Hantavirüs Nedir ve Epidemiyolojik Önemi</h2>
 <p>Hantavirüsler, kemirgenler (fareler ve sıçanlar) tarafından taşınan ve insanlara bulaşması durumunda son derece ölümcül klinik tablolara yol açan zoonotik virüslerdir. Enfeksiyon, genellikle virüs bulaşmış kemirgen idrarı, dışkısı veya salyası ile temas ya da bunların havaya karışan partiküllerinin solunması yoluyla gerçekleşir. Klinik olarak iki ana forma sahiptir: Amerika kıtasında görülen <strong>Hantavirüs Akciğer Sendromu (HPS)</strong> ve Avrasya'da görülen <strong>Böbrek Sendromlu Kanamalı Ateş (HFRS)</strong>.</p>
-<p>Bu kapsamlı veri bilimi çalışmasında, Kaggle üzerindeki epidemiyolojik, çevresel ve klinik veri kümelerini ele alıyoruz. Amacımız; vaka ve ölümlerin zaman içindeki eğilimini analiz etmek, ekolojik faktörlerin konakçı kemirgen popülasyonları üzerindeki etkilerini incelemek, Random Forest makine öğrenmesi modeli kurarak ekolojik risk faktörlerini ağırlıklandırmak ve iklim değişikliğinin salgınlar üzerindeki tetikleyici gücünü analiz etmektir.</p>
+<p>Bu veri bilimi çalışmasında, Kaggle üzerindeki epidemiyolojik, çevresel ve klinik veri kümelerini ele alıyoruz. <strong>Baştan belirtmek gerekiyor:</strong> klinik veri kümesi 8.000 hastalık <em>sentetik</em> kayıtlardan oluşuyor. Yazıdaki klinik kırılımlar bu yüzden gerçek hasta popülasyonuna dair bir bulgu değil, sentetik bir veri kümesi üzerinde yapılan analiz alıştırmasıdır; ülke-yıl vaka/ölüm kayıtları ve çevresel metrikler ise sentetik değildir. Amacımız; vaka ve ölümlerin zaman içindeki eğilimini analiz etmek, ekolojik faktörlerin konakçı kemirgen popülasyonları üzerindeki etkilerini incelemek, Random Forest makine öğrenmesi modeli kurarak ekolojik risk faktörlerini ağırlıklandırmak ve iklim değişikliğinin salgınlar üzerindeki tetikleyici gücünü analiz etmektir.</p>
 
 <h2>1. Temel Veri İçe Aktarma ve İlk İncelemeler</h2>
 <p>Analiz sürecimizin ilk adımında, gerekli kütüppelere yükleyip temel veri tablolarimizi (yıllık ülke verileri, klinik veriler ve çevresel faktörler) yapısal olarak inceliyoruz. Eksik değerlerin saptanması ve veri boyutlarının doğrulanması, modelleme aşaması öncesinde kritik bir adımdır.</p>
@@ -317,7 +317,8 @@ sns.barplot(data=region_syndrome, x='who_region', y='confirmed_cases', hue='synd
 </div>
 
 <h2 id="hanta-clinical">5. Klinik Analiz: Ölüm Oranları (CFR), Yaş ve Cinsiyet Dağılımı</h2>
-<p>Klinik verilerin analizi, iki ana sendrom türü arasında ölüm oranları açısından uçurumlar olduğunu ortaya koymaktadır. Akciğer Sendromu (HPS) vakalarında ölüm oranı %35'in üzerine çıkarken, Kanamalı Ateş (HFRS) vakalarında bu oran %10'un altındadır. Yaş grupları incelendiğinde ise, orta yaş ve üzeri bireyler ile erkek hastaların ölüm riskinin görece daha yüksek olduğu saptanmıştır. Box plot grafiği ise vefat eden hastaların yaş dağılımının, iyileşenlere kıyasla daha yüksek bir medyana sahip olduğunu netçe göstermektedir.</p>
+<p>Bu bölümdeki iki analiz farklı dosyalardan besleniyor ve ayrımı belirtmek şart. Sendrom bazlı ölüm oranı (CFR), ülke-yıl vaka ve ölüm toplamlarından hesaplanıyor; buna göre Akciğer Sendromu (HPS), Kanamalı Ateş'e (HFRS) kıyasla belirgin biçimde daha yüksek bir ölüm oranına sahip. Bu, literatürdeki genel tabloyla da uyumlu.</p>
+<p>Yaş ve cinsiyet kırılımı ise <strong>sentetik klinik kayıtlar</strong> üzerinden üretiliyor. Buradan çıkan yaş-mortalite örüntüsü gerçek hasta popülasyonunun değil, veri kümesini üreten sürecin bir özelliğidir; epidemiyolojik bir bulgu olarak okunmamalıdır. Bu bölümü, sentetik veriyle gruplama ve görselleştirme pratiği olarak bırakıyorum — kesin oranlar notebook çıktılarında görülebilir.</p>
 <pre><code>syndrome_stats = df_yearly.groupby('syndrome')[['confirmed_cases', 'deaths']].sum().reset_index()
 syndrome_stats['cfr_percent'] = (syndrome_stats['deaths'] / syndrome_stats['confirmed_cases']) * 100
 
@@ -341,7 +342,9 @@ print(h2h_strains[['strain_name', 'region', 'reservoir_host']])
 </code></pre>
 
 <h2 id="hanta-ai-modeling">7. Yapay Zeka Ekolojik Modellemesi: Random Forest Regressor</h2>
-<p>Doğadaki zincirleme reaksiyonları (örneğin 3 ila 6 ay önceki yağış miktarının bitki örtüsünü artırması ve bunun sonucunda fındık/tohum bolluğuyla fare nüfusunun patlaması) modellemek için <strong>gecikmeli (lagged) çevresel özellikleri</strong> hesaplıyoruz. Random Forest Regressor modelimiz, <code>MSE = 0.0706</code> hata skoruyla kemirgen bolluğunu tahmin edebilmektedir. Yapay zeka karar mekanizmasının çıkardığı özellik önem dereceleri (Feature Importance) incelendiğinde; 1 dönem (3 ay) önceki gecikmeli yağış miktarının (<code>rainfall_lag1</code>, %19.7) ve bitki örtüsü indeksinin (<code>ndvi_lag2</code>, %17.9) yanı sıra ormansızlaşma oranının (%16.3) kemirgen popülasyonunu en çok tetikleyen unsurlar olduğu görülmektedir.</p>
+<p>Doğadaki zincirleme reaksiyonları (örneğin 3 ila 6 ay önceki yağış miktarının bitki örtüsünü artırması ve bunun sonucunda fındık/tohum bolluğuyla fare nüfusunun patlaması) modellemek için <strong>gecikmeli (lagged) çevresel özellikleri</strong> hesaplıyoruz. Model test setinde <code>MSE = 0.0706</code> ve <code>R² = -0.04</code> verdi. Burada belirleyici olan sayı MSE değil, R². <strong>Negatif R², modelin test verisinde ortalamayı tahmin etmekten daha kötü olduğu anlamına gelir</strong> — yani bu değişken setiyle kemirgen bolluğunda sinyal bulunamadı. MSE'nin küçük görünmesinin tek sebebi, hedef değişkenin (<code>rodent_abundance_index</code>) zaten 0–1 aralığında bir indeks olması; ölçeği verilmeden MSE tek başına hiçbir şey söylemez.</p>
+<p>Özellik önem dereceleri de aynı sonucu doğruluyor. Altı değişkenin ağırlıkları %14.8 ile %19.7 arasında sıkışmış durumda: <code>rainfall_lag1</code> %19.7, <code>ndvi_lag2</code> %17.9, ormansızlaşma %16.4, <code>ndvi_lag1</code> %16.2, <code>rainfall_lag2</code> %15.0, sıcaklık %14.8. Altı değişken için eşit dağılım <strong>1/6 = %16.7</strong> olurdu; gözlenen tablo bundan kayda değer biçimde ayrışmıyor. Bu, "hangi faktör baskın" sorusunun cevabı değil, modelin değişkenler arasında ayrım yapamadığının göstergesi. Sinyal bulamamış bir modelin özellik ağırlıkları doğayı değil gürültüyü tarif eder.</p>
+<p>Bu bölümün dürüst sonucu şu: gecikmeli ekolojik zincir (yağış → bitki örtüsü → kemirgen) makul bir hipotez, ancak <strong>bu veri kümesi ve bu kurulumla doğrulanamadı</strong>. Muhtemel sebepler sırayla: bölge kimliği modele hiç girmiyor, dolayısıyla bölgeler arası taban farkları açıklanamayan varyans olarak kalıyor; çeyreklik çözünürlükte gözlem sayısı sınırlı; ve çapraz doğrulama yapılmadığı için sonuç tek bir rastgele ayrıma bağlı. Bir sonraki adım bölge sabit etkilerini eklemek ve <code>GroupKFold</code> ile bölge bazlı doğrulama kurmak olacak.</p>
 <pre><code># Gecikmeli özelliklerin (lags) oluşturulması ve Random Forest eğitimi
 df_env['rainfall_lag1'] = df_env.groupby('region')['quarterly_rainfall_mm'].shift(1)
 df_env['ndvi_lag1'] = df_env.groupby('region')['ndvi'].shift(1)
@@ -369,7 +372,8 @@ print(f"Sıcaklık ve Vaka Arasındaki Korelasyon: {corr:.4f}")
 </div>
 
 <h2>Sonuç ve Halk Sağlığı İçin İstatistik Bilimi</h2>
-<p>Bu çalışma; veri bilimi, istatistiksel modelleme ve yapay zekanın halk sağlığı alanındaki analitik ve öngörücü değerini ortaya koymaktadır. Ekolojik ve iklimsel faktörlerin (gecikmeli yağışlar, sıcaklık artışları ve kontrolsüz ormansızlaşma) yapay zeka modelleriyle anlık izlenmesi, kemirgen popülasyonlarındaki artışları aylar öncesinden öngörmemizi sağlar. Bu doğrultuda geliştirilecek erken uyarı sistemleri, kritik bölgelerde salgınlar henüz başlamadan koruyucu önlemlerin alınmasına imkan tanıyarak hayat kurtaracaktır.</p>
+<p>Bu çalışmanın sonucu bir model başarısı değil, negatif bir bulgu: eldeki çevresel değişkenlerle kemirgen bolluğu tahmin edilemedi. Bunu gizlemek yerine yazmayı tercih ediyorum, çünkü bir analizin değeri çıkan sayının güzelliğinde değil, sayının nasıl elde edildiğinde ve neyin doğrulanıp neyin doğrulanamadığının açıkça söylenmesinde.</p>
+<p>Yine de çalışmanın bıraktığı somut şeyler var: 33 yıllık küresel vaka serisinin nasıl davrandığı, sıcaklığın tek başına vaka hacmini açıklamadığı (r = -0.26) ve gecikmeli değişken üretmenin ekolojik zincirleri modellemek için doğru kurgu olduğu. Erken uyarı sistemi iddiasına gelebilmek içinse bu kurulum yetmez: bölge bazlı sabit etkiler, daha uzun ve daha ince çözünürlüklü saha verisi ve düzgün bir çapraz doğrulama şeması gerekiyor. Projenin bir sonraki turu bunun üzerine kurulacak.</p>
                         </div>
 
                         <!-- 4. ACADEMIC REFERENCES SECTION -->
@@ -508,9 +512,9 @@ print(f"Sıcaklık ve Vaka Arasındaki Korelasyon: {corr:.4f}")
     </button>
 
     <!-- SCRIPTLER -->
-    <script src="../translations.js?v=2.16.4" defer></script>
-    <script src="../posts-data.js?v=2.16.4" defer></script>
-    <script src="../site-shell.js?v=2.16.4" defer></script>
-    <script src="../article.js?v=2.16.4" defer></script>
+    <script src="../translations.js?v=2.16.5" defer></script>
+    <script src="../posts-data.js?v=2.16.5" defer></script>
+    <script src="../site-shell.js?v=2.16.5" defer></script>
+    <script src="../article.js?v=2.16.5" defer></script>
 </body>
 </html>

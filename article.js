@@ -77,22 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
             quickRead: {
                 tr: [
                     { label: 'Amaç', val: 'Hantavirüs vakalarının iklimsel ve ekolojik değişkenlerle ilişkisini modellemek ve risk alanlarını saptamak.' },
-                    { label: 'Veri Kümesi', val: '1993–2026 dönemini kapsayan 33 yıllık küresel epidemiyoloji, iklim ve kemirgen popülasyon verileri.' },
-                    { label: 'Model', val: 'Random Forest Regressor ve gecikmeli (lagged) özellik önemi analizi.' },
-                    { label: 'Temel Çıkarım', val: 'MSE: 0.0706; 1 dönem gecikmeli yağışlar (Ağırlık: %19.7) ve ormansızlaşma kemirgen bolluğunu en çok tetikleyen unsurlardır.' }
+                    { label: 'Veri Kümesi', val: 'Kaggle üzerinden 1993–2026 dönemini kapsayan küresel epidemiyoloji ve iklim verileri; klinik kayıtlar sentetiktir.' },
+                    { label: 'Model', val: 'Random Forest Regressor, %80/%20 eğitim-test ayrımı. Çapraz doğrulama yapılmadı.' },
+                    { label: 'Temel Çıkarım', val: 'Model test setinde R² = -0.04 verdi, yani ortalamayı tahmin etmekten iyi değil. Bu değişken setiyle kemirgen bolluğunda sinyal bulunamadı.' }
                 ],
                 en: [
                     { label: 'Objective', val: 'Model the relationship between Hantavirus outbreaks and ecological/climate variables to map spatial risk.' },
-                    { label: 'Dataset', val: '33-year global epidemiological, climatic, and rodent abundance records (1993–2026).' },
-                    { label: 'Architecture', val: 'Random Forest Regressor alongside lagged ecological feature importance analysis.' },
-                    { label: 'Key Finding', val: 'MSE: 0.0706; 1-quarter precipitation lag (19.7% weight) and deforestation are the primary drivers of rodent abundance.' }
+                    { label: 'Dataset', val: 'Global epidemiological and climate records for 1993–2026 from Kaggle; the clinical records are synthetic.' },
+                    { label: 'Architecture', val: 'Random Forest Regressor on an 80/20 train-test split. No cross-validation was performed.' },
+                    { label: 'Key Finding', val: 'The model scored R² = -0.04 on the test set, i.e. no better than predicting the mean. No signal for rodent abundance was found in this feature set.' }
                 ]
             },
             references: [
-                { title: 'World Health Organization (WHO)', desc: 'Zoonotic viral disease outbreak monitoring & epidemiological field reports (2024).' },
-                { title: 'Kaggle Global Environmental Health Dataset', desc: 'Climate indices, NDVI vegetation dynamics and rodent population time series.' },
+                { title: 'Kaggle — Hantavirus Global Dataset', desc: 'The only data source used here: country-year case records, environmental metrics, virus strains, and synthetic clinical records.' },
                 { title: 'Breiman, L. (2001)', desc: 'Random Forests. Machine Learning, 45(1), 5-32. DOI: 10.1023/A:1010933404324' },
-                { title: 'CDC Guidelines', desc: 'Hantavirus Pulmonary Syndrome (HPS) & Hemorrhagic Fever with Renal Syndrome (HFRS) Clinical Protocols.' }
+                { title: 'World Health Organization (WHO)', desc: 'Hantavirus fact sheets. Background reading on HPS/HFRS epidemiology — not used as a data source.' },
+                { title: 'CDC', desc: 'Hantavirus clinical overview. Background reading on clinical presentation — not used as a data source.' }
             ]
         },
         'r-data-analysis': {
@@ -171,23 +171,23 @@ document.addEventListener('DOMContentLoaded', () => {
         'hantavirus-analysis': {
             findings: {
                 tr: [
-                    { num: '01', title: 'Zaman Serisi Epidemiyolojisi', desc: '1993–2026 arasındaki 33 yıllık küresel veriler salgın dalgalanmalarının iklim anomalileriyle ilişkisini gösteriyor.', targetId: 'hanta-time-series' },
-                    { num: '02', title: 'Ekolojik Değişkenler', desc: 'Doğrudan yıllık sıcaklık (r = -0.26) yerine; gecikmeli yağışlar, NDVI ve ormansızlaşma vaka patlamalarını tetikliyor.', targetId: 'hanta-correlation' },
-                    { num: '03', title: 'Model Performansı', desc: 'Random Forest Regressor modeli MSE = 0.0706 hata değeri ve gecikmeli özellik ağırlıklandırmasıyla kemirgen popülasyonunu modelliyor.', targetId: 'hanta-time-series' }
+                    { num: '01', title: 'Zaman Serisi Epidemiyolojisi', desc: '1993–2026 arasındaki küresel vaka ve ölüm sayıları dalgalı bir seyir izliyor; pikler tek bir değişkenle açıklanmıyor.', targetId: 'hanta-time-series' },
+                    { num: '02', title: 'Ekolojik Değişkenler', desc: 'Yıllık ortalama sıcaklık ile vaka sayısı arasındaki korelasyon zayıf ve negatif (r = -0.26); sıcaklık tek başına vaka hacmini açıklamıyor.', targetId: 'hanta-correlation' },
+                    { num: '03', title: 'Model Performansı', desc: 'Random Forest Regressor test setinde R² = -0.04 verdi, yani ortalamayı tahmin etmekten iyi değil. Gecikmeli değişkenler bu veriyle kemirgen bolluğunu açıklamıyor.', targetId: 'hanta-time-series' }
                 ],
                 en: [
-                    { num: '01', title: 'Time Series Epidemiology', desc: '33-year global data reveals outbreak oscillations are closely synchronized with periodic climatic anomalies.', targetId: 'hanta-time-series' },
-                    { num: '02', title: 'Ecological Covariates', desc: 'Rather than raw annual temperature (r = -0.26), lagged rainfall, NDVI, and deforestation drive outbreak dynamics.', targetId: 'hanta-correlation' },
-                    { num: '03', title: 'Model Benchmark', desc: 'Random Forest Regressor pipeline predicts rodent abundance dynamics with MSE = 0.0706 error rate.', targetId: 'hanta-time-series' }
+                    { num: '01', title: 'Time Series Epidemiology', desc: 'Global case and death counts from 1993–2026 follow a fluctuating trend; the peaks are not explained by any single covariate.', targetId: 'hanta-time-series' },
+                    { num: '02', title: 'Ecological Covariates', desc: 'Annual mean temperature correlates weakly and negatively with case counts (r = -0.26); temperature alone does not explain outbreak volume.', targetId: 'hanta-correlation' },
+                    { num: '03', title: 'Model Benchmark', desc: 'The Random Forest Regressor scored R² = -0.04 on the test set, no better than predicting the mean. Lagged covariates do not explain rodent abundance in this dataset.', targetId: 'hanta-time-series' }
                 ]
             },
             methodology: {
-                tr: 'Kaggle üzerinden sağlanan 3 ayrı epidemiyoloji ve iklim veri kümesi temizlendi; Pearson korelasyon matrisi, zaman serisi ayrıştırması ve k-katlamalı çapraz doğrulama ile eğitilen Random Forest modeli kullanıldı.',
-                en: 'Three distinct Kaggle epidemiological & climate datasets were harmonized; Pearson correlation matrices, time-series decomposition, and k-fold cross-validated Random Forests were deployed.'
+                tr: 'Kaggle üzerinden sağlanan epidemiyoloji, iklim ve klinik veri kümeleri temizlendi; Pearson korelasyon matrisi, gecikmeli (lag) özellik üretimi ve %80/%20 eğitim-test ayrımıyla eğitilen bir Random Forest Regressor kullanıldı. Çapraz doğrulama yapılmadı, klinik kayıtlar sentetiktir.',
+                en: 'Kaggle epidemiological, climate, and clinical datasets were harmonized; the analysis used Pearson correlation matrices, lagged feature construction, and a Random Forest Regressor trained on an 80/20 split. No cross-validation was performed, and the clinical records are synthetic.'
             },
             conclusion: {
-                tr: 'İklim anomalileri ve ormansızlaşma kemirgenleri insan yerleşimlerine yönlendirerek salgın riskini 3-6 ay gecikmeyle artırmaktadır. Makine öğrenmesi erken uyarı protokolleri için kritik bir araçtır.',
-                en: 'Climate anomalies and deforestation push rodent hosts into human settlements with a 3–6 month lag. Machine learning serves as a viable early warning surveillance protocol.'
+                tr: 'Gecikmeli ekolojik zincir (yağış → bitki örtüsü → kemirgen) makul bir hipotez, ancak bu veri kümesi hipotezi doğrulamaya yetmedi: model test setinde ortalamayı geçemedi. Erken uyarı iddiası için bölge bazlı, daha uzun soluklu ve gerçek saha verisi gerekiyor.',
+                en: 'The lagged ecological chain (rainfall → vegetation → rodents) is a plausible hypothesis, but this dataset was not enough to confirm it: the model failed to beat the mean on the test set. An early-warning claim would require region-level, longer-span, real field data.'
             }
         },
         'r-data-analysis': {

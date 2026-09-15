@@ -44,16 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             <text x="26" y="57" fill="#ffffff" font-family="monospace" font-size="9" font-weight="600">NDVI (Lag 2): 17.9%</text>
                             
                             <rect x="20" y="68" width="132" height="18" fill="rgba(var(--primary-rgb), 0.40)" rx="3"/>
-                            <text x="26" y="81" fill="#ffffff" font-family="monospace" font-size="9" font-weight="600">Deforestation: 16.3%</text>
+                            <text x="26" y="81" fill="#ffffff" font-family="monospace" font-size="9" font-weight="600">Deforestation: 16.4%</text>
                             
                             <rect x="20" y="92" width="130" height="18" fill="rgba(var(--primary-rgb), 0.30)" rx="3"/>
                             <text x="26" y="105" fill="#ffffff" font-family="monospace" font-size="9" font-weight="600">NDVI (Lag 1): 16.2%</text>
                             
                             <line x1="20" y1="120" x2="220" y2="120" stroke="var(--card-border)" stroke-width="1"/>
-                            <text x="220" y="132" fill="var(--text-muted)" font-family="monospace" font-size="8" text-anchor="end">MSE: 0.0706</text>
+                            <text x="220" y="132" fill="var(--text-muted)" font-family="monospace" font-size="8" text-anchor="end">R² = -0.04 (test)</text>
                         </svg>
                     </div>
-                    <span class="datalab-caption font-mono">FEATURE IMPORTANCE · RANDOM FOREST REGRESSOR (LAGGED CLIMATE DRIVERS)</span>
+                    <span class="datalab-caption font-mono">FEATURE IMPORTANCE · NEAR-UNIFORM ACROSS 6 PREDICTORS · NO SIGNAL</span>
                 `;
             } else {
                 return `
@@ -290,13 +290,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <!-- TILE 3: KEY EMPIRICAL FINDINGS -->
                         <a href="/post/${featuredPost.id}" class="bento-tile bento-tile-stat" aria-label="${featuredPost.title} - Model Metrikleri">
                             <div class="bento-stat-item">
-                                <div class="bento-stat-val font-mono">0.0706</div>
-                                <div class="bento-stat-label">${currentLang === 'tr' ? 'Random Forest Hata Skoru (MSE)' : 'Random Forest Model Error (MSE)'}</div>
+                                <div class="bento-stat-val font-mono">${currentLang === 'tr' ? '33 Yıl' : '33 Yrs'}</div>
+                                <div class="bento-stat-label">${currentLang === 'tr' ? 'Küresel Epidemiyolojik Kayıt (1993-2026)' : 'Global Epidemiological Records (1993-2026)'}</div>
                             </div>
                             <div class="bento-stat-divider"></div>
                             <div class="bento-stat-item">
-                                <div class="bento-stat-val font-mono">33 Yıl</div>
-                                <div class="bento-stat-label">${currentLang === 'tr' ? 'Küresel Epidemiyolojik Kayıt (1993-2026)' : 'Global Epidemiological Records (1993-2026)'}</div>
+                                <div class="bento-stat-val font-mono">6</div>
+                                <div class="bento-stat-label">${currentLang === 'tr' ? 'Modele Giren Ekolojik Değişken (4\'ü gecikmeli)' : 'Ecological Predictors in Model (4 lagged)'}</div>
                             </div>
                         </a>
                     </div>

@@ -73,12 +73,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.16.4">
+    <link rel="stylesheet" href="style.css?v=2.16.5">
     <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
          media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
          simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
-    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.16.4'; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.16.4"></noscript>
+    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.16.5'; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=2.16.5"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -445,11 +445,11 @@
                 <!-- PROJE 1: HANTAVİRÜS VERİ BİLİMİ (FEATURED ML) -->
                 <div class="project-card glass-card reveal" data-category="ai">
                     <div class="project-image project-image--photo">
-                        <img src="images/hantavirus_card.webp" alt="Random Forest modelinde kemirgen nüfusunu en çok etkileyen faktörler: 3 ay önceki yağış miktarı %19,7 ile ilk sırada" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
+                        <img src="images/hantavirus_card.webp" alt="Random Forest modelinin gecikmeli ekolojik değişkenlere verdiği özellik ağırlıkları: altı değişken %14,8 ile %19,7 arasında neredeyse eşit dağılmış" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
                     </div>
                     <div class="project-body">
                         <div class="project-metric-badge" data-translate="proj1-metric">
-                            Random Forest · MSE: 0.0706 · 33 Yıllık Veri
+                            Random Forest · 33 Yıllık Veri · Gecikmeli Ekolojik Değişkenler
                         </div>
                         <h3 class="project-title" data-translate="proj1-title">Hantavirüs Veri Bilimi Projesi</h3>
                         <p class="project-description" data-translate="proj1-desc">
@@ -1228,8 +1228,8 @@
     </footer>
     </div>
 
-    <script src="translations.js?v=2.16.4" defer></script>
-    <script src="site-shell.js?v=2.16.4" defer></script>
+    <script src="translations.js?v=2.16.5" defer></script>
+    <script src="site-shell.js?v=2.16.5" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1238,10 +1238,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.16.4';
+            s.src = 'fluid-simulation.js?v=2.16.5';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.16.4" defer></script>
+    <script src="script.js?v=2.16.5" defer></script>
 </body>
 </html>
