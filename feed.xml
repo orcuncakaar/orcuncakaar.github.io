@@ -6,28 +6,7 @@
     <description>Istatistik, veri bilimi ve makine ogrenmesi uzerine teknik arastirma notlari.</description>
     <language>tr</language>
     <atom:link href="https://orcuncakar.com/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 12 Sep 2026 09:00:00 GMT</lastBuildDate>
-    <item>
-      <title>Veri Kartını Okumadan Kurduğum Model</title>
-      <link>https://orcuncakar.com/post/reading-the-data-card</link>
-      <guid isPermaLink="true">https://orcuncakar.com/post/reading-the-data-card</guid>
-      <pubDate>Sat, 12 Sep 2026 09:00:00 GMT</pubDate>
-      <description>Kaggle'dan indirdiğim hantavirüs veri kümesiyle aylarca çalıştım, bulgular yazdım. Veri kartını sonradan okudum: vaka sayıları stokastik gürültüyle üretilmiş, ölüm oranları literatüre kalibre edilmiş. Yani bulduğum her örüntüyü oraya başkası koymuştu.</description>
-    </item>
-    <item>
-      <title>Özellik Önem Dereceleri Ne Zaman Gürültüdür</title>
-      <link>https://orcuncakar.com/post/feature-importance-noise</link>
-      <guid isPermaLink="true">https://orcuncakar.com/post/feature-importance-noise</guid>
-      <pubDate>Thu, 06 Aug 2026 09:00:00 GMT</pubDate>
-      <description>Random Forest'ın verdiği özellik önem tablosu ikna edici görünüyordu: yağış birinci, bitki örtüsü ikinci. Sonra aynı veri kümesinin farklı bir anlık görüntüsünde sıralama tamamen değişti. Bir ağırlık tablosunun ne zaman bilgi, ne zaman gürültü olduğu üzerine.</description>
-    </item>
-    <item>
-      <title>Negatif R² Gördüm: MSE Neden Tek Başına Yalan Söyler</title>
-      <link>https://orcuncakar.com/post/r-squared-trap</link>
-      <guid isPermaLink="true">https://orcuncakar.com/post/r-squared-trap</guid>
-      <pubDate>Thu, 18 Jun 2026 09:00:00 GMT</pubDate>
-      <description>Hantavirüs projemde kurduğum Random Forest test setinde MSE = 0.0706 verdi; kulağa iyi geliyordu. Aynı çıktıdaki R² = -0.0357'yi görene kadar. İki metriğin neden farklı şeyler söylediğini kendi sayılarım üzerinden anlatıyorum.</description>
-    </item>
+    <lastBuildDate>Fri, 22 May 2026 09:00:00 GMT</lastBuildDate>
     <item>
       <title>Hantavirüs Ekolojik Modelleme ve Veri Bilimi Çalışması</title>
       <link>https://orcuncakar.com/post/hantavirus-analysis</link>
