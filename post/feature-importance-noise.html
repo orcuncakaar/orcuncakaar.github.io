@@ -29,36 +29,36 @@
             } catch (e) {}
         })();
     </script>
-    <title id="page-head-title">Yapay Zeka ve Makine Öğrenmesi Yolculuğum | Orçun Çakar</title>
+    <title id="page-head-title">Özellik Önem Dereceleri Ne Zaman Gürültüdür | Orçun Çakar</title>
 
-    <meta name="description" id="meta-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
-    <meta name="keywords" id="meta-keywords" content="Yapay Zeka, Makine Öğrenmesi, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar">
+    <meta name="description" id="meta-description" content="Random Forest'ın verdiği özellik önem tablosu ikna edici görünüyordu: yağış birinci, bitki örtüsü ikinci. Sonra aynı veri kümesinin farklı bir anlık görüntüsünde sıralama tamamen değişti. Bir ağırlık tablosunun ne zaman bilgi, ne zaman gürültü olduğu üzerine.">
+    <meta name="keywords" id="meta-keywords" content="Makine Öğrenmesi, Model Doğrulama, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar">
     <meta name="author" content="Orçun Çakar">
-    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/post/ai-journey">
+    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/post/feature-importance-noise">
     <link rel="alternate" type="application/rss+xml" title="Orcun Cakar - Arastirma Notlari" href="/feed.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp) -->
-    <meta property="og:title" id="og-title" content="Yapay Zeka ve Makine Öğrenmesi Yolculuğum | Orçun Çakar">
-    <meta property="og:description" id="og-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
+    <meta property="og:title" id="og-title" content="Özellik Önem Dereceleri Ne Zaman Gürültüdür | Orçun Çakar">
+    <meta property="og:description" id="og-description" content="Random Forest'ın verdiği özellik önem tablosu ikna edici görünüyordu: yağış birinci, bitki örtüsü ikinci. Sonra aynı veri kümesinin farklı bir anlık görüntüsünde sıralama tamamen değişti. Bir ağırlık tablosunun ne zaman bilgi, ne zaman gürültü olduğu üzerine.">
     <meta property="og:type" content="article">
-    <meta property="og:url" id="og-url" content="https://orcuncakar.com/post/ai-journey">
-    <meta property="og:image" id="og-image" content="https://orcuncakar.com/images/hanta_plot_8.png">
+    <meta property="og:url" id="og-url" content="https://orcuncakar.com/post/feature-importance-noise">
+    <meta property="og:image" id="og-image" content="https://orcuncakar.com/images/hanta_plot_9.png">
     <meta property="og:site_name" content="Orçun Çakar">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twitter-title" content="Yapay Zeka ve Makine Öğrenmesi Yolculuğum | Orçun Çakar">
-    <meta name="twitter:description" id="twitter-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
-    <meta name="twitter:image" id="twitter-image" content="https://orcuncakar.com/images/hanta_plot_8.png">
+    <meta name="twitter:title" id="twitter-title" content="Özellik Önem Dereceleri Ne Zaman Gürültüdür | Orçun Çakar">
+    <meta name="twitter:description" id="twitter-description" content="Random Forest'ın verdiği özellik önem tablosu ikna edici görünüyordu: yağış birinci, bitki örtüsü ikinci. Sonra aynı veri kümesinin farklı bir anlık görüntüsünde sıralama tamamen değişti. Bir ağırlık tablosunun ne zaman bilgi, ne zaman gürültü olduğu üzerine.">
+    <meta name="twitter:image" id="twitter-image" content="https://orcuncakar.com/images/hanta_plot_9.png">
 
     <!-- Schema.org JSON-LD Structured Data (TechArticle) -->
     <script type="application/ld+json" id="article-schema">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Yapay Zeka ve Makine Öğrenmesi Yolculuğum",
-  "description": "Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.",
-  "image": "https://orcuncakar.com/images/hanta_plot_8.png",
+  "headline": "Özellik Önem Dereceleri Ne Zaman Gürültüdür",
+  "description": "Random Forest'ın verdiği özellik önem tablosu ikna edici görünüyordu: yağış birinci, bitki örtüsü ikinci. Sonra aynı veri kümesinin farklı bir anlık görüntüsünde sıralama tamamen değişti. Bir ağırlık tablosunun ne zaman bilgi, ne zaman gürültü olduğu üzerine.",
+  "image": "https://orcuncakar.com/images/hanta_plot_9.png",
   "inLanguage": "tr",
   "author": {
     "@type": "Person",
@@ -66,11 +66,11 @@
     "jobTitle": "Statistics Student & Data Science / Machine Learning Intern",
     "url": "https://orcuncakar.com"
   },
-  "datePublished": "2026-05-02",
-  "keywords": "Yapay Zeka, Makine Öğrenmesi, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar",
+  "datePublished": "2026-08-06",
+  "keywords": "Makine Öğrenmesi, Model Doğrulama, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://orcuncakar.com/post/ai-journey"
+    "@id": "https://orcuncakar.com/post/feature-importance-noise"
   }
 }
     </script>
@@ -209,24 +209,24 @@
                 <!-- 1. EDITORIAL ARTICLE HEADER -->
                 <header class="article-header" id="article-header">
                     <div class="article-header-meta-top font-mono">
-                        <span class="article-note-num" id="article-note-num">RESEARCH NOTE / 002</span>
+                        <span class="article-note-num" id="article-note-num">RESEARCH NOTE / 006</span>
                         <span class="meta-sep">/</span>
-                        <span class="article-cat-badge" id="article-cat-badge">DERİN ÖĞRENME &amp; MODELLEME</span>
+                        <span class="article-cat-badge" id="article-cat-badge">MODEL YORUMLANABİLİRLİĞİ</span>
                     </div>
 
-                    <h1 class="article-heading-title" id="article-title">Yapay Zeka ve Makine Öğrenmesi Yolculuğum</h1>
+                    <h1 class="article-heading-title" id="article-title">Özellik Önem Dereceleri Ne Zaman Gürültüdür</h1>
 
-                    <p class="article-lead-excerpt" id="article-subtitle">Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.</p>
+                    <p class="article-lead-excerpt" id="article-subtitle">Random Forest'ın verdiği özellik önem tablosu ikna edici görünüyordu: yağış birinci, bitki örtüsü ikinci. Sonra aynı veri kümesinin farklı bir anlık görüntüsünde sıralama tamamen değişti. Bir ağırlık tablosunun ne zaman bilgi, ne zaman gürültü olduğu üzerine.</p>
 
                     <div class="article-header-meta-bottom font-mono">
-                        <span id="article-date">2 Mayıs 2026</span>
+                        <span id="article-date">6 Ağustos 2026</span>
                         <span class="meta-dot">·</span>
-                        <span id="article-readtime">2 dk okuma</span>
+                        <span id="article-readtime">6 dk okuma</span>
                         <span class="meta-dot">·</span>
                         <span class="author-label" data-translate="article-author">Orçun Çakar</span>
                     </div>
 
-                    <div class="article-tags-cluster font-mono" id="article-tags"><span class="article-topic-tag">#Yapay Zeka</span><span class="article-topic-tag">#Makine Öğrenmesi</span></div>
+                    <div class="article-tags-cluster font-mono" id="article-tags"><span class="article-topic-tag">#Makine Öğrenmesi</span><span class="article-topic-tag">#Model Doğrulama</span></div>
                 </header>
 
                 <!-- 2. STRUCTURED QUICK READ / 60 SECONDS -->
@@ -250,7 +250,19 @@
                     <!-- MAIN READING COLUMN (MAX 740px) -->
                     <article class="article-content-column">
                         <div class="article-prose-content" id="article-body-content">
-<h2>Neden Yapay Zeka?</h2><p>Gazi Üniversitesi İstatistik bölümündeki eğitimim boyunca, veri analizi ve olasılık teorisinin yapay zekanın temelini oluşturduğunu fark ettim. Matematiksel temelleri öğrendikçe, bu teorileri makine öğrenmesi modellerine dönüştürme heyecanı beni <strong>Python</strong> ve veri bilimi kütüphaneleriyle tanıştırdı.</p><p>Bu yazımda, kendi kendimi geliştirdiğim bu heyecanlı yapay zeka serüvenimi ve izlediğim adımları paylaşmak istedim.</p><h2 id="ai-math">1. Temel Programlama ve Matematiksel Altyapı</h2><p>Yapay zeka alanında ilerlemek için öncelikle sağlam bir programlama diline hakim olmak gerekiyordu. Bu noktada Python, zengin veri bilimi kütüphaneleriyle en mantıklı seçenek oldu. Nesne yönelimli programlama, veri yapıları ve algoritmaları öğrendikten sonra; istatistikteki doğrusal cebir, olasılık ve kalkülüs derslerinin makine öğrenmesinde nasıl kullanıldığını keşfettim.</p><p>Çünkü regresyon modelleri aslında birer optimizasyon problemidir ve Gradyan İnişi (Gradient Descent) gibi kavramlar doğrudan kalkülüse dayanır.</p><h2 id="ai-preprocessing">2. Veri Ön İşleme (Pandas & NumPy)</h2><p>Gerçek hayattaki veriler temiz ve düzenli değildir. Eksik verilerle baş etmek, aykırı değerleri (outliers) analiz etmek ve kategorik verileri sayısal formata dönüştürmek (One-Hot Encoding vb.) makine öğrenmesinin en kritik aşamasıdır. Python'da <code>numpy</code> ve <code>pandas</code> kütüphanelerini kullanarak veri ön işleme süreçlerini otomatikleştirdim.</p><h2 id="ai-validation">3. Model Geliştirme (Scikit-Learn)</h2><p>Veriyi hazır hale getirdikten sonra, <code>Scikit-Learn</code> kütüphanesi sayesinde denetimli ve denetimsiz öğrenme algoritmalarını uygulamaya başladım. Kurduğum modellerde şu adımları izliyorum:</p><ul><li>Veriyi Eğitim ve Test setlerine ayırma (Train-Test Split)</li><li>Sınıflandırma (Lojistik Regresyon, Karar Ağaçları, Random Forest) veya Regresyon analizi yapma</li><li>Çapraz Doğrulama (Cross-Validation) ile aşırı öğrenmeyi (overfitting) engelleme</li><li>Model performansını Metriklerle (Accuracy, Precision, Recall, F1-Score, MSE) değerlendirme</li></ul><p>Bu adımlar sayesinde modelin teoride değil, gerçek hayatta da başarılı tahminler yapmasını sağlıyoruz.</p><h2 id="ai-deeplearning">4. Derin Öğrenmeye İlk Adım (PyTorch)</h2><p>Geleneksel makine öğrenmesi modellerini başarıyla kurduktan sonra derin öğrenmenin karmaşık yapılarına yöneldim. <code>PyTorch</code> kütüphanesini kullanarak yapay sinir ağları tasarlamak, yapay zekanın limitlerini zorlamamı sağladı. Katmanların çalışma mantığını ve aktivasyon fonksiyonlarını deneyimleyerek geleceğe yönelik daha karmaşık projelere hazırlanıyorum.</p><h2>Son Söz</h2><p>Yapay zeka ve veri bilimi, bitmeyen bir öğrenme sürecidir. Teorik istatistik bilgimi pratik yazılım çözümleriyle birleştirdikçe, verileri geleceği tahmin eden araçlara dönüştürebiliyorum. Bu alanda ilerlemek isteyen herkese tavsiyem; teoriyi asla küçümsememeleri ve bol bol pratik proje geliştirmeleridir.</p>
+<h2>İkna edici görünen tablo</h2><p>Hantavirüs projesinde kurduğum Random Forest, kemirgen bolluğunu altı çevresel değişkenle tahmin etmeye çalışıyordu. <code>feature_importances_</code> çıktısı şuydu:</p><pre><code>rainfall_lag1            19.7
+ndvi_lag2                17.9
+deforestation_rate_pct   16.4
+ndvi_lag1                16.2
+rainfall_lag2            15.0
+mean_temperature_c       14.8</code></pre><p>Bu tabloyu ilk gördüğümde hikâyeyi hemen kurdum: <em>bir dönem önceki yağış en belirleyici faktör, onu bitki örtüsü izliyor, sıcaklık ise beklendiği gibi en zayıfı.</em> Ekolojik olarak da mantıklıydı. Sorun şu ki bu hikâyenin verideki karşılığı yoktu.</p><h2 id="fi-uniform">1. Birinci uyarı: dağılımın kendisi</h2><p><code>feature_importances_</code> toplamı her zaman 1'e (yüzde olarak 100'e) eşittir. Yani altı değişken varsa, <strong>hiçbir şey öğrenmemiş bir modelin</strong> beklenen dağılımı kabaca eşittir:</p><pre><code>1 / 6 = 0.167  →  %16.7</code></pre><p>Şimdi tabloya tekrar bakalım. Değerler <strong>%14.8 ile %19.7</strong> arasında. En yüksek ile en düşük arasındaki fark 4.9 puan; eşit dağılımdan sapma ise en fazla 3 puan. Bu bir sıralama değil, eşit dağılımın etrafındaki dalgalanma.</p><p>Karşılaştırma için: gerçekten sinyal taşıyan bir modelde ilk değişkenin %40-60 bandına çıktığını, son sıradakilerin %2-3'e düştüğünü görürsünüz. Böyle bir tabloda hangi faktörün baskın olduğu tartışma konusu olmaz.</p><h2 id="fi-instability">2. İkinci uyarı: sıralamanın kararsızlığı</h2><p>Asıl kanıt sonra geldi. Aynı notebook'u, aynı veri kümesinin daha güncel bir sürümüyle tekrar çalıştırdım (kullandığım Kaggle veri kümesi periyodik olarak güncelleniyor). Sonuç:</p><pre><code>Değişken                  1. çalıştırma   2. çalıştırma
+-----------------------------------------------------
+deforestation_rate_pct        16.4            20.5   (3. → 1.)
+mean_temperature_c            14.8            17.0   (6. → 2.)
+rainfall_lag1                 19.7            16.1   (1. → 3.)
+ndvi_lag2                     17.9            15.8   (2. → 4.)
+rainfall_lag2                 15.0            15.3
+ndvi_lag1                     16.2            15.3</code></pre><p>Birinci sıradaki değişken üçüncülüğe düştü. <strong>Son sıradaki sıcaklık ikinciliğe çıktı.</strong> İlk çalıştırmanın hikâyesini yazmış olsaydım, ikinci çalıştırma o hikâyeyi tamamen çürütürdü.</p><p>Bir ağırlık tablosunun ne kadar bilgi taşıdığını sınamanın en pratik yolu budur: <strong>koşulları biraz değiştir ve sıralamanın ayakta kalıp kalmadığına bak.</strong> Veri anlık görüntüsü, rastgele tohum, eğitim-test ayrımı — hangisini oynatırsanız oynatın, gerçek bir sinyal büyük ölçüde yerinde kalır.</p><h2 id="fi-why">3. Bunun neden olduğu</h2><p>Üç sebep var, üçü de benim durumumda geçerliydi:</p><ul><li><strong>Model zaten sinyal bulamamıştı.</strong> Aynı çalıştırmanın R²'si <code>-0.0357</code> idi, yani model ortalamayı tahmin etmekten daha kötüydü. <strong>Sinyal bulamamış bir modelin ağırlıkları, tanım gereği gürültünün dağılımıdır.</strong> Bu tek başına yeterli bir sebep.</li><li><strong>Saflık temelli (impurity-based) önem ölçüsü yanlıdır.</strong> Scikit-learn'ün varsayılan <code>feature_importances_</code> değeri, ağaçlarda bölme yaparken elde edilen saflık kazancını toplar. Bu ölçü, çok sayıda farklı değer alabilen sürekli değişkenleri sistematik olarak kayırır — çünkü onlarla bölünecek daha çok nokta vardır.</li><li><strong>Değişkenler birbiriyle ilişkiliydi.</strong> <code>rainfall_lag1</code> ile <code>rainfall_lag2</code>, ya da <code>ndvi_lag1</code> ile <code>ndvi_lag2</code> doğal olarak korelasyonlu. İlişkili değişkenler arasında önem payı keyfî biçimde bölüşülür; küçük bir veri değişikliği bu bölüşümü tamamen değiştirebilir.</li></ul><h2 id="fi-what">4. Ne yapmalı</h2><ul><li><strong>Önce model performansına bak.</strong> R² veya uygun bir başarı ölçüsü taban çizgisini geçmiyorsa özellik önemini hiç açma. Sıralama orada bir şey anlatmıyor.</li><li><strong>Permütasyon önemini tercih et.</strong> <code>sklearn.inspection.permutation_importance</code>, bir değişkeni karıştırdığında <em>test</em> başarısının ne kadar düştüğünü ölçer. Saflık temelli ölçünün kardinalite yanlılığını taşımaz ve doğrudan tahmin gücüne bağlıdır.</li><li><strong>Kararlılığı raporla.</strong> Farklı tohumlarla veya çapraz doğrulama katmanlarıyla modeli birkaç kez kur, ağırlıkların dağılımını ver. Tek bir tablo yerine bir aralık göstermek hem daha dürüst hem daha bilgilendirici.</li><li><strong>İlişkili değişkenleri grupla.</strong> Birbirinin yerine geçebilen değişkenleri tek tek sıralamak yerine küme olarak değerlendir.</li></ul><h2>Sonuç</h2><p>Özellik önem tabloları, makine öğrenmesi çıktıları arasında en kolay anlatılan ve bu yüzden en çok paylaşılan şey. Çubuk grafiğe dönüştürüldüğünde ikna edici görünüyorlar — hatta model işe yaramadığında bile. Benim çıkardığım ders şu: <strong>bir ağırlık tablosu, modelin tahmin gücü kanıtlanmadan önce bir bulgu değil, bir çıktı biçimidir.</strong></p><p>Model performansının neden bu kadar düşük olduğunu <a href="/post/r-squared-trap">negatif R² üzerine yazdığım notta</a>, verinin kendisinden gelen sorunu ise <a href="/post/reading-the-data-card">veri kartı notunda</a> anlattım.</p>
                         </div>
 
                         <!-- 4. ACADEMIC REFERENCES SECTION -->

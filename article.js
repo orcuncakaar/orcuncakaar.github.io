@@ -95,6 +95,75 @@ document.addEventListener('DOMContentLoaded', () => {
                 { title: 'CDC', desc: 'Hantavirus clinical overview. Background reading on clinical presentation — not used as a data source.' }
             ]
         },
+        'r-squared-trap': {
+            noteNumber: '005',
+            category: { tr: 'MODEL DEĞERLENDİRME', en: 'MODEL EVALUATION' },
+            quickRead: {
+                tr: [
+                    { label: 'Amaç', val: 'Regresyonda MSE ve R² metriklerinin neden farklı şeyler söylediğini kendi model çıktım üzerinden göstermek.' },
+                    { label: 'Vaka', val: 'Hantavirüs projesindeki Random Forest: test setinde MSE = 0.0706, R² = -0.0357.' },
+                    { label: 'Yöntem', val: 'R² = 1 - MSE/Var(y) bağıntısından ortalama tahmincisinin hatasını geri hesaplamak.' },
+                    { label: 'Temel Çıkarım', val: 'Ortalamayı söyleyen model MSE ≈ 0.0682 verirdi; yani kurduğum model sabit bir tahminden daha kötü. MSE tek başına bunu gizliyor.' }
+                ],
+                en: [
+                    { label: 'Objective', val: 'Show why MSE and R² tell different stories in regression, worked through my own model output.' },
+                    { label: 'Case', val: 'The Random Forest from my Hantavirus project: MSE = 0.0706 and R² = -0.0357 on the test set.' },
+                    { label: 'Method', val: 'Recovering the mean-predictor error from the identity R² = 1 - MSE/Var(y).' },
+                    { label: 'Key Finding', val: 'Predicting the mean would give MSE ≈ 0.0682, so the model is worse than a constant. The MSE alone conceals this.' }
+                ]
+            },
+            references: [
+                { title: 'Kvålseth, T. O. (1985)', desc: 'Cautionary Note about R². The American Statistician, 39(4), 279-285.' },
+                { title: 'scikit-learn — r2_score & DummyRegressor', desc: 'Reference documentation for the coefficient of determination and the mean baseline estimator.' },
+                { title: 'Hantavirus notebook (own work)', desc: 'Source of the two figures used here: kaggle.com/code/orunakar/hantavir-s-gecikmeli-ekolojik-modelleme' }
+            ]
+        },
+        'feature-importance-noise': {
+            noteNumber: '006',
+            category: { tr: 'MODEL YORUMLANABİLİRLİĞİ', en: 'MODEL INTERPRETABILITY' },
+            quickRead: {
+                tr: [
+                    { label: 'Amaç', val: 'Bir özellik önem tablosunun ne zaman bilgi, ne zaman gürültü olduğunu ayırt etmek.' },
+                    { label: 'Vaka', val: 'Altı değişkenli Random Forest; ağırlıklar %14.8-19.7 aralığında, eşit dağılım ise 1/6 = %16.7.' },
+                    { label: 'Sınama', val: 'Aynı veri kümesinin iki anlık görüntüsünde sıralamanın kararlı kalıp kalmadığına bakmak.' },
+                    { label: 'Temel Çıkarım', val: 'Sıralama tamamen değişti: ormansızlaşma 3. → 1., sıcaklık 6. → 2. Sinyal bulamamış modelin ağırlıkları gürültüyü tarif eder.' }
+                ],
+                en: [
+                    { label: 'Objective', val: 'Distinguish when a feature importance table carries information and when it is noise.' },
+                    { label: 'Case', val: 'A six-variable Random Forest; weights span 14.8-19.7% while the uniform share is 1/6 = 16.7%.' },
+                    { label: 'Test', val: 'Checking whether the ranking survives across two snapshots of the same dataset.' },
+                    { label: 'Key Finding', val: 'It did not: deforestation moved 3rd → 1st and temperature 6th → 2nd. Importances from a model without signal describe noise.' }
+                ]
+            },
+            references: [
+                { title: 'Strobl, C., Boulesteix, A.-L., Zeileis, A., & Hothorn, T. (2007)', desc: 'Bias in random forest variable importance measures: illustrations, sources and a solution. BMC Bioinformatics, 8:25.' },
+                { title: 'Breiman, L. (2001)', desc: 'Random Forests. Machine Learning, 45(1), 5-32. DOI: 10.1023/A:1010933404324' },
+                { title: 'scikit-learn — permutation_importance', desc: 'Held-out permutation importance as an alternative to impurity-based importance.' }
+            ]
+        },
+        'reading-the-data-card': {
+            noteNumber: '007',
+            category: { tr: 'VERİ KALİTESİ & ARAŞTIRMA ETİĞİ', en: 'DATA QUALITY & RESEARCH ETHICS' },
+            quickRead: {
+                tr: [
+                    { label: 'Amaç', val: 'Bir veri kümesinin nasıl üretildiğini bilmeden yapılan analizin hangi noktada çıkarım olmaktan çıktığını göstermek.' },
+                    { label: 'Vaka', val: 'Kullandığım Kaggle veri kümesi baştan sona simüle: vaka sayıları stokastik gürültüyle üretilmiş, ölüm oranları literatüre kalibre edilmiş.' },
+                    { label: 'Etkisi', val: 'Literatürle örtüşen CFR farkı bir doğrulama değil, üretim aşamasında konmuş varsayımın geri okunması.' },
+                    { label: 'Temel Çıkarım', val: 'Negatif R²\'nin en olası sebebi teknik değil: aranan gecikmeli mekanizma veriye hiç kodlanmamış olabilir.' }
+                ],
+                en: [
+                    { label: 'Objective', val: 'Show where an analysis stops being inference when you do not know how the dataset was produced.' },
+                    { label: 'Case', val: 'The Kaggle dataset I used is simulated end to end: case counts generated with stochastic noise, fatality rates calibrated to the literature.' },
+                    { label: 'Impact', val: 'The CFR gap agreeing with the literature is not a validation but an assumption inserted at generation time, read back out.' },
+                    { label: 'Key Finding', val: 'The likeliest cause of the negative R² is not technical: the lagged mechanism may never have been encoded into the data.' }
+                ]
+            },
+            references: [
+                { title: 'Gebru, T. et al. (2021)', desc: 'Datasheets for Datasets. Communications of the ACM, 64(12), 86-92.' },
+                { title: 'Khurram Shahzad — Hantavirus (Andes Virus): Global Epidemiology (Kaggle, CC BY-SA 4.0)', desc: 'The dataset in question and the source of every quotation in this note. kaggle.com/datasets/zkskhurram/hantavirus-andes-virus-global-epidemiology' },
+                { title: 'Kaggle — Dataset versioning', desc: 'Pinning a dataset version as notebook input, the practical fix for reproducibility.' }
+            ]
+        },
         'r-data-analysis': {
             noteNumber: '001',
             category: { tr: 'İSTATİSTİK & HESAPLAMALI ANALİTİK', en: 'STATISTICS & COMPUTATIONAL ANALYTICS' },
@@ -188,6 +257,72 @@ document.addEventListener('DOMContentLoaded', () => {
             conclusion: {
                 tr: 'Gecikmeli ekolojik zincir (yağış → bitki örtüsü → kemirgen) makul bir hipotez, ancak bu veri kümesi hipotezi test etmeye uygun değil: veri simüle ve aranan mekanizma ona muhtemelen hiç kodlanmamış. Asıl çıkarım modelle ilgili değil, veri seçimiyle ilgili — bir örüntüyü aramadan önce o örüntünün veride bulunabilir olmasının bir sebebi olup olmadığı sorulmalı.',
                 en: 'The lagged ecological chain (rainfall → vegetation → rodents) is a plausible hypothesis, but this dataset is not suited to testing it: the data is simulated and the mechanism was probably never encoded into it. The real takeaway is about data selection rather than modelling — before hunting for a pattern, ask whether there is any reason it should be findable in this data.'
+            }
+        },
+        'r-squared-trap': {
+            findings: {
+                tr: [
+                    { num: '01', title: 'Ölçeksiz MSE Bilgi Taşımaz', desc: 'MSE hedefin karesel biriminde ölçülür; 0.0706 değeri, hedef 0-1 aralığında bir indeks olduğu için aslında ölçeğin dörtte birinden fazla sapma demek.', targetId: 'r2-scale' },
+                    { num: '02', title: 'Negatif R² Ne Anlatır', desc: 'R², modeli ortalamayı tahmin eden modelle kıyaslar. Negatif değer, modelin sabit bir tahminden daha kötü olduğunu söyler ve test setinde gayet mümkündür.', targetId: 'r2-meaning' },
+                    { num: '03', title: 'İki Sayıdan Üçüncüsü', desc: 'Var(y) = MSE/(1-R²) bağıntısı ortalama tahmincisinin hatasını 0.0682 veriyor — modelin 0.0706\'sından düşük. Karşılaştırma ancak iki metrik yan yana konunca görünüyor.', targetId: 'r2-arithmetic' }
+                ],
+                en: [
+                    { num: '01', title: 'A Scale-Free MSE Is Not Information', desc: 'MSE carries the squared unit of the target; 0.0706 on a target already bounded in 0-1 means a deviation of more than a quarter of the range.', targetId: 'r2-scale' },
+                    { num: '02', title: 'What a Negative R² Says', desc: 'R² compares the model against a mean-predictor. A negative value means the model is worse than a constant prediction, which is entirely possible on a test set.', targetId: 'r2-meaning' },
+                    { num: '03', title: 'The Third Number', desc: 'Var(y) = MSE/(1-R²) puts the mean-predictor error at 0.0682 — below the model\'s 0.0706. The comparison only appears once both metrics sit side by side.', targetId: 'r2-arithmetic' }
+                ]
+            },
+            methodology: {
+                tr: 'Hantavirüs projesindeki Random Forest Regressor\'ın test seti çıktısı (MSE = 0.0706, R² = -0.0357) başlangıç noktası alındı; R² = 1 - MSE/Var(y) özdeşliğinden ortalama tahmincisinin hatası geri hesaplandı ve iki model karşılaştırıldı.',
+                en: 'Starting from the test-set output of the Random Forest Regressor in my Hantavirus project (MSE = 0.0706, R² = -0.0357), the mean-predictor error was recovered from the identity R² = 1 - MSE/Var(y) and the two models compared.'
+            },
+            conclusion: {
+                tr: 'Regresyonda tek metrik yetmez: önce ortalama tahmincisiyle bir taban çizgisi kur, R²\'yi o kıyasla birlikte ver, MSE veya RMSE\'yi ise hedefin ölçeğini belirterek yaz. MSE\'yi raporlayıp R²\'yi atlamak yalan söylemek değil ama okuyucunun yanlış sonuca varmasına izin vermektir.',
+                en: 'One metric is not enough in regression: establish a mean-predictor baseline first, report R² alongside that comparison, and give MSE or RMSE with the target\'s scale. Reporting the MSE while omitting the R² is not a lie, but it lets the reader reach a conclusion you know is wrong.'
+            }
+        },
+        'feature-importance-noise': {
+            findings: {
+                tr: [
+                    { num: '01', title: 'Eşit Dağılım Sınaması', desc: 'Altı değişken için beklenen eşit pay %16.7; gözlenen ağırlıklar %14.8-19.7 aralığında sıkışmış, yani eşit dağılımdan en fazla 3 puan sapıyor.', targetId: 'fi-uniform' },
+                    { num: '02', title: 'Sıralama Kararsız', desc: 'Aynı veri kümesinin iki anlık görüntüsünde ormansızlaşma 3.\'lükten 1.\'liğe, sıcaklık ise sonunculuktan 2.\'liğe çıktı. İlk çalıştırmanın hikâyesini ikincisi çürütürdü.', targetId: 'fi-instability' },
+                    { num: '03', title: 'Üç Sebep', desc: 'Model zaten sinyal bulamamıştı (R² = -0.0357); saflık temelli ölçü yüksek kardinaliteli değişkenleri kayırır; ilişkili gecikmeli değişkenler önem payını keyfî bölüşür.', targetId: 'fi-why' }
+                ],
+                en: [
+                    { num: '01', title: 'The Uniform Test', desc: 'The expected equal share across six variables is 16.7%; observed weights span 14.8-19.7%, departing from uniform by at most 3 points.', targetId: 'fi-uniform' },
+                    { num: '02', title: 'The Ranking Is Unstable', desc: 'Across two snapshots of the same dataset, deforestation moved from 3rd to 1st and temperature from last to 2nd. The second run would have refuted the first run\'s story.', targetId: 'fi-instability' },
+                    { num: '03', title: 'Three Causes', desc: 'The model had no signal to begin with (R² = -0.0357); impurity-based importance favours high-cardinality variables; correlated lagged features split their share arbitrarily.', targetId: 'fi-why' }
+                ]
+            },
+            methodology: {
+                tr: 'Altı gecikmeli çevresel değişkenle eğitilen Random Forest\'ın feature_importances_ çıktısı, önce eşit dağılım beklentisiyle (1/6) karşılaştırıldı; ardından aynı notebook veri kümesinin daha güncel bir sürümüyle yeniden çalıştırılarak sıralamanın kararlılığı sınandı.',
+                en: 'The feature_importances_ output of a Random Forest trained on six lagged environmental variables was first compared against the uniform expectation (1/6); the same notebook was then re-run on a newer version of the dataset to test the stability of the ranking.'
+            },
+            conclusion: {
+                tr: 'Bir ağırlık tablosu, modelin tahmin gücü kanıtlanmadan önce bir bulgu değil, bir çıktı biçimidir. Önce taban çizgisinin geçildiğini doğrula; sonra saflık temelli ölçü yerine permütasyon önemini kullan ve ağırlıkları tek tablo yerine tohumlar arası bir aralık olarak raporla.',
+                en: 'Before a model\'s predictive power is established, a weight table is not a finding but an output format. Confirm the baseline is beaten first; then prefer permutation importance over the impurity-based measure and report weights as a range across seeds rather than a single table.'
+            }
+        },
+        'reading-the-data-card': {
+            findings: {
+                tr: [
+                    { num: '01', title: 'Veri Kartının Söyledikleri', desc: 'Vaka sayıları taban değer × eğilim × stokastik gürültüyle üretilmiş, ölüm oranları literatüre kalibre edilmiş, zaman serisindeki eğilim veriye kasten yazılmış.', targetId: 'dc-card' },
+                    { num: '02', title: 'Bulguların Statüsü Düştü', desc: 'Literatürle örtüşen CFR farkı bir doğrulama değil; oranlar zaten literatüre göre üretildiği için kendi varsayımımı geri okumuşum.', targetId: 'dc-consequences' },
+                    { num: '03', title: 'Modelin Gerçek Sorunu', desc: 'Kartta kemirgen indeksinin gecikmeli yağış veya NDVI\'den türetildiğine dair hiçbir ifade yok. Model, var olmayan bir ilişkiyi aramış olabilir.', targetId: 'dc-model' }
+                ],
+                en: [
+                    { num: '01', title: 'What the Data Card Said', desc: 'Case counts generated from baseline × trend × stochastic noise, fatality rates calibrated to the literature, and the temporal trend written into the data deliberately.', targetId: 'dc-card' },
+                    { num: '02', title: 'Findings Downgraded', desc: 'The CFR gap matching the literature is not a validation; the rates were generated from that literature, so I read my own assumption back out.', targetId: 'dc-consequences' },
+                    { num: '03', title: 'The Model\'s Real Problem', desc: 'The card never states that the rodent index derives from lagged rainfall or NDVI. The model may have been searching for a relationship that does not exist.', targetId: 'dc-model' }
+                ]
+            },
+            methodology: {
+                tr: 'Analizde kullanılan Kaggle veri kümesinin veri kartı (dataset card) satır satır okundu; üretim yöntemine dair ifadeler, çalışmada daha önce "bulgu" olarak sunulan sonuçlarla tek tek karşılaştırıldı.',
+                en: 'The data card of the Kaggle dataset used in the analysis was read line by line, and its statements about the generation process were compared one by one against the results the study had previously presented as findings.'
+            },
+            conclusion: {
+                tr: 'Simüle veriyle çalışmak yanlış değil; yöntem öğrenmek için ideal. Yanlış olan, simüle veriden çıkan sonucu dünya hakkında bir iddia gibi sunmak. Bu sınırı tek bir cümle korur: verinin nereden geldiğini yaz.',
+                en: 'Working with simulated data is not wrong; it is ideal for learning method. What is wrong is presenting a result from simulated data as a claim about the world. A single sentence holds that boundary: say where the data came from.'
             }
         },
         'r-data-analysis': {

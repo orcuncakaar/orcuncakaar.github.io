@@ -166,6 +166,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             }
         }
+
+        // Tanimsiz yazi kimlikleri icin varsayilan gorsel.
+        // Bu dal olmadan fonksiyon undefined donuyor ve kart HTML'ine "undefined" basiliyordu;
+        // yeni yazi eklendiginde ilk fark edilen sey bu olurdu.
+        if (isLarge) {
+            return `
+                <div class="datalab-svg-box">
+                    <svg viewBox="0 0 240 140" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="28" y1="118" x2="214" y2="118" stroke="var(--card-border)" stroke-width="1.5"/>
+                        <line x1="28" y1="118" x2="28" y2="20" stroke="var(--card-border)" stroke-width="1.5"/>
+                        <circle cx="62" cy="92" r="4" fill="rgba(var(--primary-rgb), 0.55)"/>
+                        <circle cx="96" cy="74" r="4" fill="rgba(var(--primary-rgb), 0.65)"/>
+                        <circle cx="130" cy="78" r="4" fill="rgba(var(--primary-rgb), 0.5)"/>
+                        <circle cx="164" cy="52" r="4" fill="rgba(var(--primary-rgb), 0.75)"/>
+                        <circle cx="196" cy="44" r="4" fill="var(--primary)"/>
+                        <line x1="50" y1="98" x2="206" y2="42" stroke="var(--primary)" stroke-width="2" stroke-dasharray="5 4"/>
+                    </svg>
+                </div>
+                <span class="datalab-caption font-mono">RESEARCH NOTE</span>
+            `;
+        }
+        return `
+            <div class="article-mini-visual">
+                <svg viewBox="0 0 100 48" width="100%" height="100%" fill="none">
+                    <line x1="10" y1="40" x2="90" y2="40" stroke="var(--card-border)"/>
+                    <line x1="10" y1="40" x2="10" y2="8" stroke="var(--card-border)"/>
+                    <circle cx="28" cy="30" r="2.5" fill="rgba(var(--primary-rgb), 0.55)"/>
+                    <circle cx="46" cy="24" r="2.5" fill="rgba(var(--primary-rgb), 0.65)"/>
+                    <circle cx="64" cy="26" r="2.5" fill="rgba(var(--primary-rgb), 0.5)"/>
+                    <circle cx="82" cy="15" r="2.5" fill="var(--primary)"/>
+                    <line x1="22" y1="33" x2="88" y2="14" stroke="var(--primary)" stroke-width="1.5" stroke-dasharray="3 2.5"/>
+                </svg>
+            </div>
+        `;
     }
 
     // --- DİNAMİK BLOG YAZMA & FİLTRELEME SİSTEMİ ---

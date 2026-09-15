@@ -29,36 +29,36 @@
             } catch (e) {}
         })();
     </script>
-    <title id="page-head-title">Yapay Zeka ve Makine Öğrenmesi Yolculuğum | Orçun Çakar</title>
+    <title id="page-head-title">Negatif R² Gördüm: MSE Neden Tek Başına Yalan Söyler | Orçun Çakar</title>
 
-    <meta name="description" id="meta-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
-    <meta name="keywords" id="meta-keywords" content="Yapay Zeka, Makine Öğrenmesi, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar">
+    <meta name="description" id="meta-description" content="Hantavirüs projemde kurduğum Random Forest test setinde MSE = 0.0706 verdi; kulağa iyi geliyordu. Aynı çıktıdaki R² = -0.0357'yi görene kadar. İki metriğin neden farklı şeyler söylediğini kendi sayılarım üzerinden anlatıyorum.">
+    <meta name="keywords" id="meta-keywords" content="İstatistik, Model Doğrulama, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar">
     <meta name="author" content="Orçun Çakar">
-    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/post/ai-journey">
+    <link rel="canonical" id="meta-canonical" href="https://orcuncakar.com/post/r-squared-trap">
     <link rel="alternate" type="application/rss+xml" title="Orcun Cakar - Arastirma Notlari" href="/feed.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp) -->
-    <meta property="og:title" id="og-title" content="Yapay Zeka ve Makine Öğrenmesi Yolculuğum | Orçun Çakar">
-    <meta property="og:description" id="og-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
+    <meta property="og:title" id="og-title" content="Negatif R² Gördüm: MSE Neden Tek Başına Yalan Söyler | Orçun Çakar">
+    <meta property="og:description" id="og-description" content="Hantavirüs projemde kurduğum Random Forest test setinde MSE = 0.0706 verdi; kulağa iyi geliyordu. Aynı çıktıdaki R² = -0.0357'yi görene kadar. İki metriğin neden farklı şeyler söylediğini kendi sayılarım üzerinden anlatıyorum.">
     <meta property="og:type" content="article">
-    <meta property="og:url" id="og-url" content="https://orcuncakar.com/post/ai-journey">
-    <meta property="og:image" id="og-image" content="https://orcuncakar.com/images/hanta_plot_8.png">
+    <meta property="og:url" id="og-url" content="https://orcuncakar.com/post/r-squared-trap">
+    <meta property="og:image" id="og-image" content="https://orcuncakar.com/images/hanta_plot_9.png">
     <meta property="og:site_name" content="Orçun Çakar">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twitter-title" content="Yapay Zeka ve Makine Öğrenmesi Yolculuğum | Orçun Çakar">
-    <meta name="twitter:description" id="twitter-description" content="Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.">
-    <meta name="twitter:image" id="twitter-image" content="https://orcuncakar.com/images/hanta_plot_8.png">
+    <meta name="twitter:title" id="twitter-title" content="Negatif R² Gördüm: MSE Neden Tek Başına Yalan Söyler | Orçun Çakar">
+    <meta name="twitter:description" id="twitter-description" content="Hantavirüs projemde kurduğum Random Forest test setinde MSE = 0.0706 verdi; kulağa iyi geliyordu. Aynı çıktıdaki R² = -0.0357'yi görene kadar. İki metriğin neden farklı şeyler söylediğini kendi sayılarım üzerinden anlatıyorum.">
+    <meta name="twitter:image" id="twitter-image" content="https://orcuncakar.com/images/hanta_plot_9.png">
 
     <!-- Schema.org JSON-LD Structured Data (TechArticle) -->
     <script type="application/ld+json" id="article-schema">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Yapay Zeka ve Makine Öğrenmesi Yolculuğum",
-  "description": "Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.",
-  "image": "https://orcuncakar.com/images/hanta_plot_8.png",
+  "headline": "Negatif R² Gördüm: MSE Neden Tek Başına Yalan Söyler",
+  "description": "Hantavirüs projemde kurduğum Random Forest test setinde MSE = 0.0706 verdi; kulağa iyi geliyordu. Aynı çıktıdaki R² = -0.0357'yi görene kadar. İki metriğin neden farklı şeyler söylediğini kendi sayılarım üzerinden anlatıyorum.",
+  "image": "https://orcuncakar.com/images/hanta_plot_9.png",
   "inLanguage": "tr",
   "author": {
     "@type": "Person",
@@ -66,11 +66,11 @@
     "jobTitle": "Statistics Student & Data Science / Machine Learning Intern",
     "url": "https://orcuncakar.com"
   },
-  "datePublished": "2026-05-02",
-  "keywords": "Yapay Zeka, Makine Öğrenmesi, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar",
+  "datePublished": "2026-06-18",
+  "keywords": "İstatistik, Model Doğrulama, Veri Bilimi, İstatistik, Makine Öğrenmesi, Orçun Çakar",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://orcuncakar.com/post/ai-journey"
+    "@id": "https://orcuncakar.com/post/r-squared-trap"
   }
 }
     </script>
@@ -209,24 +209,24 @@
                 <!-- 1. EDITORIAL ARTICLE HEADER -->
                 <header class="article-header" id="article-header">
                     <div class="article-header-meta-top font-mono">
-                        <span class="article-note-num" id="article-note-num">RESEARCH NOTE / 002</span>
+                        <span class="article-note-num" id="article-note-num">RESEARCH NOTE / 005</span>
                         <span class="meta-sep">/</span>
-                        <span class="article-cat-badge" id="article-cat-badge">DERİN ÖĞRENME &amp; MODELLEME</span>
+                        <span class="article-cat-badge" id="article-cat-badge">MODEL DEĞERLENDİRME</span>
                     </div>
 
-                    <h1 class="article-heading-title" id="article-title">Yapay Zeka ve Makine Öğrenmesi Yolculuğum</h1>
+                    <h1 class="article-heading-title" id="article-title">Negatif R² Gördüm: MSE Neden Tek Başına Yalan Söyler</h1>
 
-                    <p class="article-lead-excerpt" id="article-subtitle">Makine öğrenmesi ve yapay zeka alanında kendimi geliştirmek için izlediğim yol haritasını, karşılaştığım zorlukları ve Python ekosistemindeki tecrübelerimi paylaşıyorum.</p>
+                    <p class="article-lead-excerpt" id="article-subtitle">Hantavirüs projemde kurduğum Random Forest test setinde MSE = 0.0706 verdi; kulağa iyi geliyordu. Aynı çıktıdaki R² = -0.0357'yi görene kadar. İki metriğin neden farklı şeyler söylediğini kendi sayılarım üzerinden anlatıyorum.</p>
 
                     <div class="article-header-meta-bottom font-mono">
-                        <span id="article-date">2 Mayıs 2026</span>
+                        <span id="article-date">18 Haziran 2026</span>
                         <span class="meta-dot">·</span>
-                        <span id="article-readtime">2 dk okuma</span>
+                        <span id="article-readtime">6 dk okuma</span>
                         <span class="meta-dot">·</span>
                         <span class="author-label" data-translate="article-author">Orçun Çakar</span>
                     </div>
 
-                    <div class="article-tags-cluster font-mono" id="article-tags"><span class="article-topic-tag">#Yapay Zeka</span><span class="article-topic-tag">#Makine Öğrenmesi</span></div>
+                    <div class="article-tags-cluster font-mono" id="article-tags"><span class="article-topic-tag">#İstatistik</span><span class="article-topic-tag">#Model Doğrulama</span></div>
                 </header>
 
                 <!-- 2. STRUCTURED QUICK READ / 60 SECONDS -->
@@ -250,7 +250,14 @@
                     <!-- MAIN READING COLUMN (MAX 740px) -->
                     <article class="article-content-column">
                         <div class="article-prose-content" id="article-body-content">
-<h2>Neden Yapay Zeka?</h2><p>Gazi Üniversitesi İstatistik bölümündeki eğitimim boyunca, veri analizi ve olasılık teorisinin yapay zekanın temelini oluşturduğunu fark ettim. Matematiksel temelleri öğrendikçe, bu teorileri makine öğrenmesi modellerine dönüştürme heyecanı beni <strong>Python</strong> ve veri bilimi kütüphaneleriyle tanıştırdı.</p><p>Bu yazımda, kendi kendimi geliştirdiğim bu heyecanlı yapay zeka serüvenimi ve izlediğim adımları paylaşmak istedim.</p><h2 id="ai-math">1. Temel Programlama ve Matematiksel Altyapı</h2><p>Yapay zeka alanında ilerlemek için öncelikle sağlam bir programlama diline hakim olmak gerekiyordu. Bu noktada Python, zengin veri bilimi kütüphaneleriyle en mantıklı seçenek oldu. Nesne yönelimli programlama, veri yapıları ve algoritmaları öğrendikten sonra; istatistikteki doğrusal cebir, olasılık ve kalkülüs derslerinin makine öğrenmesinde nasıl kullanıldığını keşfettim.</p><p>Çünkü regresyon modelleri aslında birer optimizasyon problemidir ve Gradyan İnişi (Gradient Descent) gibi kavramlar doğrudan kalkülüse dayanır.</p><h2 id="ai-preprocessing">2. Veri Ön İşleme (Pandas & NumPy)</h2><p>Gerçek hayattaki veriler temiz ve düzenli değildir. Eksik verilerle baş etmek, aykırı değerleri (outliers) analiz etmek ve kategorik verileri sayısal formata dönüştürmek (One-Hot Encoding vb.) makine öğrenmesinin en kritik aşamasıdır. Python'da <code>numpy</code> ve <code>pandas</code> kütüphanelerini kullanarak veri ön işleme süreçlerini otomatikleştirdim.</p><h2 id="ai-validation">3. Model Geliştirme (Scikit-Learn)</h2><p>Veriyi hazır hale getirdikten sonra, <code>Scikit-Learn</code> kütüphanesi sayesinde denetimli ve denetimsiz öğrenme algoritmalarını uygulamaya başladım. Kurduğum modellerde şu adımları izliyorum:</p><ul><li>Veriyi Eğitim ve Test setlerine ayırma (Train-Test Split)</li><li>Sınıflandırma (Lojistik Regresyon, Karar Ağaçları, Random Forest) veya Regresyon analizi yapma</li><li>Çapraz Doğrulama (Cross-Validation) ile aşırı öğrenmeyi (overfitting) engelleme</li><li>Model performansını Metriklerle (Accuracy, Precision, Recall, F1-Score, MSE) değerlendirme</li></ul><p>Bu adımlar sayesinde modelin teoride değil, gerçek hayatta da başarılı tahminler yapmasını sağlıyoruz.</p><h2 id="ai-deeplearning">4. Derin Öğrenmeye İlk Adım (PyTorch)</h2><p>Geleneksel makine öğrenmesi modellerini başarıyla kurduktan sonra derin öğrenmenin karmaşık yapılarına yöneldim. <code>PyTorch</code> kütüphanesini kullanarak yapay sinir ağları tasarlamak, yapay zekanın limitlerini zorlamamı sağladı. Katmanların çalışma mantığını ve aktivasyon fonksiyonlarını deneyimleyerek geleceğe yönelik daha karmaşık projelere hazırlanıyorum.</p><h2>Son Söz</h2><p>Yapay zeka ve veri bilimi, bitmeyen bir öğrenme sürecidir. Teorik istatistik bilgimi pratik yazılım çözümleriyle birleştirdikçe, verileri geleceği tahmin eden araçlara dönüştürebiliyorum. Bu alanda ilerlemek isteyen herkese tavsiyem; teoriyi asla küçümsememeleri ve bol bol pratik proje geliştirmeleridir.</p>
+<h2>İyi görünen sayı</h2><p>Hantavirüs projesinde gecikmeli çevresel değişkenlerle kemirgen bolluğunu tahmin etmeye çalışan bir <strong>Random Forest Regressor</strong> kurmuştum. Notebook'un çıktısı şuydu:</p><pre><code>--- MODEL DEĞERLENDİRME SONUÇLARI ---
+R-Kare (R2) Skoru: -0.0357
+Hata Kareler Ortalaması (MSE): 0.0706
+----------------------------------------</code></pre><p>İlk bakışta gözüm MSE'ye takıldı. 0.0706. Küçük bir sayı, iyi bir sayı gibi duruyor. Yazıyı ilk yazdığımda da bu sayıyı kullanmıştım. Yanlış yapmışım — ve yanlışın nerede olduğunu anlatmak, doğru bir sonucu anlatmaktan daha öğretici.</p><h2 id="r2-scale">1. MSE'nin ölçeği yoksa anlamı da yoktur</h2><p>MSE, hata karelerinin ortalamasıdır ve <strong>hedef değişkenle aynı karesel birimi taşır</strong>. Yani 0.0706'nın büyük mü küçük mü olduğu, tahmin ettiğin şeyin ölçeğine bağlıdır.</p><p>Benim hedefim <code>rodent_abundance_index</code>, yani zaten 0 ile 1 arasında normalize edilmiş bir indeksti. Böyle bir değişkende 0.0706'lık bir hata karesi, kök alındığında yaklaşık 0.27'lik ortalama sapma demek — ölçeğin dörtte birinden fazlası. Aynı MSE, hedef değişken gelir olsaydı (örneğin 40.000 TL civarı değerler) olağanüstü iyi bir sonuç olurdu.</p><p><strong>Kural:</strong> Ölçeği belirtilmemiş bir MSE bir bilgi değil, bir izlenimdir.</p><h2 id="r2-meaning">2. R² ne ölçer</h2><p>R², modelin hatasını <em>hiçbir şey yapmayan bir modelin</em> hatasıyla kıyaslar. O hiçbir şey yapmayan model, her gözlem için hedefin ortalamasını söyleyen modeldir:</p><pre><code>R² = 1 - (modelin hata kareleri toplamı / ortalamanın hata kareleri toplamı)
+   = 1 - SS_res / SS_tot</code></pre><ul><li><strong>R² = 1</strong> → model hatasız.</li><li><strong>R² = 0</strong> → model tam olarak ortalama kadar iyi. Yani hiçbir katkısı yok.</li><li><strong>R² &lt; 0</strong> → model <strong>ortalamadan daha kötü</strong>.</li></ul><p>Eğitim setinde R²'nin negatif olması (sabit terimli doğrusal regresyonda) mümkün değildir; ama <strong>test setinde gayet mümkündür</strong>, çünkü model eğitimde öğrendiği yapıyı yeni veriye taşıyamadığında ortalamanın altına düşebilir. Benim durumum buydu.</p><h2 id="r2-arithmetic">3. İki sayıyı birbirine bağlayan aritmetik</h2><p>Burası, MSE'nin neden yanıltıcı olduğunu en net gösteren kısım. Yukarıdaki formülü şöyle de yazabiliriz:</p><pre><code>R² = 1 - MSE_model / Var(y)</code></pre><p>Elimde iki sayı var, üçüncüsünü çekebilirim:</p><pre><code>Var(y) = MSE_model / (1 - R²)
+       = 0.0706 / (1 - (-0.0357))
+       = 0.0706 / 1.0357
+       ≈ 0.0682</code></pre><p><code>Var(y)</code>, ortalamayı tahmin eden modelin MSE'sidir. Yani:</p><ul><li>Benim modelim: <strong>MSE = 0.0706</strong></li><li>Hiçbir şey yapmayıp ortalamayı söylemek: <strong>MSE ≈ 0.0682</strong></li></ul><p>Model, sabit bir sayı söylemekten <strong>daha kötü</strong>. Bu cümle, 0.0706'ya bakarak asla kurulamazdı; ancak iki metriği yan yana koyunca ortaya çıkıyor.</p><h2 id="r2-report">4. Peki ne rapor etmeli</h2><p>Regresyonda tek bir metrik yeterli değil. Benim artık uyguladığım sıra şu:</p><ul><li><strong>Önce bir taban çizgisi kur.</strong> Ortalamayı tahmin eden modelin hatasını hesapla. <code>sklearn</code>'de <code>DummyRegressor(strategy='mean')</code> bunu tek satırda yapar. Modelin bu tabanı geçemiyorsa gerisi teferruattır.</li><li><strong>R²'yi taban çizgisiyle birlikte ver.</strong> R² zaten bu karşılaştırmanın standartlaştırılmış hâlidir, o yüzden ölçekten bağımsızdır ve okuyucu için yorumlanabilir.</li><li><strong>MSE veya RMSE'yi hedefin ölçeğiyle birlikte ver.</strong> "RMSE = 0.27, hedef 0-1 aralığında" cümlesi bilgi taşır; tek başına "MSE = 0.0706" taşımaz.</li><li><strong>Tek bölünmeye güvenme.</strong> Benim sonucum tek bir rastgele eğitim-test ayrımından geliyordu, çapraz doğrulama yoktu. Bu da ayrı bir eksik.</li></ul><h2>Sonuç</h2><p>Bu yazıyı kendi başarısızlığımı anlatmak için yazdım, çünkü asıl öğrendiğim şey modelin çalışmaması değildi — <strong>hangi sayıya bakacağımı bilmemekti</strong>. MSE'yi raporlayıp R²'yi atlamak teknik olarak yalan söylemek değil; ama okuyucunun yanlış sonuca varmasına izin vermek demek. İstatistikte bu ikisi arasındaki mesafe düşündüğümüzden kısa.</p><p>Modelin neden sinyal bulamadığını <a href="/post/hantavirus-analysis">hantavirüs çalışmasının kendisinde</a> ayrıntılı yazdım; özellik ağırlıklarının bu durumda neden okunmaması gerektiğini ise <a href="/post/feature-importance-noise">ayrı bir notta</a> ele aldım.</p>
                         </div>
 
                         <!-- 4. ACADEMIC REFERENCES SECTION -->
