@@ -90,8 +90,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="../style.css?v=2.16.6">
-    <link rel="stylesheet" href="../article.css?v=2.16.6">
+    <link rel="stylesheet" href="../style.css?v=2.16.7">
+    <link rel="stylesheet" href="../article.css?v=2.16.7">
 </head>
 <body class="article-reading-body">
     <a class="skip-link" href="#article-main" data-translate="skip-link">İçeriğe atla</a>
@@ -255,7 +255,7 @@
 <p>Bu veri bilimi çalışmasında, Kaggle üzerindeki epidemiyolojik, çevresel ve klinik veri kümelerini ele alıyoruz. <strong>Baştan belirtmek gerekiyor:</strong> kullandığım veri kümesinin <em>tamamı simüle edilmiştir.</em> Kaynağın kendi veri kartına göre vaka sayıları “ülke başına taban değerlerin zamansal eğilim ve stokastik gürültüyle çarpılmasıyla” üretilmiş, ölüm oranları ise yayınlanmış literatürdeki aralıklara kalibre edilmiş. Yani bu yazıdaki hiçbir sayı gerçek bir gözlem değil; aşağıdaki analizler <strong>gerçek Hantavirüs epidemiyolojisine dair bulgu değil</strong>, gerçekçi kurgulanmış bir veri kümesi üzerinde yapılan yöntem alıştırmasıdır. Bu ayrımı sonuna kadar korumaya çalıştım, çünkü simüle veride “bulunan” örüntülerin çoğu veriyi üreten kişinin oraya koyduğu örüntülerdir. Amacımız; vaka ve ölümlerin zaman içindeki eğilimini analiz etmek, ekolojik faktörlerin konakçı kemirgen popülasyonları üzerindeki etkilerini incelemek, Random Forest makine öğrenmesi modeli kurarak ekolojik risk faktörlerini ağırlıklandırmak ve iklim değişikliğinin salgınlar üzerindeki tetikleyici gücünü analiz etmektir.</p>
 
 <h2>1. Temel Veri İçe Aktarma ve İlk İncelemeler</h2>
-<p>Analiz sürecimizin ilk adımında, gerekli kütüppelere yükleyip temel veri tablolarimizi (yıllık ülke verileri, klinik veriler ve çevresel faktörler) yapısal olarak inceliyoruz. Eksik değerlerin saptanması ve veri boyutlarının doğrulanması, modelleme aşaması öncesinde kritik bir adımdır.</p>
+<p>Analiz sürecimizin ilk adımında, gerekli kütüphaneleri yükleyip temel veri tablolarımızı (yıllık ülke verileri, klinik veriler ve çevresel faktörler) yapısal olarak inceliyoruz. Eksik değerlerin saptanması ve veri boyutlarının doğrulanması, modelleme aşaması öncesinde kritik bir adımdır.</p>
 <pre><code>import pandas as pd
 import os
 
@@ -292,7 +292,7 @@ plt.grid(True, linestyle='--', alpha=0.7)
 </div>
 
 <h2 id="hanta-correlation">3. Çevresel Faktörlerin Korelasyon Analizi</h2>
-<p>Ekolojik faktörlerin birbiriyle olan ilişkisini incelemek amacıyla hazırladığımız korelasyon matrisi (heatmap), sıcaklık, yağış miktarı, nem oranı, bitki örtüsü (NDVI), kemirgen popülasyon yoğunluğu ve ormansızlaşma oranları arasındaki doğrusal bağları ortaya koymaktadır. Analiz sonuçlarına göre ormansızlaşma oranı ve kemirgen yoğunluğu arasında pozitif bir ilişki gözlemlenmektedir; bu da ormanlık alanların tahribi ile kemirgen popülasyonunun yerleşim yerlerine yaklaşması arasındaki pozitif ilişkiyi ortaya koymaktadır.</p>
+<p>Ekolojik faktörlerin birbiriyle olan ilişkisini incelemek amacıyla hazırladığımız korelasyon matrisi (heatmap), sıcaklık, yağış miktarı, nem oranı, bitki örtüsü (NDVI), kemirgen popülasyon yoğunluğu ve ormansızlaşma oranları arasındaki doğrusal bağları ortaya koymaktadır. Analiz sonuçlarına göre ormansızlaşma oranı ile kemirgen yoğunluğu arasında pozitif bir ilişki gözleniyor; bu, ormanlık alanların tahribinin konakçı popülasyonu yerleşim yerlerine yaklaştırdığı hipoteziyle tutarlı. Ancak anlamlılık testi yapılmadı ve bir korelasyon tek başına nedenselliğin yönünü belirleyemez.</p>
 <pre><code>env_cols = ['mean_temperature_c', 'quarterly_rainfall_mm', 'relative_humidity_pct', 'ndvi', 'rodent_abundance_index', 'deforestation_rate_pct']
 corr_matrix = df_env[env_cols].corr()
 
@@ -305,7 +305,7 @@ plt.title('Çevresel Faktörler Arasındaki Korelasyon')
 </div>
 
 <h2>4. DSÖ Bölgeleri ve En Çok Vaka Görülen Ülkeler</h2>
-<p>Hantavirüs sendromlarının bölgesel coğrafi dağılumı oldukça belirgindir. Amerika kıtasını kapsayan PAHO bölgesinde neredeyse tüm vakalar Akciğer Sendromu (HPS) iken, Avrupa (WHO Europe) ve Asya (Western Pacific) bölgelerinde Kanamalı Ateş (HFRS) baskındır. En çok vaka bildiren ülkelerin başında ise geniş coğrafyaları ve kemirgen habitatlarıyla Çin, Brezilya ve Amerika Birleşik Devletleri yer almaktadır.</p>
+<p>Hantavirüs sendromlarının bölgesel coğrafi dağılımı oldukça belirgindir. Amerika kıtasını kapsayan PAHO bölgesinde neredeyse tüm vakalar Akciğer Sendromu (HPS) iken, Avrupa (WHO Europe) ve Asya (Western Pacific) bölgelerinde Kanamalı Ateş (HFRS) baskındır. En çok vaka bildiren ülkelerin başında ise geniş coğrafyaları ve kemirgen habitatlarıyla Çin, Brezilya ve Amerika Birleşik Devletleri yer almaktadır.</p>
 <pre><code>region_syndrome = df_yearly.groupby(['who_region', 'syndrome'])['confirmed_cases'].sum().reset_index()
 sns.barplot(data=region_syndrome, x='who_region', y='confirmed_cases', hue='syndrome', palette='Set2')
 </code></pre>
@@ -515,9 +515,9 @@ print(f"Sıcaklık ve Vaka Arasındaki Korelasyon: {corr:.4f}")
     </button>
 
     <!-- SCRIPTLER -->
-    <script src="../translations.js?v=2.16.6" defer></script>
-    <script src="../posts-data.js?v=2.16.6" defer></script>
-    <script src="../site-shell.js?v=2.16.6" defer></script>
-    <script src="../article.js?v=2.16.6" defer></script>
+    <script src="../translations.js?v=2.16.7" defer></script>
+    <script src="../posts-data.js?v=2.16.7" defer></script>
+    <script src="../site-shell.js?v=2.16.7" defer></script>
+    <script src="../article.js?v=2.16.7" defer></script>
 </body>
 </html>
