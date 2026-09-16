@@ -1947,8 +1947,9 @@ ul {
     border: 1px solid var(--card-border);
     color: var(--text-secondary);
     text-decoration: none;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* Bulanıklık yok: buton zaten cam kartın içinde. Kartın bulanık zeminini
+       ikinci kez bulanıklaştırmak görünümü değiştirmiyor, ama iç içe
+       backdrop-filter komşu kartlar hareket edince dikey dikiş bırakabiliyor. */
     transition: all var(--transition-normal);
 }
 
