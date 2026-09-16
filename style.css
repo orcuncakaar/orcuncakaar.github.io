@@ -2014,18 +2014,25 @@ ul {
     margin: 0 auto;
 }
 
+/* Çizgi son kartın biraz altına uzar ve orada şeffaflaşarak biter.
+   Maske 2px genişliğinde tek bir öğede, kaydırmaya maliyeti yok. */
 .timeline::after {
     content: '';
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: -56px;
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
     background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 110px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 110px), transparent);
 }
 
 .timeline-item {
+    /* Unvan satırının dikey ortası: öğe boşluğu + kart boşluğu + satırın yarısı.
+       Nokta ve karşıdaki tarih buna hizalanır. */
+    --tl-title-center: calc(10px + 24px + 1.15rem * 0.6);
     padding: 10px 40px;
     position: relative;
     width: 50%;
@@ -2034,12 +2041,10 @@ ul {
 
 .timeline-item:nth-child(odd) {
     left: 0;
-    text-align: right;
 }
 
 .timeline-item:nth-child(even) {
     left: 50%;
-    text-align: left;
 }
 
 .timeline-dot {
@@ -2049,7 +2054,7 @@ ul {
     border: 3px solid var(--primary);
     border-radius: 50%;
     position: absolute;
-    top: 25px;
+    top: calc(var(--tl-title-center) - 8px);
     z-index: 10;
     box-shadow: 0 0 10px var(--primary);
 }
@@ -2062,6 +2067,30 @@ ul {
     left: -8px;
 }
 
+/* Eğitim: içinde kep ikonu olan daha büyük nokta */
+.timeline-dot--edu {
+    width: 26px;
+    height: 26px;
+    top: calc(var(--tl-title-center) - 13px);
+    border-width: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+}
+
+.timeline-dot--edu svg {
+    display: block;
+}
+
+.timeline-item:nth-child(odd) .timeline-dot--edu {
+    right: -13px;
+}
+
+.timeline-item:nth-child(even) .timeline-dot--edu {
+    left: -13px;
+}
+
 .timeline-content {
     padding: 24px;
     position: relative;
@@ -2070,14 +2099,42 @@ ul {
 .timeline-date {
     font-size: 0.85rem;
     font-weight: 700;
+    line-height: 1.6;
     color: var(--primary);
     margin-bottom: 8px;
     display: inline-block;
 }
 
+/* Tarih masaüstünde kartın dışında, çizginin karşı tarafında durur */
+.timeline-date--inline {
+    display: none;
+}
+
+.timeline-date--side {
+    position: absolute;
+    top: var(--tl-title-center);
+    transform: translateY(-50%);
+    margin: 0;
+    font-size: 0.9rem;
+    /* Mutlak konumda genişlik sıfıra sıkışmasın: içeriğe göre, en fazla karşı yarı kadar */
+    width: max-content;
+    max-width: calc(100% - 72px);
+}
+
+.timeline-item:nth-child(odd) .timeline-date--side {
+    left: calc(100% + 32px);
+    text-align: left;
+}
+
+.timeline-item:nth-child(even) .timeline-date--side {
+    right: calc(100% + 32px);
+    text-align: right;
+}
+
 .timeline-title {
     font-size: 1.15rem;
     font-weight: 700;
+    line-height: 1.2;
     margin-bottom: 4px;
 }
 
@@ -2120,18 +2177,52 @@ ul {
     line-height: 1;
 }
 
-.timeline-item:nth-child(odd) .timeline-bullets {
-    text-align: right;
+/* Aynı kurumdaki roller: kurum başlığı altında, ince ayırıcı ve küçük
+   alt noktalarla ayrılan bölümler */
+.timeline-roles {
+    display: flex;
+    flex-direction: column;
+    margin-top: 14px;
 }
 
-.timeline-item:nth-child(odd) .timeline-bullets li {
-    padding-left: 0;
-    padding-right: 18px;
+.timeline-role + .timeline-role {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(var(--primary-rgb), 0.16);
 }
 
-.timeline-item:nth-child(odd) .timeline-bullets li::before {
-    left: auto;
-    right: 0;
+.timeline-role-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+.timeline-role-title::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 2px solid var(--primary);
+}
+
+.timeline-role-date {
+    display: block;
+    margin: 2px 0 0 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.timeline-role .timeline-bullets {
+    margin-top: 10px;
 }
 
 .certificates-grid {
@@ -2729,35 +2820,33 @@ textarea.form-control {
         width: 100%;
         padding-left: 70px;
         padding-right: 25px;
+        /* Tarih kartın içine, unvanın üstüne döner. Uzun tarih dar ekranda
+           sarabildiği için nokta kartın ilk satırına (tarihe) hizalanır. */
+        --tl-title-center: calc(10px + 24px + 0.85rem * 0.8);
     }
 
-    .timeline-item:nth-child(odd) {
-        text-align: left;
-        left: 0;
-    }
-
-    .timeline-item:nth-child(odd) .timeline-bullets {
-        text-align: left;
-    }
-
-    .timeline-item:nth-child(odd) .timeline-bullets li {
-        padding-left: 18px;
-        padding-right: 0;
-    }
-
-    .timeline-item:nth-child(odd) .timeline-bullets li::before {
-        left: 0;
-        right: auto;
-    }
-
+    .timeline-item:nth-child(odd),
     .timeline-item:nth-child(even) {
         left: 0;
     }
 
     .timeline-item:nth-child(odd) .timeline-dot,
     .timeline-item:nth-child(even) .timeline-dot {
-        left: 22px;
+        left: 23px;
         right: auto;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot--edu,
+    .timeline-item:nth-child(even) .timeline-dot--edu {
+        left: 18px;
+    }
+
+    .timeline-date--side {
+        display: none;
+    }
+
+    .timeline-date--inline {
+        display: block;
     }
 
     .certificates-grid {
