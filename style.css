@@ -1895,32 +1895,29 @@ ul {
     color: var(--text-secondary);
 }
 
-.project-metric-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 12px;
-    border-radius: var(--radius-full);
-    background: rgba(var(--primary-rgb), 0.08);
-    border: 1px solid rgba(var(--primary-rgb), 0.22);
-    margin-bottom: 14px;
-    font-size: 0.76rem;
+/* Başlık üstü kısa bilgi (eski mor rozetin yerine): tek satır, zeminsiz.
+   Tam metin title özelliğinde; taşarsa üç noktayla kesilir. Her kartta aynı
+   yükseklikte olduğu için başlıklar aynı hizaya gelir. */
+.project-eyebrow {
+    margin: 0 0 10px;
+    font-size: 0.72rem;
     font-weight: 600;
-    color: var(--secondary);
-    letter-spacing: 0.3px;
-    line-height: 1.3;
-    width: fit-content;
-    transition: all var(--transition-normal);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    color: #a78bfa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.light-theme .project-metric-badge {
-    background: rgba(109, 40, 217, 0.07);
-    border-color: rgba(109, 40, 217, 0.22);
+.light-theme .project-eyebrow {
     color: var(--primary);
 }
 
-.project-card:hover .project-metric-badge {
-    border-color: rgba(var(--primary-rgb), 0.45);
-    background: rgba(var(--primary-rgb), 0.14);
+/* Etiketler + butonlar: kartın dibine birlikte yaslanır */
+.project-footer {
+    margin-top: auto;
 }
 
 .project-links {
@@ -1977,6 +1974,32 @@ ul {
 
 .project-link svg:not([stroke]) {
     fill: currentColor;
+}
+
+/* Yalnızca ikon (üç aksiyonlu kartta ikincil linkler): metin ekran
+   okuyucu için yerinde kalır, kare buton komşularıyla aynı yükseklikte. */
+/* İki ikon birlikte sarılır: dar ekranda ikisi birden alt satıra geçer */
+.project-link-group {
+    display: inline-flex;
+    align-self: stretch;
+    gap: 8px;
+}
+
+.project-link--icon {
+    /* Yükseklik satırdan (metinli butonla birebir), genişlik ≈ aynı değer */
+    width: 3em;
+    align-self: stretch;
+    justify-content: center;
+    padding: 0;
+}
+
+.project-link--icon .project-link-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 .project-link-primary {

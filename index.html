@@ -73,12 +73,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.19.1">
+    <link rel="stylesheet" href="style.css?v=2.19.2">
     <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
          media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
          simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
-    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.1'; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.19.1"></noscript>
+    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.2'; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=2.19.2"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -316,33 +316,35 @@
                         <img src="images/hantavirus_card.webp" alt="Random Forest modelinin gecikmeli ekolojik değişkenlere verdiği özellik ağırlıkları: altı değişken %14,8 ile %19,7 arasında neredeyse eşit dağılmış" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
                     </div>
                     <div class="project-body">
-                        <div class="project-metric-badge" data-translate="proj1-metric">
-                            Random Forest · 33 Yıllık Veri · Gecikmeli Ekolojik Değişkenler
-                        </div>
+                        <p class="project-eyebrow" data-translate="proj1-metric" data-translate-title="proj1-metric" title="33 Yıllık Veri · Gecikmeli Değişkenler">33 Yıllık Veri · Gecikmeli Değişkenler</p>
                         <h3 class="project-title" data-translate="proj1-title">Hantavirüs Veri Bilimi Projesi</h3>
                         <p class="project-description" data-translate="proj1-desc">
                             Hantavirüs vakaları, yayılım dinamikleri ve çevresel faktörlerin istatistiksel analizler ve veri bilimi yöntemleriyle incelendiği kapsamlı araştırma projesi.
                         </p>
-                        <div class="project-tags">
-                            <span class="project-tag">Python</span>
-                            <span class="project-tag">Random Forest</span>
-                            <span class="project-tag">Epidemiyoloji</span>
-                            <span class="project-tag">Pandas</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="/post/hantavirus-analysis" class="project-link project-link-primary">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                                <span data-translate="proj-btn-case-study">Case Study / Rapor</span>
-                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </a>
-                            <a href="https://github.com/orcuncakaar/hantavirus-data-science-project" target="_blank" rel="noopener noreferrer" class="project-link">
-                                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                                <span data-translate="proj-btn-code">Kodlar</span>
-                            </a>
-                            <a href="https://www.kaggle.com/orunakar" target="_blank" rel="noopener noreferrer" class="project-link">
-                                <svg viewBox="0 0 32 32"><path d="M22.42 3.24a1.86 1.86 0 0 0-1.5-.74h-4.32a1.44 1.44 0 0 0-1.28.74L8.71 14.88V3.3a1.8 1.8 0 0 0-1.8-1.8H2.57A1.8 1.8 0 0 0 .77 3.3v25.4a1.8 1.8 0 0 0 1.8 1.8H6.9a1.8 1.8 0 0 0 1.8-1.8v-7.14l3.19-3.23L20.67 29a1.82 1.82 0 0 0 1.54.82h4.59a1.32 1.32 0 0 0 1.13-2 1.77 1.77 0 0 0-.25-.33L16.42 16.29 27.24 3.73a1.4 1.4 0 0 0 .17-.49z"/></svg>
-                                <span data-translate="proj-btn-notebook">Notebook</span>
-                            </a>
+                        <div class="project-footer">
+                            <div class="project-tags">
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Random Forest</span>
+                                <span class="project-tag">Epidemiyoloji</span>
+                                <span class="project-tag">Pandas</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="/post/hantavirus-analysis" class="project-link project-link-primary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                    <span data-translate="proj-btn-case-study">Case Study / Rapor</span>
+                                    <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                                <span class="project-link-group">
+                                    <a href="https://github.com/orcuncakaar/hantavirus-data-science-project" target="_blank" rel="noopener noreferrer" class="project-link project-link--icon" data-translate-title="proj-btn-code" title="Kodlar" aria-label="Kodlar">
+                                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                        <span class="project-link-label" data-translate="proj-btn-code">Kodlar</span>
+                                    </a>
+                                    <a href="https://www.kaggle.com/orunakar" target="_blank" rel="noopener noreferrer" class="project-link project-link--icon" data-translate-title="proj-btn-notebook" title="Notebook" aria-label="Notebook">
+                                        <svg viewBox="0 0 32 32"><path d="M22.42 3.24a1.86 1.86 0 0 0-1.5-.74h-4.32a1.44 1.44 0 0 0-1.28.74L8.71 14.88V3.3a1.8 1.8 0 0 0-1.8-1.8H2.57A1.8 1.8 0 0 0 .77 3.3v25.4a1.8 1.8 0 0 0 1.8 1.8H6.9a1.8 1.8 0 0 0 1.8-1.8v-7.14l3.19-3.23L20.67 29a1.82 1.82 0 0 0 1.54.82h4.59a1.32 1.32 0 0 0 1.13-2 1.77 1.77 0 0 0-.25-.33L16.42 16.29 27.24 3.73a1.4 1.4 0 0 0 .17-.49z"/></svg>
+                                        <span class="project-link-label" data-translate="proj-btn-notebook">Notebook</span>
+                                    </a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -353,29 +355,29 @@
                         <img src="images/site_preview.webp" alt="orcuncakar.com ana sayfasının önizlemesi: hero bölümü, araç seti ve interaktif laboratuvar kartları" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
                     </div>
                     <div class="project-body">
-                        <div class="project-metric-badge" data-translate="proj2-metric">
-                            JavaScript Kütüphanesi Yok · Tarayıcıda OLS Motoru
-                        </div>
+                        <p class="project-eyebrow" data-translate="proj2-metric" data-translate-title="proj2-metric" title="Framework Yok · Tarayıcıda OLS">Framework Yok · Tarayıcıda OLS</p>
                         <h3 class="project-title" data-translate="proj2-title">Kişisel Portfolyo Web Sitesi</h3>
                         <p class="project-description" data-translate="proj2-desc">
                             Hazır bir JavaScript kütüphanesi kullanmadan, saf HTML, CSS ve JavaScript ile geliştirdiğim kişisel site. Regresyon ve merkezi limit simülasyonları sunucuya hiç gitmeden, doğrudan tarayıcıda hesaplanıyor.
                         </p>
-                        <div class="project-tags">
-                            <span class="project-tag">HTML5</span>
-                            <span class="project-tag">CSS3</span>
-                            <span class="project-tag">Vanilla JS</span>
-                            <span class="project-tag">Canvas API</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#playground" class="project-link project-link-primary">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                                <span data-translate="proj-btn-playground">Regresyon Modülü</span>
-                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </a>
-                            <a href="https://github.com/orcuncakaar/orcuncakaar.github.io" target="_blank" rel="noopener noreferrer" class="project-link">
-                                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                                <span data-translate="proj-btn-code">Kodlar</span>
-                            </a>
+                        <div class="project-footer">
+                            <div class="project-tags">
+                                <span class="project-tag">HTML5</span>
+                                <span class="project-tag">CSS3</span>
+                                <span class="project-tag">Vanilla JS</span>
+                                <span class="project-tag">Canvas API</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#playground" class="project-link project-link-primary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                    <span data-translate="proj-btn-playground">Regresyon Modülü</span>
+                                    <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                                <a href="https://github.com/orcuncakaar/orcuncakaar.github.io" target="_blank" rel="noopener noreferrer" class="project-link">
+                                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                    <span data-translate="proj-btn-code">Kodlar</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -386,24 +388,24 @@
                         <img src="images/nasa_space_daily_preview.webp" alt="NASA Space Daily - Ay Fotoğrafı" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
                     </div>
                     <div class="project-body">
-                        <div class="project-metric-badge" data-translate="proj3-metric">
-                            NASA Open API · Canlı Dinamik Veri Akışı
-                        </div>
+                        <p class="project-eyebrow" data-translate="proj3-metric" data-translate-title="proj3-metric" title="Canlı Dinamik Veri Akışı">Canlı Dinamik Veri Akışı</p>
                         <h3 class="project-title" data-translate="proj3-title">NASA Space Daily</h3>
                         <p class="project-description" data-translate="proj3-desc">
                             NASA'nın açık API servislerini kullanarak her günün astronomi görselini, detaylı açıklamalarını ve uzay verilerini dinamik olarak çeken ve sunan şık bir web uygulaması.
                         </p>
-                        <div class="project-tags">
-                            <span class="project-tag">NASA API</span>
-                            <span class="project-tag">JavaScript</span>
-                            <span class="project-tag">Async REST</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/orcuncakaar/NASA-Space-Daily" target="_blank" rel="noopener noreferrer" class="project-link project-link-primary">
-                                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                                <span data-translate="proj-btn-code">Kodlar</span>
-                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </a>
+                        <div class="project-footer">
+                            <div class="project-tags">
+                                <span class="project-tag">NASA API</span>
+                                <span class="project-tag">JavaScript</span>
+                                <span class="project-tag">Async REST</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/orcuncakaar/NASA-Space-Daily" target="_blank" rel="noopener noreferrer" class="project-link project-link-primary">
+                                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                    <span data-translate="proj-btn-code">Kodlar</span>
+                                    <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1101,8 +1103,8 @@
         <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V4M4 8L8 4L12 8"/></svg>
     </button>
 
-    <script src="translations.js?v=2.19.1" defer></script>
-    <script src="site-shell.js?v=2.19.1" defer></script>
+    <script src="translations.js?v=2.19.2" defer></script>
+    <script src="site-shell.js?v=2.19.2" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1111,10 +1113,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.19.1';
+            s.src = 'fluid-simulation.js?v=2.19.2';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.19.1" defer></script>
+    <script src="script.js?v=2.19.2" defer></script>
 </body>
 </html>
