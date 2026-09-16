@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // .tbmm-grafik bulunan yaziya yuklenir; Chart.js bilesenden once gelmeli.
     const CHART_JS_SRC = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
     const CHART_JS_SRI = 'sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG';
-    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.18.5';
+    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.18.6';
     let tbmmGrafikYukleme = null;
     // Govde her renderda innerHTML ile yeniden basiliyor. Kurulmus grafik
     // dugumleri yazi kimligiyle saklanip geri takiliyor; boylece dil degisiminde
@@ -1192,9 +1192,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Scroll to Top Butonu
         if (scrollTopBtn) {
             if (scrollY > 400) {
-                scrollTopBtn.classList.add('active');
+                scrollTopBtn.classList.add('show');
             } else {
-                scrollTopBtn.classList.remove('active');
+                scrollTopBtn.classList.remove('show');
             }
         }
     }
