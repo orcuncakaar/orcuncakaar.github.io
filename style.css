@@ -2750,43 +2750,84 @@ textarea.form-control {
     color: var(--text-muted);
 }
 
+/* En üste dön: hero'daki sosyal butonlarla aynı cam dili */
 .scroll-top-btn {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 48px;
-    height: 48px;
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    right: calc(28px + env(safe-area-inset-right, 0px));
+    width: 50px;
+    height: 50px;
+    padding: 0;
     border-radius: 50%;
-    background-color: var(--primary);
-    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%), var(--bg-glass);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    color: var(--text-primary);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.2);
     z-index: 99;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(10px);
-    transition: all var(--transition-normal);
+    transform: translateY(12px) scale(0.9);
+    transition: opacity 0.3s ease, visibility 0.3s ease,
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, background 0.3s ease;
 }
 
 .scroll-top-btn.show {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
-.scroll-top-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.5);
-    background-color: var(--secondary);
+.scroll-top-btn.show:hover {
+    transform: translateY(-4px) scale(1.05);
+    color: #ffffff;
+    border-color: rgba(var(--primary-rgb), 0.55);
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.32) 0%, rgba(var(--secondary-rgb), 0.12) 100%), var(--bg-glass);
+    box-shadow: 0 12px 28px -6px rgba(var(--primary-rgb), 0.45), 0 0 20px rgba(var(--primary-rgb), 0.25), inset 0 1px 2px 0 rgba(255, 255, 255, 0.35);
+}
+
+.scroll-top-btn.show:active {
+    transform: translateY(-1px) scale(0.97);
 }
 
 .scroll-top-btn svg {
     width: 20px;
     height: 20px;
     fill: currentColor;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scroll-top-btn:hover svg {
+    transform: translateY(-2px);
+}
+
+.light-theme .scroll-top-btn {
+    border-color: rgba(255, 255, 255, 0.95);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.60) 100%);
+    color: var(--primary);
+    box-shadow: 0 10px 24px -6px rgba(109, 40, 217, 0.18), 0 2px 6px -2px rgba(15, 23, 42, 0.08), inset 0 1.5px 2px 0 rgba(255, 255, 255, 1);
+}
+
+.light-theme .scroll-top-btn.show:hover {
+    color: #ffffff;
+    border-color: rgba(var(--primary-rgb), 0.35);
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.92) 0%, rgba(var(--secondary-rgb), 0.82) 100%);
+    box-shadow: 0 12px 28px -6px rgba(var(--primary-rgb), 0.40), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 600px) {
+    .scroll-top-btn {
+        width: 46px;
+        height: 46px;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        right: calc(18px + env(safe-area-inset-right, 0px));
+    }
 }
 
 @keyframes blink {

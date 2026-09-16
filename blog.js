@@ -568,6 +568,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 60);
 
+    // Web fontu gec inince (dogrudan linkle acilista) menu yazilari genisliyor;
+    // hap eski olcude kalmasin diye menu boyu degisince yeniden konumlandir.
+    if (navbarLinks && 'ResizeObserver' in window) {
+        new ResizeObserver(() => {
+            if (navbarPill && navbarPill.classList.contains('is-compact')) return;
+            const activeLink = document.querySelector('.nav-links .nav-link.active') || document.querySelector('.nav-links .nav-link[href="/blog"]');
+            if (activeLink) updateSlidingPill(activeLink, true);
+        }).observe(navbarLinks);
+    }
+
 
     // --- SCROLL EYLEMLERİ (İLERLEME VE SÜRÜKLENME BUTONU) ---
     const scrollTopBtn = document.getElementById('scroll-to-top');

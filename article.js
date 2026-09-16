@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // .tbmm-grafik bulunan yaziya yuklenir; Chart.js bilesenden once gelmeli.
     const CHART_JS_SRC = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
     const CHART_JS_SRI = 'sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG';
-    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.18.4';
+    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.18.5';
     let tbmmGrafikYukleme = null;
     // Govde her renderda innerHTML ile yeniden basiliyor. Kurulmus grafik
     // dugumleri yazi kimligiyle saklanip geri takiliyor; boylece dil degisiminde
@@ -1260,6 +1260,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const blogNavLink = document.querySelector('.navbar .nav-link.active') || document.querySelector('.navbar .nav-link[href="/blog"]');
     if (blogNavLink) {
         setTimeout(() => updateSlidingPill(blogNavLink, true), 60);
+    }
+
+    // Web fontu gec inince (dogrudan linkle acilista) menu yazilari genisliyor;
+    // hap eski olcude kalmasin diye menu boyu degisince yeniden konumlandir.
+    if (navbarLinks && 'ResizeObserver' in window) {
+        new ResizeObserver(() => {
+            if (navbarPill && navbarPill.classList.contains('is-compact')) return;
+            const activeL = document.querySelector('.navbar .nav-link.active') || blogNavLink;
+            if (activeL) updateSlidingPill(activeL, true);
+        }).observe(navbarLinks);
     }
 
     if (navbarPill) {

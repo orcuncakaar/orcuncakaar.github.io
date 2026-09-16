@@ -406,6 +406,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const compactSectionLabel = document.querySelector('#compact-section-label .compact-text');
     let lastScrollPos = window.scrollY || 0;
 
+    // Web fontu gec inince (dogrudan linkle acilista) menu yazilari genisliyor;
+    // hap eski olcude kalmasin diye menu boyu degisince yeniden konumlandir.
+    if (navbarLinks && 'ResizeObserver' in window) {
+        new ResizeObserver(() => {
+            if (navbarPill && navbarPill.classList.contains('is-compact')) return;
+            const active = document.querySelector('.nav-links .nav-link.active');
+            if (active) updateSlidingPill(active, true);
+        }).observe(navbarLinks);
+    }
+
     const sectionOrder = ['home', 'about', 'projects', 'playground', 'timeline', 'certificates', 'contact'];
     let currentSectionIndex = 0;
     let isTextMorphing = false;
