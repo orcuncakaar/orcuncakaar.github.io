@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // URL'den Post ID Alma
     const urlParams = new URLSearchParams(window.location.search);
     // /post/<slug> statik sayfalarinda ?id= yok; yazi kimligi yoldan turetilir.
-    const pathPostId = (/\/post\/([A-Za-z0-9_-]+)(?:\.html?)?$/.exec(window.location.pathname) || [])[1];
-    let currentPostId = urlParams.get('id') || pathPostId || 'hantavirus-analysis';
+    const yoldanYaziId = () => (/\/post\/([A-Za-z0-9_-]+)(?:\.html?)?$/.exec(window.location.pathname) || [])[1];
+    let currentPostId = urlParams.get('id') || yoldanYaziId() || 'hantavirus-analysis';
 
     // Canonical adres artik uzantisiz /post/<slug>. Kokten mutlak yol veriyoruz;
     // boylece hem kokteki hem /post/ icindeki sayfalardan ayni link calisiyor.
@@ -1284,6 +1284,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const activeL = document.querySelector('.navbar .nav-link.active') || blogNavLink;
             if (activeL) updateSlidingPill(activeL);
         }, 80);
+    });
+
+    // Sonraki-yazi karti adresi pushState ile degistiriyor. Geri/ileri tusunda adres
+    // degisiyor ama icerik ayni kaliyordu; adresteki yaziyi okuyup onu bas.
+    window.addEventListener('popstate', () => {
+        const id = new URLSearchParams(window.location.search).get('id') || yoldanYaziId();
+        if (!id || id === currentPostId) return;
+        currentPostId = id;
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        renderArticle();
     });
 
     // Grafik temayi data-theme'den kendisi izliyor; bu, olaya bagli yedek yol.
