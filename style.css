@@ -1583,6 +1583,22 @@ ul {
     box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.18);
 }
 
+/* Tablet: 4/12 sütunda rozetler 6-7 satıra diziliyor, yan kartlar o boya uzuyordu.
+   Araç seti kendi satırına, laboratuvar ve sosyal kartlar altına yan yana. */
+@media (min-width: 681px) and (max-width: 1080px) {
+    .tile-stack {
+        grid-column: span 12;
+    }
+
+    .tile-lab {
+        grid-column: span 7;
+    }
+
+    .tile-connect {
+        grid-column: span 5;
+    }
+}
+
 @media (max-width: 680px) {
     .hero-bento-grid {
         gap: 14px;
