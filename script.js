@@ -194,9 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
-    const aboutSection = document.getElementById('about');
-
-    if (aboutSection) scrollObserver.observe(aboutSection);
 
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
@@ -416,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).observe(navbarLinks);
     }
 
-    const sectionOrder = ['home', 'about', 'projects', 'playground', 'timeline', 'certificates', 'contact'];
+    const sectionOrder = ['home', 'projects', 'playground', 'timeline', 'certificates', 'contact'];
     let currentSectionIndex = 0;
     let isTextMorphing = false;
 
@@ -538,7 +535,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sectionNavMap = {
         'home': 'home',
-        'about': 'about',
         'projects': 'projects',
         'playground': 'playground',
         'timeline': 'timeline',
@@ -823,7 +819,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const bentoCards = document.querySelectorAll('.bento-card, .certificate-card');
+    const bentoCards = document.querySelectorAll('.certificate-card');
     
     bentoCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
