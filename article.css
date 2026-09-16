@@ -2038,6 +2038,13 @@ body.sheet-open {
 /* TBMM kavram grafigi (tbmm-grafik.js). Bilesen kendi stilini enjekte ediyor;
    burada yalnizca sitenin mobil kurali uygulaniyor: 900px altinda kartlarda
    oldugu gibi bulaniklik yok, panelin yari saydam zemini aynen kaliyor. */
+
+/* Kaynak satiri yazi govdesinin 1.85 satir yuksekligini devraliyordu; mobilde iki
+   satira bolununce kopuk gorunuyordu. Ustundeki not satiriyla (1.5) esitlendi. */
+.article-prose-content .tbmm-grafik .tg-source {
+    line-height: 1.5;
+}
+
 @media (max-width: 900px) {
     .article-prose-content .tbmm-grafik {
         backdrop-filter: none;
