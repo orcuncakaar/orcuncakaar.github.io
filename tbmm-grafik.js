@@ -410,19 +410,37 @@
   Grafik.prototype.shape = function () {
     var d = this.data, view = this.view, lang = this.lang, t = this.t();
     var keys, labels, values = {}, counts = null;
+    // Aylik ham gecis sayisi = siklik x o ayin kelime sayisi / 1 milyon. Veride yalnizca
+    // yillik ham sayilar var; aylik ve ocak-agustos tooltip'leri de ayni bilgiyi gostersin.
+    function monthCount(s, i) {
+      var v = d.aylik.seriler[s][i], w = d.aylik.kelime[i];
+      return v == null || w == null ? 0 : Math.round(v * w / 1e6);
+    }
     if (view === "aylik") {
       keys = d.aylik.aylar.slice();
       labels = keys.map(function (k) { return monthLabel(lang, k, true); });
+      counts = {};
       SERIES.forEach(function (s) {
         values[s] = d.aylik.seriler[s].map(function (v, i) {
           var w = d.aylik.kelime[i];
           return v == null || w == null || w < MIN_WORDS_MONTH ? null : v;
         });
+        counts[s] = keys.map(function (k, i) { return monthCount(s, i); });
       });
     } else if (view === "ocak_agustos") {
       keys = d.ocak_agustos.yillar.map(String);
       labels = keys.slice();
-      SERIES.forEach(function (s) { values[s] = d.ocak_agustos.seriler[s].slice(); });
+      counts = {};
+      SERIES.forEach(function (s) {
+        values[s] = d.ocak_agustos.seriler[s].slice();
+        counts[s] = keys.map(function (y) {
+          var total = 0;
+          d.aylik.aylar.forEach(function (m, i) {
+            if (m.slice(0, 4) === y && +m.slice(5) <= 8) total += monthCount(s, i);
+          });
+          return total;
+        });
+      });
     } else {
       keys = d.yillik.yillar.map(String);
       labels = keys.map(function (k) { return +k === d.yillik.kismi_yil ? k + "*" : k; });
