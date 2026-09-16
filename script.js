@@ -225,8 +225,54 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 300);
                 }
             });
+
+            // Filtre sonrası şeridi başa al; gizlenen kartlar 300 ms sonra çıkıyor
+            if (projectsTrack) {
+                projectsTrack.scrollTo({ left: 0, behavior: 'auto' });
+                setTimeout(updateProjectsNav, 320);
+            }
         });
     });
+
+    // --- PROJE ŞERİDİ (masaüstü 3, tablet 2 kart; telefonda alt alta) ---
+    const projectsTrack = document.getElementById('projects-track');
+    const projectsPrev = document.getElementById('projects-prev');
+    const projectsNext = document.getElementById('projects-next');
+    let projectsNavTicking = false;
+
+    function updateProjectsNav() {
+        projectsNavTicking = false;
+        if (!projectsTrack || !projectsPrev || !projectsNext) return;
+        const max = projectsTrack.scrollWidth - projectsTrack.clientWidth;
+        projectsPrev.disabled = projectsTrack.scrollLeft <= 2;
+        projectsNext.disabled = projectsTrack.scrollLeft >= max - 2;
+    }
+
+    function projectsStep() {
+        const card = [...projectsTrack.children].find(c => c.classList.contains('project-card') && !c.classList.contains('hide'));
+        if (!card) return projectsTrack.clientWidth;
+        const gap = parseFloat(getComputedStyle(projectsTrack).columnGap) || 0;
+        return card.getBoundingClientRect().width + gap;
+    }
+
+    if (projectsTrack && projectsPrev && projectsNext) {
+        projectsPrev.addEventListener('click', () => {
+            projectsTrack.scrollBy({ left: -projectsStep(), behavior: window.kaydirmaDavranisi() });
+        });
+        projectsNext.addEventListener('click', () => {
+            projectsTrack.scrollBy({ left: projectsStep(), behavior: window.kaydirmaDavranisi() });
+        });
+        projectsTrack.addEventListener('scroll', () => {
+            if (!projectsNavTicking) {
+                projectsNavTicking = true;
+                requestAnimationFrame(updateProjectsNav);
+            }
+        }, { passive: true });
+        if ('ResizeObserver' in window) {
+            new ResizeObserver(updateProjectsNav).observe(projectsTrack);
+        }
+        updateProjectsNav();
+    }
     const sections = document.querySelectorAll('header.hero, section.section');
 
     let lockedTargetId = null;

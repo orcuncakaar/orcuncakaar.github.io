@@ -73,12 +73,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.19.5">
+    <link rel="stylesheet" href="style.css?v=2.19.6">
     <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
          media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
          simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
-    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.5'; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.19.5"></noscript>
+    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.6'; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=2.19.6"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -308,8 +308,40 @@
                 <button class="filter-btn" data-filter="dev" data-translate="filter-dev">Yazılım & Web</button>
             </div>
 
-            <div class="projects-grid">
+            <div class="projects-carousel">
+                <button type="button" class="projects-nav projects-nav--prev" id="projects-prev" aria-controls="projects-track" aria-label="Önceki projeler" data-translate-aria-label="proj-nav-prev" disabled><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+                <button type="button" class="projects-nav projects-nav--next" id="projects-next" aria-controls="projects-track" aria-label="Sonraki projeler" data-translate-aria-label="proj-nav-next"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+            <div class="projects-grid" id="projects-track">
                 
+                <!-- PROJE 0: TBMM TUTANAK ANALİZİ -->
+                <div class="project-card glass-card reveal" data-category="ai">
+                    <div class="project-image project-image--photo">
+                        <img src="images/tbmm_card.webp" alt="TBMM Genel Kurulu’nda milyon kelime başına “yapay zekâ” sıklığı, 2017–2026: ChatGPT’nin yayımlanmasından sonra keskin artış" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
+                    </div>
+                    <div class="project-body">
+                        <p class="project-eyebrow" data-translate="proj4-metric" data-translate-title="proj4-metric" title="1.820 Birleşim · 71,7 Milyon Kelime">1.820 Birleşim · 71,7 Milyon Kelime</p>
+                        <h3 class="project-title" data-translate="proj4-title">Meclis Yapay Zekâyı Ne Zaman Keşfetti?</h3>
+                        <p class="project-description" data-translate="proj4-desc">
+                            TBMM Genel Kurulu’nun 2011–2026 tutanaklarında yapay zekâ, veri ve istatistik kavramlarının izini süren metin madenciliği çalışması. Ekim 2024’te “yapay zekâ” tek başına 296 kez geçti; önceki 13 yılın toplamı 274’tü.
+                        </p>
+                        <div class="project-footer">
+                            <div class="project-tags">
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Metin Madenciliği</span>
+                                <span class="project-tag">Veri Analizi</span>
+                                <span class="project-tag">Chart.js</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="/post/tbmm-yapay-zeka" class="project-link project-link-primary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                    <span data-translate="proj-btn-article">Makaleyi Oku</span>
+                                    <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- PROJE 1: HANTAVİRÜS VERİ BİLİMİ (FEATURED ML) -->
                 <div class="project-card glass-card reveal" data-category="ai">
                     <div class="project-image project-image--photo">
@@ -409,6 +441,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </section>
@@ -1103,8 +1136,8 @@
         <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V4M4 8L8 4L12 8"/></svg>
     </button>
 
-    <script src="translations.js?v=2.19.5" defer></script>
-    <script src="site-shell.js?v=2.19.5" defer></script>
+    <script src="translations.js?v=2.19.6" defer></script>
+    <script src="site-shell.js?v=2.19.6" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1113,10 +1146,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.19.5';
+            s.src = 'fluid-simulation.js?v=2.19.6';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.19.5" defer></script>
+    <script src="script.js?v=2.19.6" defer></script>
 </body>
 </html>

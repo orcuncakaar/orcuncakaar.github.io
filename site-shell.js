@@ -110,6 +110,9 @@ window.kaydirmaDavranisi = function () {
             this.currentLang = localStorage.getItem('lang') || 'tr';
             const langToggleBtn = document.getElementById('lang-toggle');
 
+            // Büyük harf dönüşümü (text-transform) dile bakar: EN açılışta "tr"
+            // kalırsa "Sittings" → "SİTTİNGS" olur.
+            document.documentElement.lang = this.currentLang;
             this.applyTranslations(this.currentLang, true);
 
             if (langToggleBtn) {
