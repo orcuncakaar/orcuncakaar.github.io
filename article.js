@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // .tbmm-grafik bulunan yaziya yuklenir; Chart.js bilesenden once gelmeli.
     const CHART_JS_SRC = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
     const CHART_JS_SRI = 'sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG';
-    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.18.0';
+    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.18.1';
     let tbmmGrafikYukleme = null;
     // Govde her renderda innerHTML ile yeniden basiliyor. Kurulmus grafik
     // dugumleri yazi kimligiyle saklanip geri takiliyor; boylece dil degisiminde
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Dinamik Makale Görsel Haritası
         const postImageMap = {
-            'tbmm-yapay-zeka': 'https://orcuncakar.com/images/tbmm-yapay-zeka-og.png',
+            'tbmm-yapay-zeka': 'https://orcuncakar.com/images/tbmm-yapay-zeka-og-v2.png',
             'hantavirus-analysis': 'https://orcuncakar.com/images/hanta_plot_9.png',
             'r-data-analysis': 'https://orcuncakar.com/images/hanta_plot_7.png',
             'ai-journey': 'https://orcuncakar.com/images/hanta_plot_8.png',
