@@ -2034,3 +2034,13 @@ body.sheet-open {
     opacity: 1;
     font-weight: 700;
 }
+
+/* TBMM kavram grafigi (tbmm-grafik.js). Bilesen kendi stilini enjekte ediyor;
+   burada yalnizca sitenin mobil kurali uygulaniyor: 900px altinda kartlarda
+   oldugu gibi bulaniklik yok, panelin yari saydam zemini aynen kaliyor. */
+@media (max-width: 900px) {
+    .article-prose-content .tbmm-grafik {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+}

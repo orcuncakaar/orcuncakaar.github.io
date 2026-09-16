@@ -68,6 +68,63 @@ document.addEventListener('DOMContentLoaded', () => {
     // boylece hem kokteki hem /post/ icindeki sayfalardan ayni link calisiyor.
     const postHref = (id) => '/post/' + id;
 
+    // TBMM kavram grafigi. Chart.js tum siteye degil, yalnizca govdesinde
+    // .tbmm-grafik bulunan yaziya yuklenir; Chart.js bilesenden once gelmeli.
+    const CHART_JS_SRC = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
+    const CHART_JS_SRI = 'sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG';
+    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.17.2';
+    let tbmmGrafikYukleme = null;
+    // Govde her renderda innerHTML ile yeniden basiliyor. Kurulmus grafik
+    // dugumleri yazi kimligiyle saklanip geri takiliyor; boylece dil degisiminde
+    // secili gorunum korunuyor ve bilesen icinde temizlenmeyen ornekler birikmiyor.
+    const tbmmGrafikOnbellek = new Map();
+    let gorunenYaziId = null;
+
+    function scriptYukle(src, integrity) {
+        return new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = src;
+            if (integrity) {
+                s.integrity = integrity;
+                s.crossOrigin = 'anonymous';
+            }
+            s.onload = resolve;
+            s.onerror = () => reject(new Error('Yuklenemedi: ' + src));
+            document.head.appendChild(s);
+        });
+    }
+
+    function tbmmGrafikleriKur(postId) {
+        if (!articleBodyContent) return;
+        const kutular = articleBodyContent.querySelectorAll('.tbmm-grafik');
+        if (!kutular.length) return;
+
+        const saklanan = tbmmGrafikOnbellek.get(postId);
+        if (saklanan && saklanan.length === kutular.length) {
+            kutular.forEach((kutu, i) => kutu.replaceWith(saklanan[i]));
+            // Ayrik kaldigi surede genislik 0 okunmus olabilir; setLang yeniden cizer.
+            if (window.TbmmGrafik) window.TbmmGrafik.setLang(currentLang);
+            return;
+        }
+
+        kutular.forEach((kutu) => kutu.setAttribute('data-lang', currentLang));
+        if (!tbmmGrafikYukleme) {
+            tbmmGrafikYukleme = (window.Chart ? Promise.resolve() : scriptYukle(CHART_JS_SRC, CHART_JS_SRI))
+                .then(() => (window.TbmmGrafik ? null : scriptYukle(TBMM_GRAFIK_SRC)));
+        }
+        tbmmGrafikYukleme
+            .then(() => { if (window.TbmmGrafik) window.TbmmGrafik.init(); })
+            .catch((err) => {
+                tbmmGrafikYukleme = null;
+                console.error('[tbmm-grafik]', err);
+                articleBodyContent.querySelectorAll('.tbmm-grafik:not([data-tg-ready])').forEach((kutu) => {
+                    kutu.textContent = currentLang === 'tr'
+                        ? 'Grafik yüklenemedi. Sayfayı yenileyip tekrar deneyin.'
+                        : 'The chart could not be loaded. Refresh the page and try again.';
+                });
+            });
+    }
+
     // 3. YAPILANDIRILMIŞ HIZLI ÖZET & AKADEMİK KAYNAK VERİTABANI
     const articleSynthesisDB = {
         'hantavirus-analysis': {
@@ -463,7 +520,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
 
+            if (gorunenYaziId) {
+                const kurulu = articleBodyContent.querySelectorAll('.tbmm-grafik[data-tg-ready]');
+                if (kurulu.length) tbmmGrafikOnbellek.set(gorunenYaziId, Array.from(kurulu));
+            }
+
             articleBodyContent.innerHTML = enrichedHtml;
+            gorunenYaziId = post.id;
+            tbmmGrafikleriKur(post.id);
 
             // Kod Bloklarına Kopyalama Butonu Ekleme
             enhanceCodeBlocks();
@@ -1162,10 +1226,16 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('languageChanged', (e) => {
         currentLang = e.detail.lang;
         renderArticle();
+        if (window.TbmmGrafik) window.TbmmGrafik.setLang(currentLang);
         setTimeout(() => {
             const activeL = document.querySelector('.navbar .nav-link.active') || blogNavLink;
             if (activeL) updateSlidingPill(activeL);
         }, 80);
+    });
+
+    // Grafik temayi data-theme'den kendisi izliyor; bu, olaya bagli yedek yol.
+    window.addEventListener('themeChanged', () => {
+        if (window.TbmmGrafik) window.TbmmGrafik.refresh();
     });
 
     // İLK MAKALE RENDERİ

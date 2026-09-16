@@ -73,6 +73,9 @@ window.kaydirmaDavranisi = function () {
                 body.classList.remove('light-theme');
                 docEl.classList.remove('light-theme');
             }
+            // Site stilleri yalnizca .light-theme sinifina bakiyor. data-theme,
+            // temayi bu sekilde okuyan gomulu bilesenler (tbmm-grafik) icin.
+            docEl.setAttribute('data-theme', this.currentTheme);
 
             const metaThemeColor = document.getElementById('meta-theme-color') || document.querySelector('meta[name="theme-color"]');
             if (metaThemeColor) {
@@ -85,6 +88,7 @@ window.kaydirmaDavranisi = function () {
                     const nowLight = body.classList.toggle('light-theme');
                     docEl.classList.toggle('light-theme', nowLight);
                     this.currentTheme = nowLight ? 'light' : 'dark';
+                    docEl.setAttribute('data-theme', this.currentTheme);
                     localStorage.setItem('theme', this.currentTheme);
 
                     if (metaThemeColor) {
