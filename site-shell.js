@@ -177,7 +177,15 @@ window.kaydirmaDavranisi = function () {
                 }
             });
 
-            // 6. Dil Butonu Metni Güncelleme
+            // 6. [data-translate-href] Dile Göre Bağlantı (ör. TR/EN CV)
+            document.querySelectorAll('[data-translate-href]').forEach(el => {
+                const key = el.getAttribute('data-translate-href');
+                if (t[key] !== undefined) {
+                    el.setAttribute('href', t[key]);
+                }
+            });
+
+            // 7. Dil Butonu Metni Güncelleme
             const langText = document.querySelector('#lang-toggle .lang-text');
             if (langText) {
                 langText.textContent = lang === 'tr' ? 'EN' : 'TR';
