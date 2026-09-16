@@ -2800,11 +2800,13 @@ textarea.form-control {
     width: 20px;
     height: 20px;
     fill: currentColor;
+    /* Ok başı üstte ağır kaldığı için geometrik merkez yukarıda görünüyor; optik ortalama */
+    transform: translateY(1.25px);
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .scroll-top-btn:hover svg {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .light-theme .scroll-top-btn {
