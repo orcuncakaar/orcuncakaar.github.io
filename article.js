@@ -391,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Dinamik Makale Görsel Haritası
         const postImageMap = {
+            'tbmm-yapay-zeka': 'https://orcuncakar.com/images/tbmm-yapay-zeka-og.png',
             'hantavirus-analysis': 'https://orcuncakar.com/images/hanta_plot_9.png',
             'r-data-analysis': 'https://orcuncakar.com/images/hanta_plot_7.png',
             'ai-journey': 'https://orcuncakar.com/images/hanta_plot_8.png',
