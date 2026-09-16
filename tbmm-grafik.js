@@ -31,7 +31,7 @@
       series: { yapay_zeka: "Yapay zekâ", veri: "Veri", tuik: "TÜİK", istatistik: "İstatistik", buyuk_veri: "Büyük veri" },
       notes: {
         yillik: "2026 yalnızca ocak–ağustos dönemini içeriyor; bütçenin görüşüldüğü aralık ayı henüz yok. Yılları adil kıyaslamak için Ocak–Ağustos görünümüne geçin.",
-        aylik: "Tatil gibi oturum olmayan aylar boş. 100 binden az kelime içeren aylar, değerleri yanıltıcı derecede oynak olduğu için gösterilmiyor.",
+        aylik: "Kesikli çizgi, ölçüm olmayan ayları gösterir: tatil gibi oturum yapılmayan aylar ve değerleri yanıltıcı derecede oynak olduğu için gösterilmeyen, 100 binden az kelime içeren aylar.",
         ocak_agustos: "Her yılın yalnızca ocak–ağustos dönemi. 2026 ile diğer yıllar bu görünümde aynı koşullarda karşılaştırılıyor."
       },
       events: {
@@ -61,7 +61,7 @@
       series: { yapay_zeka: "Artificial intelligence", veri: "Data", tuik: "TurkStat (TÜİK)", istatistik: "Statistics", buyuk_veri: "Big data" },
       notes: {
         yillik: "2026 covers January–August only; December, when the budget is debated, is still ahead. Switch to the Jan–Aug view for a fair comparison.",
-        aylik: "Months without sittings, such as recess, are left blank. Months with fewer than 100,000 words are hidden because their values swing too much to be meaningful.",
+        aylik: "Dashed lines mark months with no measurement: months without sittings, such as recess, and months with fewer than 100,000 words, which are hidden because their values swing too much to be meaningful.",
         ocak_agustos: "January–August of each year only, so 2026 is compared with other years on equal terms."
       },
       events: {
@@ -477,12 +477,35 @@
     var monthly = view === "aylik";
     var logOn = this.log;
 
+    // Aylik gorunumde verisi olmayan aylarin uzerinden kesikli, soluk bir cizgiyle gecilir:
+    // cizgi kopmaz ama "burada olcum yok" bilgisi korunur. Log olcekte sifir olan aylar
+    // olcumlu oldugu halde cizilemiyor; onlar kesikli cizgiyle birlestirilmez, bos kalir.
+    function soluk(color) {
+      return /^#[0-9a-f]{6}$/i.test(color) ? color + "8c" : color;
+    }
+    // Chart.js 4 bu baglami atlanan noktalar dahil her komsu cift icin kurar;
+    // bosluk, uclardan biri atlanmis (degeri null) bir noktaysa vardir.
+    function bosluk(ctx) { return ctx.p0.skip || ctx.p1.skip; }
+    function atlananIndeks(ctx) { return ctx.p1.skip ? ctx.p1DataIndex : ctx.p0DataIndex; }
+
     var datasets = this.selected.map(function (s) {
       var main = s === "yapay_zeka";
+      var raw = sh.values[s];
+      var data = raw.map(function (v) { return logOn && v != null && v <= 0 ? null : v; });
+      // Bosluk bir butun olarak siniflanir: icinde log olcekte sifir olan bir ay varsa
+      // bosluk olcumlu demektir ve cizilmez. Aksi halde Chart.js boslugu ortasindan bolerdi.
+      var olcumluBosluk = data.map(function () { return false; });
+      for (var i = 0; i < data.length; i++) {
+        if (data[i] != null) continue;
+        var j = i, sifirVar = false;
+        while (j < data.length && data[j] == null) { if (raw[j] != null) sifirVar = true; j++; }
+        for (var k = i; k < j; k++) olcumluBosluk[k] = sifirVar;
+        i = j;
+      }
       return {
         key: s,
         label: t.series[s],
-        data: sh.values[s].map(function (v) { return logOn && v != null && v <= 0 ? null : v; }),
+        data: data,
         borderColor: c[s],
         backgroundColor: c[s],
         borderWidth: main ? 2.6 : 1.8,
@@ -493,7 +516,15 @@
         pointHoverRadius: monthly ? 4 : 5,
         pointBackgroundColor: c[s],
         tension: 0,
-        spanGaps: false
+        spanGaps: monthly,
+        segment: monthly ? {
+          borderDash: function (ctx) { return bosluk(ctx) ? [3, 4] : undefined; },
+          borderWidth: function (ctx) { return bosluk(ctx) ? 1.2 : undefined; },
+          borderColor: function (ctx) {
+            if (!bosluk(ctx)) return undefined;
+            return olcumluBosluk[atlananIndeks(ctx)] ? "transparent" : soluk(c[s]);
+          }
+        } : undefined
       };
     });
 
