@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
             }
-        } else {
+        } else if (postId === 'sql-importance') {
             if (isLarge) {
                 return `
                     <div class="datalab-svg-box">

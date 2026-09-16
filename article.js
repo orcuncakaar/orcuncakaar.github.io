@@ -127,6 +127,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. YAPILANDIRILMIŞ HIZLI ÖZET & AKADEMİK KAYNAK VERİTABANI
     const articleSynthesisDB = {
+        'tbmm-yapay-zeka': {
+            noteNumber: '005',
+            category: { tr: 'METİN MADENCİLİĞİ & VERİ ANALİZİ', en: 'TEXT MINING & DATA ANALYSIS' },
+            quickRead: {
+                tr: [
+                    { label: 'Amaç', val: 'Yapay zekâ, veri, büyük veri ve istatistik kavramlarının TBMM Genel Kurulu\'nun diline ne zaman ve nasıl girdiğini ölçmek.' },
+                    { label: 'Veri Kümesi', val: 'TBMM internet sitesindeki Genel Kurul tutanakları: Ocak 2011 – Ağustos 2026, 1.820 birleşim, yaklaşık 71,7 milyon kelime.' },
+                    { label: 'Yöntem', val: 'Python ile toplanan tutanaklardan başlıklar, konuşmacı adları ve parantez içi notlar ayıklandı; sıklık milyon kelime başına geçiş olarak ölçüldü.' },
+                    { label: 'Temel Çıkarım', val: 'Yalnızca Ekim 2024\'te “yapay zekâ” 296 kez geçti; 2011–2023 toplamı 274\'tü. Komisyon sonrası taban seviye, öncesinin üç katından fazla.' }
+                ],
+                en: [
+                    { label: 'Objective', val: 'Measure when and how artificial intelligence, data, big data and statistics entered the language of Türkiye\'s General Assembly.' },
+                    { label: 'Dataset', val: 'General Assembly transcripts from the TBMM website: January 2011 – August 2026, 1,820 sittings, about 71.7 million words.' },
+                    { label: 'Method', val: 'Transcripts collected with Python; headings, speaker names and parenthetical notes removed; frequency measured as mentions per million words.' },
+                    { label: 'Key Finding', val: 'October 2024 alone had 296 mentions of “artificial intelligence”, against 274 in 2011–2023. After the committee, the baseline is more than three times higher.' }
+                ]
+            },
+            references: [
+                { title: 'TBMM Genel Kurul Tutanakları', desc: 'General Assembly transcripts of the Grand National Assembly of Türkiye (HTML versions), January 2011 – 10 August 2026. The only data source; 1,820 of 1,823 sittings analysed. tbmm.gov.tr' },
+                { title: '6698 sayılı Kişisel Verilerin Korunması Kanunu (2016)', desc: 'Law on the Protection of Personal Data, adopted in March 2016. Background for the 2016 spike in the “data” series — not a data source.' }
+            ]
+        },
         'hantavirus-analysis': {
             noteNumber: '004',
             category: { tr: 'MAKİNE ÖĞRENMESİ & EKOLOJİ', en: 'MACHINE LEARNING & ECOLOGY' },
@@ -224,6 +246,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // AI RESEARCH SIDECAR DATA (DISTILLED 3 FINDINGS + METHODOLOGY + CONCLUSION)
     const aiSidecarDB = {
+        'tbmm-yapay-zeka': {
+            findings: {
+                tr: [
+                    { num: '01', title: 'Ekim 2024 Sıçraması', desc: 'Yapay Zekâ Araştırma Komisyonu\'nun kurulduğu ayda sıklık milyon kelimede 667\'ye çıktı; tek bir ay, önceki 13 yılın toplamını (274) geride bıraktı.', targetId: 'tbmm-komisyon' },
+                    { num: '02', title: 'Kalıcı Yeni Seviye', desc: 'Ocak–ağustos döneminde sıklık 2024\'te 11,9, 2025\'te 37,5, 2026\'da 39,1. Veriler bir zaman sırası gösteriyor, neden-sonuç ilişkisi değil.', targetId: 'tbmm-yeni-normal' },
+                    { num: '03', title: 'Veri, Bir Kanıt Dili', desc: '“Veri” sıklığı 2011\'den 2025\'e yaklaşık 2,8 katına çıktı; örneklerin yaklaşık üçte biri “...verilerine göre” kalıbında.', targetId: 'tbmm-veri' }
+                ],
+                en: [
+                    { num: '01', title: 'The October 2024 Spike', desc: 'In the month the Artificial Intelligence Research Committee was set up, frequency reached 667 per million words; a single month outstripped the previous 13 years combined (274).', targetId: 'tbmm-komisyon' },
+                    { num: '02', title: 'A Lasting New Level', desc: 'January–August frequency was 11.9 in 2024, 37.5 in 2025 and 39.1 in 2026. The data shows a sequence in time, not cause and effect.', targetId: 'tbmm-yeni-normal' },
+                    { num: '03', title: 'Data as a Language of Evidence', desc: 'The frequency of “data” rose about 2.8-fold from 2011 to 2025; roughly one third of samples follow the “...according to the data of” pattern.', targetId: 'tbmm-veri' }
+                ]
+            },
+            methodology: {
+                tr: 'TBMM Genel Kurul tutanaklarının HTML sürümleri Python ile toplandı (1.820 birleşim). İçindekiler, konu başlıkları, konuşmacı adları ve parantez içi notlar ayıklandı; kavram sıklığı milyon kelime başına geçiş olarak hesaplandı. Aylık görünümde 100 binden az kelime içeren aylar gösterilmiyor. Yalnızca Genel Kurul incelendi; komisyon toplantıları kapsam dışında.',
+                en: 'HTML versions of the TBMM General Assembly transcripts were collected with Python (1,820 sittings). Tables of contents, topic headings, speaker names and parenthetical notes were removed; concept frequency was calculated as mentions per million words. Months with fewer than 100,000 words are hidden in the monthly view. Only the General Assembly was examined; committee meetings are out of scope.'
+            },
+            conclusion: {
+                tr: 'Yapay zekâ Meclis gündemine yerleşti, veri bir kanıt dili olarak güçlendi ve istatistik tartışması kavramdan kuruma kaydı. Bütçenin görüşüldüğü aralık ayları yüzünden yıllık toplamlar yanıltıcı olabiliyor; 2026\'yı adil kıyaslamak için ocak–ağustos dönemlerine bakmak gerekiyor.',
+                en: 'Artificial intelligence has settled onto parliament\'s agenda, data has grown stronger as a language of evidence, and the statistics debate has shifted from concept to institution. Because the budget is debated in December, yearly totals can mislead; a fair comparison for 2026 needs the January–August periods.'
+            }
+        },
         'hantavirus-analysis': {
             findings: {
                 tr: [
@@ -415,8 +459,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. MAKALE YÜKLEME & RENDER FONKSİYONU
     function renderArticle() {
         hasOpenedAiSidecarInSession = false;
-        const posts = translations[currentLang]['blog-posts'];
+        let posts = translations[currentLang]['blog-posts'];
         let postIndex = posts.findIndex(p => p.id === currentPostId);
+        // Yazinin bu dilde karsiligi yoksa ilk yaziya dusmek yerine Turkcesini goster.
+        if (postIndex === -1 && currentLang !== 'tr') {
+            const trIndex = translations.tr['blog-posts'].findIndex(p => p.id === currentPostId);
+            if (trIndex > -1) {
+                posts = translations.tr['blog-posts'];
+                postIndex = trIndex;
+            }
+        }
         if (postIndex === -1) {
             postIndex = 0;
             currentPostId = posts[0].id;

@@ -6,7 +6,14 @@
     <description>Istatistik, veri bilimi ve makine ogrenmesi uzerine teknik arastirma notlari.</description>
     <language>tr</language>
     <atom:link href="https://orcuncakar.com/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Fri, 22 May 2026 09:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2026 09:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Meclis Yapay Zekâyı Ne Zaman Keşfetti?</title>
+      <link>https://orcuncakar.com/post/tbmm-yapay-zeka</link>
+      <guid isPermaLink="true">https://orcuncakar.com/post/tbmm-yapay-zeka</guid>
+      <pubDate>Wed, 16 Sep 2026 09:00:00 GMT</pubDate>
+      <description>TBMM Genel Kurulu'nun 15 yıllık tutanaklarında yapay zekâ, veri ve istatistik kavramlarının izini sürdüm: 1.820 birleşim, 71,7 milyon kelime.</description>
+    </item>
     <item>
       <title>Hantavirüs Ekolojik Modelleme ve Veri Bilimi Çalışması</title>
       <link>https://orcuncakar.com/post/hantavirus-analysis</link>
