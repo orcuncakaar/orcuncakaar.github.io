@@ -988,7 +988,10 @@
         pointer.started = false;
     }
 
-    // IntersectionObserver
+    // Hero ekrandan cikinca dur. Ust 100px menunun altinda kalan serit: projeler
+    // bolumune gelindiginde hero'nun yalnizca bu kadari gorunuyor ve orada
+    // donen simulasyon GPU'yu proje seridinin kaydirmasiyla paylasiyordu.
+    // Durunca kanvas son kareyi gostermeye devam ediyor.
     const heroSection = document.getElementById('home');
     if ('IntersectionObserver' in window && heroSection) {
         const observer = new IntersectionObserver(entries => {
@@ -997,7 +1000,7 @@
                 if (isHeroInView) start();
                 else stop();
             });
-        }, { threshold: 0.01, rootMargin: '300px 0px 300px 0px' });
+        }, { threshold: 0, rootMargin: '-100px 0px 0px 0px' });
         observer.observe(heroSection);
     }
 
