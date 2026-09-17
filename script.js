@@ -440,15 +440,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Hero'daki laboratuvar kartı menüdeki Laboratuvar bağlantısıyla aynı
-    // şekilde kaysın (yoksa tarayıcı doğrudan bölüme atlıyor)
-    const labTile = document.querySelector('.tile-lab[href="#playground"]');
+    // Hero'daki laboratuvar kartı ve projelerdeki Regresyon Modülü bağlantısı
+    // menüdeki Laboratuvar bağlantısıyla aynı şekilde kaysın (yoksa tarayıcı
+    // doğrudan bölüme atlıyor)
     const labNavLink = document.querySelector('.nav-links a[href="#playground"]');
-    if (labTile && labNavLink) {
-        labTile.addEventListener('click', e => {
-            if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
-            e.preventDefault();
-            labNavLink.click();
+    if (labNavLink) {
+        document.querySelectorAll('.tile-lab[href="#playground"], .project-link[href="#playground"]').forEach(link => {
+            link.addEventListener('click', e => {
+                if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
+                e.preventDefault();
+                labNavLink.click();
+            });
         });
     }
 
