@@ -1966,6 +1966,20 @@ ul {
         scroll-snap-align: start;
     }
 
+    /* Seridin zemini, arkasindaki bolum zeminiyle ayni ama opak. Chrome %100
+       ve %125 olcekte saydam zeminli kaydirma alanini ayri katmana almiyor
+       (metnin alt piksel yumusatmasi bozulmasin diye); her karede kartlari
+       gorselleriyle yeniden ciziyor ve kareler dusuyordu. Opak zeminle serit
+       kendi katmaninda kayiyor, gorunum ayni.
+       Koyu: --bg-secondary zaten opak. Acik: %60 beyaz, #f8fafc uzerinde. */
+    .projects-grid {
+        background-color: var(--bg-secondary);
+    }
+
+    .light-theme .projects-grid {
+        background-color: rgb(252, 253, 254);
+    }
+
     .projects-nav {
         position: absolute;
         top: 50%;
