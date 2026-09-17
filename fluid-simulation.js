@@ -75,23 +75,19 @@
     }
     await bosZaman();
 
-    // Simulation Configuration (Organic Wet Watercolor Diffusion)
+    // Ayarlar ve davranis aaabadcode.com'daki efektle (React Bits SplashCursor) ayni
     const config = {
         SIM_RESOLUTION: 128,
-        DYE_RESOLUTION: 1024,
-        CAPTURE_RESOLUTION: 512,
-        DENSITY_DISSIPATION: 0.5, // Boya saniyelerce kaliyor (referans ayari)
+        DYE_RESOLUTION: 1440,
+        DENSITY_DISSIPATION: 0.5, // Boya saniyelerce kaliyor
         VELOCITY_DISSIPATION: 3.0, // Hareket hizla duruluyor: savrulma degil, duran boya
         PRESSURE: 0.1,
         PRESSURE_ITERATIONS: 20,
         CURL: 3, // Neredeyse girdapsiz: ipeksi, sakin akis
-        SPLAT_RADIUS: 0.2, // Genis, yumusak yikama alani
-        SPLAT_FORCE: 6000, // Daha uzun, akici firca izleri
+        SPLAT_RADIUS: 0.2,
+        SPLAT_FORCE: 6000,
         SHADING: true,
-        COLORFUL: true,
-        PAUSED: false,
-        BACK_COLOR: { r: 0, g: 0, b: 0 },
-        TRANSPARENT: true
+        COLOR_UPDATE_SPEED: 10 // Renk saniyede 10 kez degisiyor: iz boyunca gokkusagi seritleri
     };
 
     const { gl, ext } = getWebGLContext(canvas);
@@ -198,6 +194,9 @@
         if (status === gl.FRAMEBUFFER_COMPLETE) {
             return { internalFormat, format };
         }
+        // Tek kanalli bicim desteklenmiyorsa daha genis olana gec
+        if (internalFormat === gl.R16F) return getSupportedFormat(gl, gl.RG16F, gl.RG, type);
+        if (internalFormat === gl.RG16F) return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
         return { internalFormat: gl.RGBA, format: gl.RGBA };
     }
 
@@ -320,7 +319,8 @@
         }
     `);
 
-    // True Watercolor Marbling & Pigment Wash Shader (Sulu Boya & Ebru Efekti)
+    // Boyayi oldugu gibi gosteriyor; SHADING acikken komsu piksellerden yuzey
+    // egimi cikarilip hafif bir isik veriliyor (parlak, sivi gorunumu).
     const displayShaderSource = `
         precision highp float;
         precision highp sampler2D;
@@ -330,58 +330,29 @@
         varying vec2 vT;
         varying vec2 vB;
         uniform sampler2D uTexture;
-        uniform float isLight;
-
-        // Pastel Watercolor Spectrum (Rose, Amber, Viridian, Sky Turquoise, Lavender)
-        vec3 watercolorPalette(float t) {
-            vec3 a = vec3(0.68, 0.65, 0.66);
-            vec3 b = vec3(0.42, 0.38, 0.40);
-            vec3 c = vec3(1.0, 1.0, 1.0);
-            vec3 d = vec3(0.05, 0.38, 0.70);
-            return a + b * cos(6.2831853 * (c * t + d));
-        }
+        uniform vec2 texelSize;
 
         void main () {
-            vec4 dye = texture2D(uTexture, vUv);
-            vec3 c = dye.rgb;
-            float density = length(c);
+            vec3 c = texture2D(uTexture, vUv).rgb;
 
-            if (density < 0.0008) {
-                gl_FragColor = vec4(0.0);
-                return;
-            }
+        #ifdef SHADING
+            vec3 lc = texture2D(uTexture, vL).rgb;
+            vec3 rc = texture2D(uTexture, vR).rgb;
+            vec3 tc = texture2D(uTexture, vT).rgb;
+            vec3 bc = texture2D(uTexture, vB).rgb;
 
-            // Neighboring texel gradients for capillary watercolor pigment edges
-            float L = length(texture2D(uTexture, vL).rgb);
-            float R = length(texture2D(uTexture, vR).rgb);
-            float T = length(texture2D(uTexture, vT).rgb);
-            float B = length(texture2D(uTexture, vB).rgb);
-            vec2 grad = vec2(R - L, T - B);
-            float edgeFringe = length(grad) * 1.4;
+            float dx = length(rc) - length(lc);
+            float dy = length(tc) - length(bc);
 
-            // Fluid hue angle & watercolor color bleed
-            float hue = atan(c.g - c.b, c.r - c.g) * 0.1591549 + 0.5;
-            float phase = fract(hue + density * 0.65 + edgeFringe * 0.4);
-            vec3 watercolor = watercolorPalette(phase);
+            vec3 n = normalize(vec3(dx, dy, length(texelSize)));
+            vec3 l = vec3(0.0, 0.0, 1.0);
 
-            // Blend pure pigment with watercolor spectral bleed
-            vec3 pigmentColor = mix(c * 1.25, watercolor * 1.15, 0.32);
+            float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
+            c *= diffuse;
+        #endif
 
-            if (isLight > 0.5) {
-                // Acik tema: beyaz kagit uzerinde pastel suluboya.
-                // Pigment bir miktar beyaza cekiliyor (pastel), buna karsilik
-                // tavan saydamlik yukseltiliyor: renk soluk degil, hafif okunuyor.
-                vec3 pastel = mix(pigmentColor, vec3(1.0), 0.16);
-                float alpha = clamp(density * 0.66 + edgeFringe * 0.16, 0.0, 0.58);
-                gl_FragColor = vec4(pastel * alpha, alpha);
-            } else {
-                // Koyu tema: karanlikta parlayan nebula.
-                // Renk doygunlugu artiriliyor ama tavan saydamlik dusuk
-                // tutuluyor; boylece iz birikse bile metin okunur kaliyor.
-                vec3 glow = mix(pigmentColor, pigmentColor * 1.35, 0.6);
-                float alpha = clamp(density * 0.48 + edgeFringe * 0.16, 0.0, 0.40);
-                gl_FragColor = vec4(glow * alpha, alpha);
-            }
+            float a = max(c.r, max(c.g, c.b));
+            gl_FragColor = vec4(c, a);
         }
     `;
 
@@ -415,9 +386,25 @@
         uniform float dt;
         uniform float dissipation;
 
+        vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
+            vec2 st = uv / tsize - 0.5;
+            vec2 iuv = floor(st);
+            vec2 fuv = fract(st);
+            vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize);
+            vec4 b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
+            vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize);
+            vec4 d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
+            return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
+        }
+
         void main () {
+        #ifdef MANUAL_FILTERING
+            vec2 coord = vUv - dt * bilerp(uVelocity, vUv, texelSize).xy * texelSize;
+            vec4 result = bilerp(uSource, coord, dyeTexelSize);
+        #else
             vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
             vec4 result = texture2D(uSource, coord);
+        #endif
             float decay = 1.0 + dissipation * dt;
             gl_FragColor = result / decay;
         }
@@ -542,7 +529,7 @@
             float T = texture2D(uPressure, vT).x;
             float B = texture2D(uPressure, vB).x;
             vec2 velocity = texture2D(uVelocity, vUv).xy;
-            velocity.xy -= vec2(R - L, T - B) * 0.5;
+            velocity.xy -= vec2(R - L, T - B);
             gl_FragColor = vec4(velocity, 0.0, 1.0);
         }
     `);
@@ -557,7 +544,8 @@
     const pressureProgram = new Program(baseVertexShader, pressureShader);
     const gradienSubtractProgram = new Program(baseVertexShader, gradientSubtractShader);
     const displayMaterial = new Material(baseVertexShader, displayShaderSource);
-    const displayProgram = displayMaterial.derle([]);
+    const displayKeywords = config.SHADING ? ['SHADING'] : [];
+    const displayProgram = displayMaterial.derle(displayKeywords);
 
     // KHR_parallel_shader_compile varsa derleme/baglama GPU surecinde suruyor;
     // bitene kadar ana is parcacigini birakip kareler arasinda yokla.
@@ -707,43 +695,30 @@
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
     }
 
-    // Curated Wet Watercolor Pigment Palette
-    let colorStep = 0;
-    const watercolorPalette = [
-        { r: 0.96, g: 0.25, b: 0.58 }, // Rose Magenta Watercolor
-        { r: 0.98, g: 0.78, b: 0.15 }, // Cadmium Amber Gold
-        { r: 0.18, g: 0.88, b: 0.48 }, // Viridian Mint Lime
-        { r: 0.08, g: 0.82, b: 0.96 }, // Turquoise Cerulean
-        { r: 0.68, g: 0.30, b: 0.94 }, // Orchid Lavender
-        { r: 0.98, g: 0.44, b: 0.20 }, // Peach Coral
-        { r: 0.12, g: 0.90, b: 0.72 }, // Emerald Seafoam
-        { r: 0.24, g: 0.58, b: 0.98 }  // Cobalt Sky Blue
-    ];
-
-    // Renk her hareket olayinda degismiyor; zamanla yavasca kayiyor ve iki palet
-    // rengi arasinda gecis yapiyor. Boylece tek bir firca izi tek renkte kaliyor,
-    // gokkusagi karmasi olusmuyor -- referans efektteki davranis bu.
-    let colorPhase = 0;
-    let lastColorTime = 0;
-    const COLOR_DRIFT_MS = 1500; // bir palet renginden digerine gecis suresi
+    // Rastgele ton, tam doygunluk; dusuk yogunluk (0.15) sayesinde boya
+    // ust uste birikse de pastel kaliyor.
+    function hsvToRgb(h, s, v) {
+        const i = Math.floor(h * 6);
+        const f = h * 6 - i;
+        const p = v * (1 - s);
+        const q = v * (1 - f * s);
+        const t = v * (1 - (1 - f) * s);
+        switch (i % 6) {
+            case 0: return { r: v, g: t, b: p };
+            case 1: return { r: q, g: v, b: p };
+            case 2: return { r: p, g: v, b: t };
+            case 3: return { r: p, g: q, b: v };
+            case 4: return { r: t, g: p, b: v };
+            default: return { r: v, g: p, b: q };
+        }
+    }
 
     function generateColor() {
-        const now = (typeof performance !== 'undefined' ? performance.now() : Date.now());
-        if (lastColorTime === 0) lastColorTime = now;
-        colorPhase += (now - lastColorTime) / COLOR_DRIFT_MS;
-        lastColorTime = now;
-
-        const n = watercolorPalette.length;
-        const base = Math.floor(colorPhase);
-        const f = colorPhase - base;
-        const a = watercolorPalette[((base % n) + n) % n];
-        const b = watercolorPalette[((base + 1) % n + n) % n];
-
-        return {
-            r: (a.r + (b.r - a.r) * f) * 0.9,
-            g: (a.g + (b.g - a.g) * f) * 0.9,
-            b: (a.b + (b.b - a.b) * f) * 0.9
-        };
+        const c = hsvToRgb(Math.random(), 1.0, 1.0);
+        c.r *= 0.15;
+        c.g *= 0.15;
+        c.b *= 0.15;
+        return c;
     }
 
     function splat(x, y, dx, dy, color) {
@@ -847,98 +822,120 @@
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
         gl.enable(gl.BLEND);
 
-        displayMaterial.setKeywords([]);
+        displayMaterial.setKeywords(displayKeywords);
         displayMaterial.bind();
-        const isLight = document.body.classList.contains('light-theme') ? 1.0 : 0.0;
-        gl.uniform1f(displayMaterial.uniforms.isLight, isLight);
+        if (config.SHADING) {
+            gl.uniform2f(displayMaterial.uniforms.texelSize, 1.0 / gl.drawingBufferWidth, 1.0 / gl.drawingBufferHeight);
+        }
         gl.uniform1i(displayMaterial.uniforms.uTexture, dye.read.attach(0));
         blit(null);
     }
 
-    // Universal, Robust Instant Pointer Tracking (Zero Startup Lag)
-    let lastClientX = null;
-    let lastClientY = null;
+    // Fare olayi sadece konumu kaydediyor; boya karenin icinde, adim oncesi
+    // bir kez ekleniyor. Olay sikligi ne olursa olsun iz kareyle ayni ritimde.
+    const pointer = {
+        texcoordX: 0,
+        texcoordY: 0,
+        prevTexcoordX: 0,
+        prevTexcoordY: 0,
+        deltaX: 0,
+        deltaY: 0,
+        moved: false,
+        started: false,
+        color: generateColor()
+    };
 
-    function handlePointerMove(clientX, clientY) {
-        // Only ignore if user has scrolled far down past hero
-        const scrollY = window.scrollY || window.pageYOffset || 0;
-        const heroHeight = canvas.clientHeight || window.innerHeight || 800;
-        if (scrollY > heroHeight) {
-            lastClientX = null;
-            lastClientY = null;
+    // Kanvas hero'nun icinde, sayfayla birlikte kayiyor. Olay koordinatlari
+    // pencereye gore geldigi icin kanvasin sayfadaki yeri boyut degisince
+    // olculup saklaniyor; her olayda layout okumamak icin kaydirma farki
+    // scrollX/scrollY'den hesaplaniyor.
+    let canvasPageLeft = 0;
+    let canvasPageTop = 0;
+
+    function olcKonum() {
+        const r = canvas.getBoundingClientRect();
+        canvasPageLeft = r.left + window.scrollX;
+        canvasPageTop = r.top + window.scrollY;
+    }
+
+    function dpr() {
+        return Math.min(window.devicePixelRatio || 1, 2);
+    }
+
+    // Kanvas koordinatina (0-1, y yukari) cevir; kanvasin disindaysa null
+    function kanvasKoordinati(clientX, clientY) {
+        const cssW = canvas.clientWidth;
+        const cssH = canvas.clientHeight;
+        if (!cssW || !cssH) return null;
+        const x = (clientX + window.scrollX - canvasPageLeft) / cssW;
+        const y = (clientY + window.scrollY - canvasPageTop) / cssH;
+        if (x < 0 || x > 1 || y < 0 || y > 1) return null;
+        return { x, y: 1.0 - y };
+    }
+
+    function correctDeltaX(delta) {
+        const aspectRatio = canvas.width / canvas.height;
+        if (aspectRatio < 1) delta *= aspectRatio;
+        return delta;
+    }
+
+    function correctDeltaY(delta) {
+        const aspectRatio = canvas.width / canvas.height;
+        if (aspectRatio > 1) delta /= aspectRatio;
+        return delta;
+    }
+
+    function pointerDown(p) {
+        pointer.texcoordX = p.x;
+        pointer.texcoordY = p.y;
+        pointer.prevTexcoordX = p.x;
+        pointer.prevTexcoordY = p.y;
+        pointer.deltaX = 0;
+        pointer.deltaY = 0;
+        pointer.moved = false;
+        pointer.started = true;
+        pointer.color = generateColor();
+    }
+
+    function pointerMove(p) {
+        if (!pointer.started) {
+            // Ilk olayda onceki konum yok; sicrama olmasin diye buradan basla
+            pointerDown(p);
             return;
         }
-
-        const width = canvas.width || window.innerWidth;
-        const height = canvas.height || window.innerHeight;
-
-        const currX = clientX / width;
-        const currY = 1.0 - clientY / height;
-
-        if (lastClientX === null || lastClientY === null) {
-            lastClientX = currX;
-            lastClientY = currY;
-            return;
-        }
-
-        let deltaX = (currX - lastClientX) * config.SPLAT_FORCE;
-        let deltaY = (currY - lastClientY) * config.SPLAT_FORCE;
-
-        deltaX = Math.max(-1300, Math.min(1300, deltaX));
-        deltaY = Math.max(-1300, Math.min(1300, deltaY));
-
-        const distSq = deltaX * deltaX + deltaY * deltaY;
-        if (distSq > 1.0) {
-            const col = generateColor();
-            splat(currX, currY, deltaX, deltaY, col);
-
-            lastClientX = currX;
-            lastClientY = currY;
-        }
+        pointer.prevTexcoordX = pointer.texcoordX;
+        pointer.prevTexcoordY = pointer.texcoordY;
+        pointer.texcoordX = p.x;
+        pointer.texcoordY = p.y;
+        pointer.deltaX = correctDeltaX(pointer.texcoordX - pointer.prevTexcoordX);
+        pointer.deltaY = correctDeltaY(pointer.texcoordY - pointer.prevTexcoordY);
+        pointer.moved = Math.abs(pointer.deltaX) > 0 || Math.abs(pointer.deltaY) > 0;
     }
 
     window.addEventListener('mousemove', e => {
-        handlePointerMove(e.clientX, e.clientY);
-    }, { passive: true });
-
-    window.addEventListener('touchmove', e => {
-        if (e.touches && e.touches[0]) {
-            handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
-        }
+        const p = kanvasKoordinati(e.clientX, e.clientY);
+        if (p) pointerMove(p);
+        else pointer.started = false;
     }, { passive: true });
 
     window.addEventListener('mousedown', e => {
-        const scrollY = window.scrollY || window.pageYOffset || 0;
-        const heroHeight = canvas.clientHeight || window.innerHeight || 800;
-        if (scrollY > heroHeight) return;
-
-        const width = canvas.width || window.innerWidth;
-        const height = canvas.height || window.innerHeight;
-        let posX = e.clientX / width;
-        let posY = 1.0 - e.clientY / height;
+        const p = kanvasKoordinati(e.clientX, e.clientY);
+        if (!p || !isRunning) return;
+        pointerDown(p);
+        // Tiklamada kucuk, parlak bir damla
         const c = generateColor();
-        splat(posX, posY, (Math.random() - 0.5) * 350, (Math.random() - 0.5) * 350, c);
-    });
+        c.r *= 10.0;
+        c.g *= 10.0;
+        c.b *= 10.0;
+        splat(p.x, p.y, 10 * (Math.random() - 0.5), 30 * (Math.random() - 0.5), c);
+    }, { passive: true });
 
-    // Auto Ambient Swirls (Gentle Idle Motion)
-    let lastAmbient = Date.now();
-    function autoAmbient() {
-        const now = Date.now();
-        if (now - lastAmbient > 3800) {
-            lastAmbient = now;
-            const x = 0.25 + Math.random() * 0.5;
-            const y = 0.35 + Math.random() * 0.4;
-            const angle = Math.random() * Math.PI * 2;
-            const speed = 75 + Math.random() * 85;
-            const c = generateColor();
-            splat(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed, c);
-        }
-    }
-
-    // Resize Handler
+    // Boyut: CSS boyutu x piksel yogunlugu (keskin gorunum). Yogunluk 2 ile
+    // sinirli; 3x ekranlarda fark gorunmuyor ama GPU yuku artiyor.
     function resizeCanvas() {
-        let width = canvas.clientWidth || window.innerWidth;
-        let height = canvas.clientHeight || window.innerHeight;
+        olcKonum();
+        const width = Math.floor((canvas.clientWidth || window.innerWidth) * dpr());
+        const height = Math.floor((canvas.clientHeight || window.innerHeight) * dpr());
         if (canvas.width !== width || canvas.height !== height) {
             canvas.width = width;
             canvas.height = height;
@@ -948,6 +945,7 @@
 
     // Animation Loop
     let lastTime = Date.now();
+    let colorUpdateTimer = 0.0;
     let isRunning = false;
     let isHeroInView = true;
 
@@ -956,10 +954,21 @@
 
         const now = Date.now();
         let dt = (now - lastTime) / 1000.0;
-        dt = Math.min(dt, 0.033);
+        dt = Math.min(dt, 0.016666);
         lastTime = now;
 
-        autoAmbient();
+        colorUpdateTimer += dt * config.COLOR_UPDATE_SPEED;
+        if (colorUpdateTimer >= 1) {
+            colorUpdateTimer = colorUpdateTimer % 1;
+            pointer.color = generateColor();
+        }
+
+        if (pointer.moved) {
+            pointer.moved = false;
+            splat(pointer.texcoordX, pointer.texcoordY,
+                pointer.deltaX * config.SPLAT_FORCE, pointer.deltaY * config.SPLAT_FORCE, pointer.color);
+        }
+
         step(dt);
         render();
 
@@ -970,11 +979,13 @@
         if (isRunning) return;
         isRunning = true;
         lastTime = Date.now();
-        update();
+        requestAnimationFrame(update);
     }
 
     function stop() {
         isRunning = false;
+        pointer.moved = false;
+        pointer.started = false;
     }
 
     // IntersectionObserver
@@ -995,38 +1006,18 @@
         else if (isHeroInView) start();
     });
 
+    // Hero yuksekligi yazi tipi ve icerik yuklenince de degisiyor; yalnizca
+    // pencere boyutunu dinlemek yetmiyor.
+    // Yakinlastirma ise piksel yogunlugunu degistirip CSS boyutunu ayni
+    // birakabiliyor, o yuzden resize da dinleniyor.
+    if ('ResizeObserver' in window) new ResizeObserver(resizeCanvas).observe(canvas);
     window.addEventListener('resize', resizeCanvas);
 
-    // Initial Splash & Guaranteed Immediate Execution
-    // Bu fonksiyon dört ayrı olaydan çağrılıyor; ilk damlalar yalnızca bir kez
-    // atılsın diye bayrakla korunuyor. resizeCanvas ucuz: boyut değişmediyse
-    // framebuffer'ları yeniden ayırmıyor.
-    let simulationInitialized = false;
-
-    function initSimulation() {
+    resizeCanvas();
+    if (isHeroInView && !document.hidden) start();
+    window.addEventListener('pageshow', () => {
         resizeCanvas();
-
-        if (!simulationInitialized) {
-            simulationInitialized = true;
-            // Gentle initial watercolor swirl
-            splat(0.48, 0.52, 110, 60, watercolorPalette[0]);
-            splat(0.52, 0.48, -100, 70, watercolorPalette[3]);
-        }
-
         if (isHeroInView && !document.hidden) start();
-    }
-
-    // Immediately start without waiting for deferred layout
-    initSimulation();
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(initSimulation, 30);
-        });
-    } else {
-        setTimeout(initSimulation, 30);
-    }
-    window.addEventListener('load', initSimulation);
-    window.addEventListener('pageshow', initSimulation);
+    });
 
 })();
