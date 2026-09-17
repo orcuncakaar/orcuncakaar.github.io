@@ -174,22 +174,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- BENTO HERO TILES INTERACTIVE 3D TILT ---
     const bentoHeroTiles = document.querySelectorAll('.bento-hero-tile');
+    // Egilme karede bir kez uygulanir ve JS'te yumusatilir. Eskiden her fare
+    // hareketinde kutunun konumu okunuyor ve 0,35 sn'lik CSS transform gecisi
+    // yeniden baslatiliyordu; bu, fare hareketinin ekrana yansimasini (akiskan
+    // animasyon dahil) ~60 ms geciktiriyordu (egilme kapaliyken ~11 ms).
     if (bentoHeroTiles.length > 0 && window.matchMedia('(hover: hover)').matches) {
+        let olcumSurumu = 0;
+        window.addEventListener('scroll', () => { olcumSurumu++; }, { passive: true });
+        window.addEventListener('resize', () => { olcumSurumu++; });
+
         bentoHeroTiles.forEach(tile => {
-            let isHovered = false;
-            tile.addEventListener('mouseenter', () => { isHovered = true; });
-            tile.addEventListener('mouseleave', () => {
-                isHovered = false;
-                tile.style.transform = '';
-            });
+            let kutu = null;
+            let kutuSurumu = -1;
+            let icinde = false;
+            let hedefX = 0, hedefY = 0, simdiX = 0, simdiY = 0;
+            let kare = 0, oncekiZaman = 0;
+
+            const ciz = zaman => {
+                const dt = oncekiZaman ? Math.min(zaman - oncekiZaman, 50) : 16;
+                oncekiZaman = zaman;
+                // ~0,3 sn'de hedefe %95 yaklasir (eski gecisle ayni his)
+                const k = 1 - Math.exp(-dt / 100);
+                simdiX += (hedefX - simdiX) * k;
+                simdiY += (hedefY - simdiY) * k;
+                if (!icinde && Math.abs(simdiX) < 0.01 && Math.abs(simdiY) < 0.01) {
+                    simdiX = simdiY = 0;
+                    tile.style.transform = '';
+                    kare = 0;
+                    oncekiZaman = 0;
+                    return;
+                }
+                tile.style.transform = `perspective(1000px) rotateX(${simdiX.toFixed(2)}deg) rotateY(${simdiY.toFixed(2)}deg)`;
+                kare = requestAnimationFrame(ciz);
+            };
+            const baslat = () => { if (!kare) kare = requestAnimationFrame(ciz); };
+
+            tile.addEventListener('mouseenter', () => { icinde = true; });
             tile.addEventListener('mousemove', (e) => {
-                if (!isHovered) return;
-                const rect = tile.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                const rotX = -(y / (rect.height / 2)) * 3.5;
-                const rotY = (x / (rect.width / 2)) * 3.5;
-                tile.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+                if (!icinde) return;
+                if (!kutu || kutuSurumu !== olcumSurumu) {
+                    kutu = tile.getBoundingClientRect();
+                    kutuSurumu = olcumSurumu;
+                }
+                const x = (e.clientX - kutu.left) / kutu.width * 2 - 1;
+                const y = (e.clientY - kutu.top) / kutu.height * 2 - 1;
+                hedefX = -y * 3.5;
+                hedefY = x * 3.5;
+                baslat();
+            });
+            tile.addEventListener('mouseleave', () => {
+                icinde = false;
+                kutu = null;
+                hedefX = hedefY = 0;
+                baslat();
             });
         });
     }
