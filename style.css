@@ -1098,9 +1098,19 @@ ul {
     font-weight: 600;
     color: var(--text-secondary);
     margin-bottom: 18px;
-    height: 36px; 
+    height: 36px;
     display: flex;
     align-items: center;
+    /* Daktilo saniyede ~13 kez metni degistiriyor. Yukseklik sabit, genislik
+       ustten geliyor; kutu yalitilinca her harf tum sayfayi degil yalnizca
+       bu satiri yeniden yerlestiriyor (duzen maliyeti ~5 kat dusuk). */
+    contain: size layout style;
+}
+
+/* lab.css yuklenirken laboratuvardaki gecisler kapali (index.html'deki yukleyici) */
+.lab-css-bekliyor #playground,
+.lab-css-bekliyor #playground * {
+    transition: none !important;
 }
 
 .typed-cursor {

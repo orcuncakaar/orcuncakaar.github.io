@@ -6,7 +6,7 @@
  * ============================================================================
  */
 
-(function () {
+(async function () {
     'use strict';
 
     const canvas = document.getElementById('fluid-canvas') || document.getElementById('neural-canvas');
@@ -36,20 +36,14 @@
     // tek bir uzun gorev bile cikmiyor. Yani maliyet kodun agirligi degil,
     // yazilim cizici. Surucu adi yazilim cizici diyorsa telefondakiyle ayni
     // sabit gradyana dusuyoruz; ekran karti olan ziyaretcide hicbir sey degismez.
-    function yazilimlaCiziliyor() {
+    // Tespit asil baglam uzerinde yapiliyor: eskiden ayri bir deneme baglami
+    // aciliyordu ve soguk tarayicida o tek baglam ~500ms ana is parcacigini kilitliyordu.
+    function yazilimCizici(gl) {
         try {
-            const deneme = document.createElement('canvas');
-            const gl = deneme.getContext('webgl') || deneme.getContext('experimental-webgl');
-            if (!gl) return true; // WebGL hic yoksa simulasyon zaten calismaz
-
             const bilgi = gl.getExtension('WEBGL_debug_renderer_info');
             const adlar = [];
             if (bilgi) adlar.push(gl.getParameter(bilgi.UNMASKED_RENDERER_WEBGL));
             adlar.push(gl.getParameter(gl.RENDERER));
-
-            const kaybet = gl.getExtension('WEBGL_lose_context');
-            if (kaybet) kaybet.loseContext();
-
             const ad = adlar.filter(Boolean).join(' ');
             if (!ad) return false; // Ad gizlenmisse mevcut davranisi bozma
             return /swiftshader|llvmpipe|softpipe|software|basic render|mesa offscreen/i.test(ad);
@@ -58,10 +52,28 @@
         }
     }
 
-    if (yazilimlaCiziliyor()) {
+    function sabitGradyanaDus(gl) {
+        if (gl) {
+            const kaybet = gl.getExtension('WEBGL_lose_context');
+            if (kaybet) kaybet.loseContext();
+        }
         canvas.classList.add('fluid-static');
-        return;
     }
+
+    // Kurulum (baglam, shader'lar, framebuffer'lar) tek parca halinde acilista
+    // 175-670ms ana is parcacigini kilitliyordu. Sayfa yuklendikten sonra
+    // bos anlara bolunuyor; animasyon biraz gec basliyor, sayfa donmuyor.
+    function bosZaman() {
+        return new Promise(r => {
+            if ('requestIdleCallback' in window) requestIdleCallback(() => r(), { timeout: 1000 });
+            else setTimeout(r, 50);
+        });
+    }
+
+    if (document.readyState !== 'complete') {
+        await new Promise(r => window.addEventListener('load', r, { once: true }));
+    }
+    await bosZaman();
 
     // Simulation Configuration (Organic Wet Watercolor Diffusion)
     const config = {
@@ -85,9 +97,17 @@
     const { gl, ext } = getWebGLContext(canvas);
 
     if (!gl) {
-        console.warn("WebGL not supported for fluid simulation.");
+        // WebGL hic yoksa simulasyon zaten calismaz
+        sabitGradyanaDus(null);
         return;
     }
+
+    if (yazilimCizici(gl)) {
+        sabitGradyanaDus(gl);
+        return;
+    }
+
+    await bosZaman();
 
     if (!ext.supportLinearFiltering) {
         config.DYE_RESOLUTION = 256;
@@ -191,15 +211,22 @@
             this.uniforms = [];
         }
 
+        // Derleyip baglar ama sonucu beklemez (uniform okumasi setKeywords'te)
+        derle(keywords) {
+            let hash = 0;
+            for (let i = 0; i < keywords.length; i++) hash += keywords[i].charCodeAt(0);
+            if (this.programs[hash] == null) {
+                let fragmentShader = compileShader(gl.FRAGMENT_SHADER, this.fragmentShaderSource, keywords);
+                this.programs[hash] = createProgram(this.vertexShader, fragmentShader);
+            }
+            return this.programs[hash];
+        }
+
         setKeywords(keywords) {
             let hash = 0;
             for (let i = 0; i < keywords.length; i++) hash += keywords[i].charCodeAt(0);
             let program = this.programs[hash];
-            if (program == null) {
-                let fragmentShader = compileShader(gl.FRAGMENT_SHADER, this.fragmentShaderSource, keywords);
-                program = createProgram(this.vertexShader, fragmentShader);
-                this.programs[hash] = program;
-            }
+            if (program == null) program = this.derle(keywords);
             if (program === this.activeProgram) return;
             this.uniforms = getUniforms(program);
             this.activeProgram = program;
@@ -212,8 +239,12 @@
 
     class Program {
         constructor(vertexShader, fragmentShader) {
-            this.uniforms = {};
             this.program = createProgram(vertexShader, fragmentShader);
+            // Uniform okumasi baglamanin bitmesini senkron bekliyor; hazirla() ile
+            // baglama bittikten sonra yapiliyor.
+            this.uniforms = {};
+        }
+        hazirla() {
             this.uniforms = getUniforms(this.program);
         }
         bind() {
@@ -526,6 +557,21 @@
     const pressureProgram = new Program(baseVertexShader, pressureShader);
     const gradienSubtractProgram = new Program(baseVertexShader, gradientSubtractShader);
     const displayMaterial = new Material(baseVertexShader, displayShaderSource);
+    const displayProgram = displayMaterial.derle([]);
+
+    // KHR_parallel_shader_compile varsa derleme/baglama GPU surecinde suruyor;
+    // bitene kadar ana is parcacigini birakip kareler arasinda yokla.
+    const programlar = [clearProgram, splatProgram, advectionProgram, divergenceProgram, curlProgram, vorticityProgram, pressureProgram, gradienSubtractProgram];
+    const paralelDerleme = gl.getExtension('KHR_parallel_shader_compile');
+    if (paralelDerleme) {
+        const tumu = programlar.map(p => p.program).concat(displayProgram);
+        const son = performance.now() + 3000;
+        while (performance.now() < son && !tumu.every(p => gl.getProgramParameter(p, paralelDerleme.COMPLETION_STATUS_KHR))) {
+            await new Promise(r => setTimeout(r, 16));
+        }
+    }
+    programlar.forEach(p => p.hazirla());
+    await bosZaman();
 
     // Quad Buffer
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());

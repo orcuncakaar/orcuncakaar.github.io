@@ -16,10 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbarLinks = document.getElementById('navbar-links');
     const navLinks = document.querySelectorAll('.nav-links .nav-link');
     const navIndicatorPill = document.getElementById('nav-indicator-pill');
+    // window.innerWidth okumak Chrome'da kaydirma cubugu icin yerlesimi zorluyor
+    // (masaustu acilista ~100ms). Ayni esik (kaydirma cubugu dahil genislik) matchMedia'da.
+    const darEkran = window.matchMedia('(max-width: 1024px)');
 
     function updateSlidingPill(targetLink, isInitial = false) {
         if (!navIndicatorPill || !targetLink || !navbarLinks) return;
-        if (window.innerWidth <= 1024) {
+        if (darEkran.matches) {
             navIndicatorPill.style.opacity = '0';
             return;
         }
@@ -312,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let mobilKonumda = false;
 
         const yerlestirNavLinks = () => {
-            const mobil = window.innerWidth <= 1024;
+            const mobil = darEkran.matches;
             if (mobil && !mobilKonumda) {
                 navbarEl.appendChild(navbarLinks);
                 mobilKonumda = true;
@@ -323,7 +326,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         yerlestirNavLinks();
-        window.addEventListener('resize', yerlestirNavLinks, { passive: true });
+        if (darEkran.addEventListener) darEkran.addEventListener('change', yerlestirNavLinks);
+        else window.addEventListener('resize', yerlestirNavLinks, { passive: true });
     }
 
     if (mobileMenuBtn && navbarLinks) {
