@@ -483,8 +483,26 @@ input:checked + .slider::before {
     border: 1px solid rgba(var(--primary-rgb), 0.18);
 }
 
-.formula-card:hover {
-    border-color: rgba(var(--primary-rgb), 0.35);
+/* Laboratuvar kartlarında üstüne gelince / dokununca öne çıkma yok: büyük
+   grafik kartının kalkması ve gölgesinin büyümesi takılma hissi veriyordu.
+   Değerler style.css'teki .glass-card taban değerlerinin aynısı. */
+#playground .glass-card:hover {
+    transform: none;
+    border-color: var(--card-border);
+    box-shadow: 0 8px 32px 0 var(--shadow-main);
+}
+
+#playground .formula-card.glass-card:hover {
+    border-color: rgba(var(--primary-rgb), 0.18);
+}
+
+.light-theme #playground .glass-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.40) 100%);
+    border-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.05),
+                0 2px 6px -1px rgba(0, 0, 0, 0.02),
+                inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -1px 1px 0 rgba(109, 40, 217, 0.03);
 }
 
 .formula-card-header {
