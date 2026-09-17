@@ -976,8 +976,10 @@ document.addEventListener('DOMContentLoaded', () => {
         function addPointFromEvent(e) {
             const rect = regCanvas.getBoundingClientRect();
             const isTouch = (e.type && e.type.startsWith('touch')) || (e.touches && e.touches.length > 0);
-            const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
-            const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : rect.top + rect.height / 2);
+            // touchend'de parmak artik touches'ta degil, changedTouches'ta
+            const dokunus = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+            const clientX = e.clientX !== undefined ? e.clientX : (dokunus ? dokunus.clientX : rect.left + rect.width / 2);
+            const clientY = e.clientY !== undefined ? e.clientY : (dokunus ? dokunus.clientY : rect.top + rect.height / 2);
 
             const x = clientX - rect.left;
             const y = clientY - rect.top;
@@ -1011,10 +1013,44 @@ document.addEventListener('DOMContentLoaded', () => {
             addPointFromEvent(e);
         });
 
+        // Dokunmatik: parmak degdigi anda nokta eklenip kaydirma engelleniyordu; grafigin
+        // ustunden sayfayi kaydirmak mumkun degildi. Artik kaydirma tarayicida
+        // (lab.css: touch-action: pan-y), nokta yalnizca kisa dokunusta, parmak
+        // kalkinca ekleniyor. Parmak kaydiysa, birden fazla parmak varsa ya da sayfa
+        // az once kayiyorduysa (kaymayi durdurmak icin dokunus) nokta eklenmez.
+        const DOKUNUS_ESIGI = 10; // px
+        let dokunusBaslangici = null;
+        let sonKaydirma = 0;
+        window.addEventListener('scroll', () => { sonKaydirma = performance.now(); }, { passive: true });
+
         regCanvas.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            addPointFromEvent(e);
+            if (e.touches.length !== 1 || performance.now() - sonKaydirma < 150) {
+                dokunusBaslangici = null;
+                return;
+            }
+            dokunusBaslangici = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }, { passive: true });
+
+        regCanvas.addEventListener('touchmove', (e) => {
+            if (!dokunusBaslangici) return;
+            const t = e.touches[0];
+            if (e.touches.length !== 1 || Math.hypot(t.clientX - dokunusBaslangici.x, t.clientY - dokunusBaslangici.y) > DOKUNUS_ESIGI) {
+                dokunusBaslangici = null;
+            }
+        }, { passive: true });
+
+        regCanvas.addEventListener('touchend', (e) => {
+            // Tarayicinin dokunustan sonra urettigi fare olaylarini da durdur;
+            // yoksa mousedown ayni noktayi ikinci kez ekliyor.
+            if (e.cancelable) e.preventDefault();
+            if (!dokunusBaslangici) return;
+            const t = e.changedTouches[0];
+            const kaydi = Math.hypot(t.clientX - dokunusBaslangici.x, t.clientY - dokunusBaslangici.y) > DOKUNUS_ESIGI;
+            dokunusBaslangici = null;
+            if (!kaydi) addPointFromEvent(e);
         }, { passive: false });
+
+        regCanvas.addEventListener('touchcancel', () => { dokunusBaslangici = null; }, { passive: true });
 
         // Fare ile nokta üzerine gelindiğinde imleci değiştir ve silme göstergesi için tetikle
         regCanvas.addEventListener('mousemove', (e) => {

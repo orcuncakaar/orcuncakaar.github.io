@@ -118,7 +118,8 @@
     overflow: hidden;
     border: 1px solid var(--card-border);
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
-    touch-action: none;
+    /* Dikey kaydırma tarayıcıda; nokta yalnızca kısa dokunuşta ekleniyor (script.js) */
+    touch-action: pan-y pinch-zoom;
     -webkit-user-select: none;
     user-select: none;
 }
@@ -128,7 +129,7 @@
     width: 100%;
     height: 100%;
     cursor: crosshair;
-    touch-action: none;
+    touch-action: pan-y pinch-zoom;
 }
 
 .canvas-warning-overlay {
@@ -756,7 +757,6 @@ input:checked + .slider::before {
     overflow: hidden;
     border: 1px solid var(--card-border);
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
-    touch-action: none;
     -webkit-user-select: none;
     user-select: none;
 }
