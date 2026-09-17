@@ -451,6 +451,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Sayfa içindeki diğer çapa linkleri (hero butonları, lab kartı, proje linki)
+    // menüdeki karşılığına yönlendiriliyor: CSS'te scroll-behavior olmadığı için
+    // aksi halde hedefe atlıyorlar, menü hapı da güncellenmiyor.
+    document.addEventListener('click', (e) => {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        const link = e.target.closest('a[href^="#"]');
+        if (!link || link.closest('.nav-links') || link.classList.contains('skip-link') || link.classList.contains('compact-brand')) return;
+        const href = link.getAttribute('href');
+        const navLink = Array.from(navLinks).find(n => n.getAttribute('href') === href);
+        if (navLink) {
+            e.preventDefault();
+            navLink.click();
+        }
+    });
+
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             if (mobileMenuBtn && navbarLinks) {
@@ -504,20 +519,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSlidingPill(this);
         });
     });
-
-    // Hero'daki laboratuvar kartı ve projelerdeki Regresyon Modülü bağlantısı
-    // menüdeki Laboratuvar bağlantısıyla aynı şekilde kaysın (yoksa tarayıcı
-    // doğrudan bölüme atlıyor)
-    const labNavLink = document.querySelector('.nav-links a[href="#playground"]');
-    if (labNavLink) {
-        document.querySelectorAll('.tile-lab[href="#playground"], .project-link[href="#playground"]').forEach(link => {
-            link.addEventListener('click', e => {
-                if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
-                e.preventDefault();
-                labNavLink.click();
-            });
-        });
-    }
 
     // Kaydırma bittiğinde (scrollend) kilidi güvenle serbest bırak
     if ('onscrollend' in window) {
