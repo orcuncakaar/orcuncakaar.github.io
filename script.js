@@ -1102,50 +1102,42 @@ document.addEventListener('DOMContentLoaded', () => {
             const N = Math.floor(Math.random() * 12) + 8; // 8 ila 20 arasında rastgele nokta
             const w = regCanvas.width;
             const h = regCanvas.height;
-            const noise = 30; // Hata terimi (gürültü) miktarı
+            // Egriler grafik alanina oranla (t: 0..1 soldan saga, v: 0..1 alttan uste) uretiliyor.
+            // Eskiden piksel sabitleriyle uretiliyordu; genis grafikte noktalar kenara yapisiyordu.
+            const alt = h - 35;
+            const yukseklik = h - 50;
+            const noise = Math.max(12, yukseklik * 0.07); // Hata terimi (gürültü) miktarı
+            const rnd = (min, max) => min + Math.random() * (max - min);
+            let egri;
 
             if (modelType === 'linear') {
-                const slope = (Math.random() - 0.5) * 1.2; // Rastgele eğim
-                const intercept = (Math.random() * 0.4 + 0.3) * (h - 40); // Rastgele kesişim
-                for (let i = 0; i < N; i++) {
-                    const x = 50 + (w - 100) * (i / (N - 1));
-                    const idealYMath = slope * (x - 30) + intercept;
-                    const idealYCanvas = (h - 30) - idealYMath;
-                    const noisyY = idealYCanvas + (Math.random() - 0.5) * noise * 2;
-                    const finalY = Math.max(15, Math.min(h - 35, noisyY));
-                    points.push({ x, y: finalY });
-                }
+                const v0 = rnd(0.15, 0.85);
+                const v1 = rnd(0.15, 0.85);
+                egri = t => v0 + (v1 - v0) * t;
             } else if (modelType === 'polynomial') {
-                // Parabol: y = a*x^2 + b*x + c
+                // Parabol, tepe noktası merkeze yakın
                 const isUp = Math.random() > 0.5;
-                const a = (isUp ? 1 : -1) * (Math.random() * 0.0012 + 0.0006); 
-                const b = -a * (w - 80); // Tepe noktası merkeze yakın
-                const c = isUp ? 30 + Math.random() * 40 : h - 120 - Math.random() * 40;
-
-                for (let i = 0; i < N; i++) {
-                    const x = 50 + (w - 100) * (i / (N - 1));
-                    const xMath = x - 30;
-                    const idealYMath = a * xMath * xMath + b * xMath + c;
-                    const idealYCanvas = (h - 30) - idealYMath;
-                    const noisyY = idealYCanvas + (Math.random() - 0.5) * noise * 2;
-                    const finalY = Math.max(15, Math.min(h - 35, noisyY));
-                    points.push({ x, y: finalY });
-                }
+                const tepe = rnd(0.4, 0.6);
+                const derinlik = rnd(0.45, 0.65);
+                const taban = rnd(0.12, 0.22);
+                egri = t => {
+                    const k = Math.min(1, ((t - tepe) / Math.max(tepe, 1 - tepe)) ** 2);
+                    return isUp ? taban + derinlik * k : 1 - taban - derinlik * k;
+                };
             } else if (modelType === 'exponential') {
-                // Üstel: y = a * e^(b*x)
+                // Üstel: v = v0 * e^(k*t); azalanda t ters çevriliyor
                 const isGrowth = Math.random() > 0.5;
-                const a = Math.random() * 25 + 15; // x=0 anındaki başlangıç değeri
-                const b = (isGrowth ? 1 : -1) * (Math.random() * 0.005 + 0.004);
+                const v0 = rnd(0.06, 0.14);
+                const k = Math.log(rnd(0.75, 0.92) / v0);
+                egri = t => v0 * Math.exp(k * (isGrowth ? t : 1 - t));
+            }
 
-                for (let i = 0; i < N; i++) {
-                    const x = 50 + (w - 100) * (i / (N - 1));
-                    const xMath = x - 30;
-                    const idealYMath = a * Math.exp(b * xMath);
-                    const idealYCanvas = (h - 30) - idealYMath;
-                    const noisyY = idealYCanvas + (Math.random() - 0.5) * noise * 2;
-                    const finalY = Math.max(15, Math.min(h - 35, noisyY));
-                    points.push({ x, y: finalY });
-                }
+            for (let i = 0; i < N; i++) {
+                const t = i / (N - 1);
+                const x = 50 + (w - 100) * t;
+                const noisyY = alt - egri(t) * yukseklik + (Math.random() - 0.5) * noise * 2;
+                const finalY = Math.max(15, Math.min(alt, noisyY));
+                points.push({ x, y: finalY });
             }
 
             calculateRegression();

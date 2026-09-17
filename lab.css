@@ -922,6 +922,212 @@ input:checked + .slider::before {
     }
 }
 
+/* Menu kutuyu doldurmuyordu, ok isareti kutudan kopuk duruyordu */
+.clt-select-wrapper select {
+    width: 100%;
+}
+
+/* Etiket satir ici kalinca ustteki blogun satir yuksekligini aliyordu */
+.mini-card .stat-label {
+    display: block;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   MASAUSTU / TABLET LABORATUVAR — GENIS GRAFIK + ALTTA SONUC SERIDI
+   Grafik tam genislige cikar; formul ve 6 deger altta tek serit (>=1200px)
+   ya da formul + 3x2 izgara (577-1199px) olur.
+   ========================================================================== */
+@media (min-width: 577px) {
+    .playground-grid,
+    .clt-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .playground-stats-wrapper,
+    .clt-stats-wrapper {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+        grid-auto-rows: auto;
+        gap: 10px;
+        height: auto;
+    }
+
+    .playground-stats-wrapper .stats-mini-grid {
+        display: contents;
+    }
+
+    .playground-stats-wrapper .formula-card {
+        grid-row: span 2;
+        justify-content: center;
+        margin-bottom: 0;
+    }
+
+    .clt-stats-wrapper .formula-card {
+        padding: 14px 18px;
+    }
+
+    .clt-stats-wrapper .formula-value {
+        font-size: 1.15rem;
+    }
+
+    .mini-card {
+        height: auto;
+        padding: 12px 14px;
+        gap: 6px;
+        justify-content: space-between;
+    }
+
+    .mini-card .stat-label {
+        font-size: 0.68rem;
+    }
+
+    .mini-card .stat-value {
+        font-size: 1.15rem;
+    }
+
+    /* Regresyon kontrolleri iki satir (tek satira 1100px'de sigmiyor):
+       [anahtar ........ model] / [manuel nokta ........ ikonlar | rastgele] */
+    #lab-panel-ols .playground-controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px 16px;
+    }
+
+    #lab-panel-ols .playground-toolbar-row,
+    #lab-panel-ols .playground-actions-row {
+        display: contents;
+    }
+
+    #lab-panel-ols .toggle-container {
+        grid-row: 1;
+        grid-column: 1;
+    }
+
+    #lab-panel-ols .select-wrapper {
+        grid-row: 1;
+        grid-column: 2;
+        width: 220px;
+    }
+
+    #lab-panel-ols .select-wrapper select {
+        width: 100%;
+    }
+
+    #lab-panel-ols .point-quick-entry {
+        grid-row: 2;
+        grid-column: 1;
+        justify-self: start;
+        width: auto;
+    }
+
+    #lab-panel-ols .playground-buttons {
+        grid-row: 2;
+        grid-column: 2;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 8px;
+        width: auto;
+    }
+
+    #lab-panel-ols .playground-controls .btn-ctrl {
+        height: 40px;
+        padding: 0 16px;
+    }
+
+    #lab-panel-ols .playground-buttons .btn-secondary {
+        width: 40px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    #lab-panel-ols .playground-buttons .btn-secondary span {
+        display: none;
+    }
+
+    #lab-panel-ols .select-wrapper select {
+        height: 40px;
+    }
+
+    #lab-panel-ols .point-quick-entry {
+        height: 40px;
+        flex-wrap: nowrap;
+    }
+
+    /* CLT kontrolleri tek satir: [dagilim | n ........ butonlar] */
+    .clt-controls-compact {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .clt-toolbar-row,
+    .clt-actions-row {
+        display: contents;
+    }
+
+    .clt-select-wrapper {
+        flex: 0 1 230px;
+        min-width: 200px;
+    }
+
+    /* Dugmeler zaten "n=5" yaziyor; uzun etiket satiri tasiyordu,
+       ayni metin #clt-n-pills'in aria-label'inda duruyor */
+    .clt-n-label {
+        display: none;
+    }
+
+    .clt-select-wrapper select {
+        height: 38px;
+    }
+
+    .clt-n-pills {
+        height: 38px;
+    }
+
+    .clt-n-btn {
+        height: 32px;
+        padding: 0 10px;
+    }
+
+    .clt-action-buttons {
+        width: auto;
+        margin-left: auto;
+    }
+
+    .btn-clt-sm {
+        height: 38px;
+    }
+}
+
+@media (min-width: 993px) {
+    #lab-panel-ols .canvas-container {
+        aspect-ratio: 16 / 7;
+    }
+
+    .clt-dual-canvas-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    }
+
+    .clt-canvas-container-box {
+        height: 250px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .playground-stats-wrapper,
+    .clt-stats-wrapper {
+        grid-template-columns: minmax(0, 2.2fr) repeat(6, minmax(0, 1fr));
+    }
+
+    .playground-stats-wrapper .formula-card {
+        grid-row: auto;
+    }
+}
+
 /* --- Grafik ustu etiketler (yalnizca mobilde gorunur) --- */
 .lab-hud {
     display: none;
