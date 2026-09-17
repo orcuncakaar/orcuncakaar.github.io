@@ -121,11 +121,19 @@ document.addEventListener('DOMContentLoaded', () => {
         typingTimeout = setTimeout(type, 500);
     }
 
+    // Tiklamanin karesini bekletmeden: cevrilmis metinler boyandiktan sonra calisir
+    const boyamadanSonra = fn => requestAnimationFrame(() => setTimeout(fn, 0));
+
     // Dil değiştiğinde daktilo, oyun alanı ve kayan hapı güncelle
     window.addEventListener('languageChanged', (e) => {
         currentLang = e.detail.lang;
         resetTypewriter(currentLang);
-        if (refreshPlayground) refreshPlayground();
+        // Canvas cizimleri tiklamanin icinde yapilinca telefonda dil dugmesi
+        // ~300ms gec tepki veriyordu; grafikler bir kare sonra guncelleniyor.
+        boyamadanSonra(() => {
+            if (refreshPlayground) refreshPlayground();
+            if (window.cltEngine) window.cltEngine.metinleriGuncelle();
+        });
         setTimeout(() => {
             const active = document.querySelector('.nav-links .nav-link.active') || navLinks[0];
             if (active) updateSlidingPill(active);
@@ -1690,6 +1698,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // refreshPlayground hook'unu bağla (sayfa ilk kez yüklenirken veya dil değişirken kullanılabilmesi için)
             refreshPlayground = () => {
+                if (!regBasladi) return; // grafik henuz baslatilmadi; baslayinca zaten cizilecek
                 calculateRegression();
                 drawRegression();
             };
@@ -1779,8 +1788,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     panelCLT.classList.remove('active');
                     panelOLS.style.display = 'grid';
                     panelOLS.classList.add('active');
+                    // Tiklamanin icinde degil, panelin ilk karesinde ciz
                     if (typeof refreshPlayground === 'function') {
-                        refreshPlayground();
+                        requestAnimationFrame(() => refreshPlayground());
                     }
                 } else if (target === 'clt') {
                     panelOLS.style.display = 'none';
@@ -1921,26 +1931,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // cizmek bosa is. Sekme acilinca resizeAndRender ikisini de yapiyor.
         const cltGorunur = () => !!(panelCLT && panelCLT.classList.contains('active'));
 
-        function resizeCanvases() {
+        function resizeCanvases(ciz = true) {
             if (!cltGorunur()) return;
             const dpr = window.devicePixelRatio || 1;
+            const tuvaller = [parentCanvas, samplingCanvas].filter(Boolean);
 
-            [parentCanvas, samplingCanvas].forEach(c => {
-                if (!c) return;
-                const rect = c.getBoundingClientRect();
-                const w = Math.floor(rect.width || 450);
-                const h = Math.floor(rect.height || 225);
-
-                if (w > 0 && h > 0) {
-                    c.width = w * dpr;
-                    c.height = h * dpr;
-                    const ctx = c.getContext('2d');
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
-                    ctx.scale(dpr, dpr);
-                }
+            // Once hepsini oku, sonra yaz: arada canvas boyutu degisince ikinci
+            // okuma yeniden yerlesim zorluyordu.
+            const olculer = tuvaller.map(c => c.getBoundingClientRect());
+            tuvaller.forEach((c, i) => {
+                const w = Math.floor(olculer[i].width || 450);
+                const h = Math.floor(olculer[i].height || 225);
+                if (w <= 0 || h <= 0) return;
+                if (c.width === w * dpr && c.height === h * dpr) return; // ayni boyut: tamponu bosuna yeniden ayirma
+                c.width = w * dpr;
+                c.height = h * dpr;
+                const ctx = c.getContext('2d');
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
             });
 
-            renderAll();
+            if (ciz) renderAll();
         }
 
         function drawOneSample() {
@@ -2379,12 +2390,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Global referans
         window.cltEngine = {
+            // Sekme acilinca: 40ms'lik zamanlayici telefonda kare hazir olmadan calisip
+            // ekran guncellemesini geciktiriyordu ve grafikler iki kez ciziliyordu.
+            // Artik panelin ilk karesinde bir kez olculup ciziliyor.
             resizeAndRender: () => {
-                setTimeout(() => {
-                    resizeCanvases();
+                requestAnimationFrame(() => {
+                    resizeCanvases(false);
                     updateStatsAndRender();
-                }, 40);
+                });
             },
+            // Dil degisince dagilim adi ve aciklama da cevrilsin (sekme kapaliysa cizim yok)
+            metinleriGuncelle: () => updateStatsAndRender(),
             reset: resetSimulation
         };
 

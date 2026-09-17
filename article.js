@@ -4,6 +4,10 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // window.innerWidth okumasi Chrome'da yerlesimi zorluyor; ayni esikler matchMedia'da.
+    const darEkran = window.matchMedia('(max-width: 1024px)');
+    const telefonEkrani = window.matchMedia('(max-width: 768px)');
+
     // 1. DİL & TEMA YÖNETİMİ
     let currentLang = localStorage.getItem('lang') || 'tr';
     const langToggleBtn = document.getElementById('lang-toggle');
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // .tbmm-grafik bulunan yaziya yuklenir; Chart.js bilesenden once gelmeli.
     const CHART_JS_SRC = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
     const CHART_JS_SRI = 'sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG';
-    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.19.10';
+    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.19.11';
     let tbmmGrafikYukleme = null;
     // Govde her renderda innerHTML ile yeniden basiliyor. Kurulmus grafik
     // dugumleri yazi kimligiyle saklanip geri takiliyor; boylece dil degisiminde
@@ -865,7 +869,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateBodyScrollLock() {
-        const isMobile = window.innerWidth <= 768;
+        const isMobile = telefonEkrani.matches;
         const isSidecarActive = isMobile && aiSidecar && aiSidecar.classList.contains('active');
         const isTocActive = mobileTocSheet && mobileTocSheet.classList.contains('active');
 
@@ -1048,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         if (e.key === 'Tab') {
-            if (window.innerWidth <= 768 && aiSidecar && aiSidecar.classList.contains('active')) {
+            if (telefonEkrani.matches && aiSidecar && aiSidecar.classList.contains('active')) {
                 trapFocus(aiSidecar, e);
             } else if (mobileTocSheet && mobileTocSheet.classList.contains('active')) {
                 trapFocus(mobileTocSheet, e);
@@ -1221,7 +1225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 11. SLIDING PILL (DYNAMIC ISLAND GÖSTERGESİ)
     function updateSlidingPill(targetLink, isInitial = false) {
         if (!navIndicatorPill || !targetLink || !navbarLinks) return;
-        if (window.innerWidth <= 1024) {
+        if (darEkran.matches) {
             navIndicatorPill.style.opacity = '0';
             return;
         }
@@ -1289,7 +1293,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('languageChanged', (e) => {
         currentLang = e.detail.lang;
         renderArticle();
-        if (window.TbmmGrafik) window.TbmmGrafik.setLang(currentLang);
+        // Grafigin dil degisimi telefonda 250-500ms suruyor (ay etiketleri); cevrilmis
+        // yazi once boyansin, grafik bir kare sonra guncellensin.
+        const grafikDili = currentLang;
+        requestAnimationFrame(() => setTimeout(() => {
+            if (window.TbmmGrafik && currentLang === grafikDili) window.TbmmGrafik.setLang(grafikDili);
+        }, 0));
         setTimeout(() => {
             const activeL = document.querySelector('.navbar .nav-link.active') || blogNavLink;
             if (activeL) updateSlidingPill(activeL);

@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const body = document.body;
     const docEl = document.documentElement;
+    // window.innerWidth okumasi Chrome'da yerlesimi zorluyor (dil degisiminde ~270ms,
+    // kaydirmada her karede). Ayni esik matchMedia'da, yerlesim gerektirmiyor.
+    const darEkran = window.matchMedia('(max-width: 1024px)');
 
     // --- SITE SHELL ENTEGRASYONU ---
     let currentLang = window.SiteShell ? window.SiteShell.currentLang : (localStorage.getItem('lang') || 'tr');
@@ -402,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateSlidingPill(targetLink, isInitial = false) {
         if (!navIndicatorPill || !targetLink || !navbarLinks) return;
-        if (window.innerWidth <= 1024) {
+        if (darEkran.matches) {
             navIndicatorPill.style.opacity = '0';
             return;
         }
@@ -501,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleDynamicIsland() {
-        if (!navbarPill || window.innerWidth <= 1024) return;
+        if (!navbarPill || darEkran.matches) return;
         const currentScroll = window.scrollY || window.pageYOffset;
 
         // Sayfa tepesinde iken her zaman tam açık
