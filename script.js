@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const y = e.clientY - rect.top - rect.height / 2;
                 const rotX = -(y / (rect.height / 2)) * 3.5;
                 const rotY = (x / (rect.width / 2)) * 3.5;
-                tile.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-4px)`;
+                tile.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
             });
         });
     }

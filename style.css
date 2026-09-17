@@ -1126,8 +1126,10 @@ ul {
                 border-color 0.35s ease;
 }
 
+/* Kalkma yok: yalnizca egilme (script.js) + golge. none, .glass-card:hover'daki
+   -5px'i de eziyor. */
 .bento-hero-tile:hover {
-    transform: translateY(-4px);
+    transform: none;
     box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.4), 
                 0 0 24px rgba(var(--primary-rgb), 0.18);
 }
