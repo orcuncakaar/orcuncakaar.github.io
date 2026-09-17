@@ -3162,6 +3162,14 @@ textarea.form-control {
     navigation: auto;
 }
 
+/* Tema gecisi (site-shell.js): varsayilan capraz solma kapali, yeni tema
+   dugmeden buyuyen daireyle aciliyor. Sayfalar arasi gecis etkilenmiyor. */
+html.tema-gecisi::view-transition-old(root),
+html.tema-gecisi::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
 /* Sayfa Giriş Animasyonu */
 @keyframes pageEnter {
     from {

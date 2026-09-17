@@ -83,8 +83,7 @@ window.kaydirmaDavranisi = function () {
             }
 
             if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    body.classList.add('theme-transitioning');
+                const temayiDegistir = () => {
                     const nowLight = body.classList.toggle('light-theme');
                     docEl.classList.toggle('light-theme', nowLight);
                     this.currentTheme = nowLight ? 'light' : 'dark';
@@ -105,8 +104,46 @@ window.kaydirmaDavranisi = function () {
                         // Sayfa özel fonksiyonları için tema olayı fırlat
                         window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: tema, isLight: tema === 'light' } }));
                     }, 0));
+                };
 
-                    setTimeout(() => body.classList.remove('theme-transitioning'), 350);
+                themeToggleBtn.addEventListener('click', () => {
+                    const hareketAzalt = window.matchMedia
+                        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                    // Desteklemeyen tarayici ya da hareket azaltma: eskisi gibi aninda
+                    if (!document.startViewTransition || hareketAzalt) {
+                        body.classList.add('theme-transitioning');
+                        temayiDegistir();
+                        setTimeout(() => body.classList.remove('theme-transitioning'), 350);
+                        return;
+                    }
+
+                    // Yeni tema, dugmeden buyuyen bir daireyle aciliyor. Tarayici eski ve
+                    // yeni halin goruntusunu aliyor; sayfa yine tek kez boyaniyor,
+                    // animasyon yalnizca bu iki goruntu uzerinde.
+                    const r = themeToggleBtn.getBoundingClientRect();
+                    const x = r.left + r.width / 2;
+                    const y = r.top + r.height / 2;
+                    const yaricap = Math.hypot(
+                        Math.max(x, window.innerWidth - x),
+                        Math.max(y, window.innerHeight - y)
+                    );
+
+                    docEl.classList.add('tema-gecisi');
+                    const gecis = document.startViewTransition(temayiDegistir);
+                    gecis.ready.then(() => {
+                        docEl.animate({
+                            clipPath: [
+                                `circle(0px at ${x}px ${y}px)`,
+                                `circle(${yaricap}px at ${x}px ${y}px)`
+                            ]
+                        }, {
+                            duration: 450,
+                            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                            pseudoElement: '::view-transition-new(root)'
+                        });
+                    }).catch(() => {});
+                    gecis.finished.finally(() => docEl.classList.remove('tema-gecisi'));
                 });
             }
         },
