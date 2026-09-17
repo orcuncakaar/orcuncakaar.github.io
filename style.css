@@ -1045,7 +1045,6 @@ ul {
     padding-bottom: 70px;
 }
 
-#neural-canvas,
 #fluid-canvas {
     position: absolute;
     top: 0;
@@ -1059,7 +1058,6 @@ ul {
     transition: opacity 0.3s ease;
 }
 
-.light-theme #neural-canvas,
 .light-theme #fluid-canvas {
     opacity: 0.88;
 }

@@ -9,7 +9,7 @@
 (async function () {
     'use strict';
 
-    const canvas = document.getElementById('fluid-canvas') || document.getElementById('neural-canvas');
+    const canvas = document.getElementById('fluid-canvas');
     if (!canvas) return;
 
     // Hareket azaltma tercihi açıkken simülasyonu hiç başlatma: WebGL bağlamı

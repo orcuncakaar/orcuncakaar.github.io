@@ -140,11 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 80);
     });
 
-    // Tema değiştiğinde canvas renklerini güncelle
-    window.addEventListener('themeChanged', () => {
-        if (typeof updateCanvasColors === 'function') updateCanvasColors();
-    });
-
     // İlk daktilo başlatma
     resetTypewriter(currentLang);
     // WebGL Fluid Simulation is loaded via fluid-simulation.js
