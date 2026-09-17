@@ -746,6 +746,12 @@ input:checked + .slider::before {
     font-size: 0.82rem;
     font-weight: 600;
     color: var(--secondary);
+    /* Sabit genislik: hane sayisi arttikca yanindaki rozete kalan yer degisip
+       baslik satir atliyordu. 16ch = "100.000 Örneklem" */
+    min-width: 16ch;
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
 }
 
 .clt-canvas-container-box {
@@ -879,6 +885,9 @@ input:checked + .slider::before {
     font-size: 0.8rem;
     color: var(--text-muted);
     line-height: 1.4;
+    /* Aciklama metni ornek sayisina gore 2-3 satir arasinda degisip karti
+       zipliyordu; en uzun metne yer ayrildi (3 satir x 1.4). */
+    min-height: 4.2em;
 }
 
 .text-gradient-green {
@@ -1117,6 +1126,19 @@ input:checked + .slider::before {
     }
 }
 
+/* Tablet: formul karti dar sutunda; Ingilizce baslangic aciklamasi 4 satir tutuyor */
+@media (min-width: 577px) and (max-width: 1199px) {
+    .clt-formula-sub {
+        min-height: 5.6em;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 699px) {
+    .clt-formula-sub {
+        min-height: 7em; /* burada 5 satira cikiyor */
+    }
+}
+
 @media (min-width: 1200px) {
     .playground-stats-wrapper,
     .clt-stats-wrapper {
@@ -1352,6 +1374,34 @@ input:checked + .slider::before {
 
     .clt-sub-sampling .clt-canvas-container-box {
         height: 180px;
+    }
+
+    /* Orneklem basligi: sayac rozetle ayni satirdayken hane sayisi arttikca rozete
+       kalan yer azaliyor, rozet satir atlayip grafigi asagi itiyordu (414px'te 19px).
+       Rozet ilk satirin tamamini alir; sayac ikinci satirda, "Gauss Can Egrisi"nin
+       saginda (sayacin sabit genisligi taban kuralda). */
+    .clt-sub-sampling .clt-canvas-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 4px 8px;
+    }
+
+    .clt-sub-sampling .clt-canvas-title {
+        display: contents;
+    }
+
+    .clt-sub-sampling .clt-badge {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    .clt-sub-sampling .clt-gauss-badge {
+        grid-column: 1;
+    }
+
+    .clt-sub-sampling .clt-sample-count-badge {
+        grid-column: 2;
     }
 
     /* Ortalama cizgisinin etiketi ustte ortada; etiketleri sol kuyruga dik diz */
