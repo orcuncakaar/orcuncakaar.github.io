@@ -67,6 +67,33 @@ document.addEventListener('DOMContentLoaded', () => {
     let charIndex = 0;
     let typingTimeout;
 
+    // Daktilo satiri ekrandayken calisir. Ekran disindayken de her harf bir ana
+    // is parcacigi karesi istiyordu; proje seridi kaydirilirken bu kareler
+    // kaydirma karelerini dusuruyordu (izde 5 sn'de ~40-60 bozuk kare, daktilo
+    // durunca ~5-10). Gorunmezken siradaki adim bekletilir, donunce kaldigi
+    // yerden devam eder.
+    let daktiloGorunur = true;
+    let daktiloBekleyen = null;
+
+    function planla(fn, ms) {
+        typingTimeout = setTimeout(() => {
+            if (daktiloGorunur) fn();
+            else daktiloBekleyen = fn;
+        }, ms);
+    }
+
+    const daktiloSatiri = typedTextSpan && typedTextSpan.closest('.hero-subtitle');
+    if (daktiloSatiri && 'IntersectionObserver' in window) {
+        new IntersectionObserver(entries => {
+            daktiloGorunur = entries[entries.length - 1].isIntersecting;
+            if (daktiloGorunur && daktiloBekleyen) {
+                const fn = daktiloBekleyen;
+                daktiloBekleyen = null;
+                fn();
+            }
+        }).observe(daktiloSatiri);
+    }
+
     function type() {
         if (!textArray || textArray.length === 0) return;
         if (charIndex < textArray[textArrayIndex].length) {
@@ -74,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
             }
             charIndex++;
-            typingTimeout = setTimeout(type, typingSpeed);
+            planla(type, typingSpeed);
         } else {
-            typingTimeout = setTimeout(erase, newTextDelay);
+            planla(erase, newTextDelay);
         }
     }
 
@@ -87,11 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
             }
             charIndex--;
-            typingTimeout = setTimeout(erase, erasingSpeed);
+            planla(erase, erasingSpeed);
         } else {
             textArrayIndex++;
             if (textArrayIndex >= textArray.length) textArrayIndex = 0;
-            typingTimeout = setTimeout(type, typingSpeed + 300);
+            planla(type, typingSpeed + 300);
         }
     }
 
@@ -99,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typingTimeout) {
             clearTimeout(typingTimeout);
         }
+        daktiloBekleyen = null;
         textArray = (translations[lang] && translations[lang]["typed-strings"]) || [];
         textArrayIndex = 0;
         charIndex = 0;
@@ -118,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        typingTimeout = setTimeout(type, 500);
+        planla(type, 500);
     }
 
     // Tiklamanin karesini bekletmeden: cevrilmis metinler boyandiktan sonra calisir
