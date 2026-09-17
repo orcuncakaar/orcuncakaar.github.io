@@ -878,6 +878,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Mobilde grafik ustundeki etiketler (.lab-hud) sonuc panelindeki degerlerin kopyasi.
+    // Degerler bircok yerde yaziliyor; her birine dokunmak yerine kaynagi izliyoruz.
+    function aynalaHud(ciftler) {
+        ciftler.forEach(([kaynakId, hedefId]) => {
+            const kaynak = document.getElementById(kaynakId);
+            const hedef = document.getElementById(hedefId);
+            if (!kaynak || !hedef) return;
+            const esitle = () => { hedef.textContent = kaynak.textContent.trim(); };
+            esitle();
+            new MutationObserver(esitle).observe(kaynak, { childList: true, characterData: true, subtree: true });
+        });
+    }
+
     // --- REGRESYON OYUN ALANI (OLS PLAYGROUND) ---
     const regCanvas = document.getElementById('regression-canvas');
     if (regCanvas) {
@@ -902,6 +915,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formAddPoint = document.getElementById('playground-add-point-form');
         const inputPointX = document.getElementById('point-x-input');
         const inputPointY = document.getElementById('point-y-input');
+        aynalaHud([['reg-r2', 'hud-reg-r2'], ['reg-corr', 'hud-reg-corr'], ['reg-n', 'hud-reg-n']]);
 
         let points = []; // Canvas koordinatlarındaki {x, y} dizisi
         let modelType = 'linear';
@@ -1682,6 +1696,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Canvas'ı ilk kez başlat (ekranin altinda kaliyor, ilk boyamayi bekletmesin)
         afterFirstPaint(() => setTimeout(resizeRegCanvas, 200));
+        // lab.css 'load'dan sonra geliyor ve mobilde en-boy oranini degistiriyor;
+        // pencere boyutu degismedigi icin 'resize' tetiklenmiyor, kutuyu izle.
+        if (typeof ResizeObserver !== 'undefined') {
+            new ResizeObserver(() => {
+                const r = regCanvas.parentElement.getBoundingClientRect();
+                if (r.width && (Math.max(300, Math.floor(r.width)) !== regCanvas.width
+                    || Math.max(200, Math.floor(r.height)) !== regCanvas.height)) {
+                    resizeRegCanvas();
+                }
+            }).observe(regCanvas.parentElement);
+        }
 
         // Tema değişiminde renkleri yeniden yükle
         window.addEventListener('themeChanged', () => {
@@ -1764,6 +1789,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const statSE = document.getElementById('clt-stat-se');
         const statObsSE = document.getElementById('clt-stat-obs-se');
         const statFit = document.getElementById('clt-stat-fit');
+        aynalaHud([['clt-stat-xbar', 'hud-clt-xbar'], ['clt-stat-fit', 'hud-clt-fit']]);
 
         let currentDist = 'dice';
         let currentN = 5;

@@ -73,12 +73,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.19.6">
+    <link rel="stylesheet" href="style.css?v=2.19.7">
     <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
          media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
          simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
-    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.6'; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.19.6"></noscript>
+    <script>addEventListener('load', function () { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.7'; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=2.19.7"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -482,6 +482,12 @@
                         <div id="playground-canvas-warning" class="canvas-warning-overlay active">
                             <span data-translate="playground-warning">Hesaplama yapabilmek için lütfen grafik üzerine tıklayarak en az 2 nokta yerleştirin.</span>
                         </div>
+                        <!-- Mobil: sonuc panelindeki degerlerin grafik ustu kopyasi (script.js aynalar) -->
+                        <div class="lab-hud" aria-hidden="true">
+                            <span class="lab-hud-chip">R² <b id="hud-reg-r2">-</b></span>
+                            <span class="lab-hud-chip">r <b id="hud-reg-corr">-</b></span>
+                            <span class="lab-hud-chip lab-hud-chip--end">N <b id="hud-reg-n">0</b></span>
+                        </div>
                     </div>
                     
                     <div class="playground-controls">
@@ -527,7 +533,7 @@
                                 </svg>
                             </div>
                             <div class="playground-buttons">
-                                <button id="btn-download-csv" class="btn btn-secondary btn-ctrl">
+                                <button id="btn-download-csv" class="btn btn-secondary btn-ctrl" aria-label="CSV İndir" data-translate-aria-label="playground-btn-download">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                                         <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
                                     </svg>
@@ -539,7 +545,7 @@
                                     </svg>
                                     <span data-translate="playground-btn-undo">Geri Al</span>
                                 </button>
-                                <button id="btn-clear-playground" class="btn btn-secondary btn-ctrl">
+                                <button id="btn-clear-playground" class="btn btn-secondary btn-ctrl" aria-label="Temizle" data-translate-aria-label="playground-btn-clear">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                                         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                                     </svg>
@@ -661,6 +667,10 @@
                                 <div id="clt-canvas-warning" class="canvas-warning-overlay active">
                                     <span data-translate="clt-warning">Simülasyon için örneklem çekin.</span>
                                 </div>
+                                <div class="lab-hud" aria-hidden="true">
+                                    <span class="lab-hud-chip">X̄ <b id="hud-clt-xbar">-</b></span>
+                                    <span class="lab-hud-chip"><span data-translate="lab-hud-fit">Uyum</span> <b id="hud-clt-fit">-</b></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -714,7 +724,7 @@
                                     </svg>
                                     <span data-translate="clt-btn-1000">+1.000</span>
                                 </button>
-                                <button id="btn-clt-reset" class="btn btn-secondary btn-ctrl btn-clt-sm" title="Simülasyonu sıfırla">
+                                <button id="btn-clt-reset" class="btn btn-secondary btn-ctrl btn-clt-sm" title="Simülasyonu sıfırla" aria-label="Sıfırla" data-translate-aria-label="clt-btn-reset">
                                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
                                         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                                     </svg>
@@ -1136,8 +1146,8 @@
         <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V4M4 8L8 4L12 8"/></svg>
     </button>
 
-    <script src="translations.js?v=2.19.6" defer></script>
-    <script src="site-shell.js?v=2.19.6" defer></script>
+    <script src="translations.js?v=2.19.7" defer></script>
+    <script src="site-shell.js?v=2.19.7" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1146,10 +1156,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.19.6';
+            s.src = 'fluid-simulation.js?v=2.19.7';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.19.6" defer></script>
+    <script src="script.js?v=2.19.7" defer></script>
 </body>
 </html>
