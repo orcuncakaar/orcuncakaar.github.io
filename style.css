@@ -3217,3 +3217,21 @@ textarea.form-control {
             var(--card-baked);
     }
 }
+/* ===================================================================
+   HERO DIŞINDA BULANIKLIK YOK (tüm ekranlar)
+   -------------------------------------------------------------------
+   Sıvı simülasyonu yalnızca hero'nun içinde; diğer bölümlerin arkası düz
+   renk ve düz rengi bulanıklaştırmak aynı rengi veriyor. Ölçüm (1440px,
+   hero altı tüm sayfa): filtre kalkınca en büyük piksel farkı açık temada
+   3/255, koyu temada 7/255 (o da proje görsellerinin üstündeki ok
+   düğmelerinden; onlar bu listede yok). Masaüstünde ilk kaydırmadaki
+   50 ms+ karelerin asıl kaynağı bu filtrelerin GPU maliyetiydi.
+   Hero kartları, navbar, yukarı çık düğmesi, proje ok düğmeleri ve
+   grafik üstündeki uyarı balonu camı korur: arkalarında içerik geçiyor.
+   =================================================================== */
+section:not(#home) .glass-card,
+section:not(#home) .lab-tab-bar,
+section:not(#home) .btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
