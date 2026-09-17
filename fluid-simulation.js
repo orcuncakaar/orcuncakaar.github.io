@@ -1014,6 +1014,7 @@
     window.addEventListener('resize', resizeCanvas);
 
     resizeCanvas();
+    canvas.classList.add('fluid-canli');
     if (isHeroInView && !document.hidden) start();
     window.addEventListener('pageshow', () => {
         resizeCanvas();

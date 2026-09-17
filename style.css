@@ -1062,6 +1062,12 @@ ul {
     opacity: 0.88;
 }
 
+/* Simülasyon çalışırken tam opak (aaabadcode.com'daki gibi); yukarıdaki
+   saydamlık yalnızca sabit gradyan yedeğinde kalıyor. */
+#fluid-canvas.fluid-canli {
+    opacity: 1;
+}
+
 /* Simülasyon çalışmadığında kanvas boş kalmasın. Gradyan tek yerde tanımlı:
    hareket azaltma tercihinde JS `.fluid-static` ekliyor, telefon/tablette ise
    fluid-simulation.js hiç indirilmediği için aynı görünümü medya sorgusu veriyor. */
