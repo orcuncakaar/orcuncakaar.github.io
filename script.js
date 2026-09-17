@@ -427,6 +427,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Hero'daki laboratuvar kartı menüdeki Laboratuvar bağlantısıyla aynı
+    // şekilde kaysın (yoksa tarayıcı doğrudan bölüme atlıyor)
+    const labTile = document.querySelector('.tile-lab[href="#playground"]');
+    const labNavLink = document.querySelector('.nav-links a[href="#playground"]');
+    if (labTile && labNavLink) {
+        labTile.addEventListener('click', e => {
+            if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
+            e.preventDefault();
+            labNavLink.click();
+        });
+    }
+
     // Kaydırma bittiğinde (scrollend) kilidi güvenle serbest bırak
     if ('onscrollend' in window) {
         window.addEventListener('scrollend', () => {
