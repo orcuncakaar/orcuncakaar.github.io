@@ -280,6 +280,47 @@ ul {
     background: var(--primary);
 }
 
+/* Masaüstünde sayfa çubuğu kendine 10px şerit ayırıyor ve akışkan zemin o
+   şeride uzanamıyor. Yerel çubuk gizli, yerine site-shell.js içeriğin üstünde
+   duran ince bir çubuk çiziyor (.sayfa-cubugu). Kaydırma aynen çalışıyor. */
+@media (hover: hover) and (pointer: fine) {
+    html {
+        scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.sayfa-cubugu {
+    position: fixed;
+    top: 0;
+    right: 2px;
+    width: 6px;
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--text-primary) 32%, transparent);
+    z-index: 9999;
+    opacity: 0;
+    cursor: default;
+    transition: opacity 0.3s ease, width 0.15s ease, background-color 0.15s ease;
+    will-change: transform;
+}
+
+.sayfa-cubugu.gorunur {
+    opacity: 1;
+}
+
+.sayfa-cubugu:hover,
+.sayfa-cubugu.surukleniyor {
+    width: 8px;
+    background: var(--primary);
+}
+
+html.cubuk-surukleniyor {
+    user-select: none;
+}
+
 .container {
     width: 100%;
     max-width: 1200px;

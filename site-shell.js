@@ -50,6 +50,105 @@ window.kaydirmaDavranisi = function () {
             this.initLanguage();
             this.initScrollTop();
             this.initFooterYear();
+            this.initPageScrollbar();
+        },
+
+        // ==========================================
+        // 5. ÜST KATMAN KAYDIRMA ÇUBUĞU
+        // ==========================================
+        // Yerel çubuk style.css'te aynı medya sorgusuyla gizleniyor.
+        initPageScrollbar() {
+            if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+            const docEl = document.documentElement;
+            const thumb = document.createElement('div');
+            thumb.className = 'sayfa-cubugu';
+            thumb.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(thumb);
+
+            const PAY = 2;
+            let thumbH = 0;
+            let track = 0;
+            let maxScroll = 0;
+            let kare = 0;
+            let gizleZamani = 0;
+            let surukle = null;
+            let fareKenarda = false;
+
+            const olc = () => {
+                const vh = window.innerHeight;
+                maxScroll = docEl.scrollHeight - vh;
+                if (maxScroll <= 0) {
+                    thumb.style.display = 'none';
+                    return false;
+                }
+                thumb.style.display = '';
+                track = vh - PAY * 2;
+                thumbH = Math.max(36, Math.round(track * vh / docEl.scrollHeight));
+                thumb.style.height = thumbH + 'px';
+                return true;
+            };
+
+            const konumla = () => {
+                kare = 0;
+                if (maxScroll <= 0) return;
+                const oran = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+                thumb.style.transform = 'translateY(' + (PAY + oran * (track - thumbH)) + 'px)';
+            };
+
+            const goster = () => {
+                thumb.classList.add('gorunur');
+                clearTimeout(gizleZamani);
+                gizleZamani = setTimeout(() => {
+                    if (!surukle && !fareKenarda) thumb.classList.remove('gorunur');
+                }, 1000);
+            };
+
+            const yenile = () => {
+                if (olc()) konumla();
+            };
+
+            window.addEventListener('scroll', () => {
+                if (!kare) kare = requestAnimationFrame(konumla);
+                goster();
+            }, { passive: true });
+            window.addEventListener('resize', yenile);
+            if ('ResizeObserver' in window) new ResizeObserver(yenile).observe(document.body);
+
+            // Sağ kenara yaklaşınca çubuk görünsün, yoksa sürüklemek için bulunamaz.
+            document.addEventListener('mousemove', (e) => {
+                const kenarda = e.clientX >= window.innerWidth - 16;
+                if (kenarda === fareKenarda) return;
+                fareKenarda = kenarda;
+                goster();
+            }, { passive: true });
+
+            thumb.addEventListener('pointerdown', (e) => {
+                if (e.button !== 0) return;
+                e.preventDefault();
+                surukle = { y: e.clientY, scroll: window.scrollY };
+                thumb.setPointerCapture(e.pointerId);
+                thumb.classList.add('surukleniyor');
+                docEl.classList.add('cubuk-surukleniyor');
+                goster();
+            });
+            thumb.addEventListener('pointermove', (e) => {
+                if (!surukle) return;
+                const bos = track - thumbH;
+                if (bos <= 0) return;
+                window.scrollTo({ top: surukle.scroll + (e.clientY - surukle.y) * maxScroll / bos, behavior: 'instant' });
+            });
+            const birak = () => {
+                if (!surukle) return;
+                surukle = null;
+                thumb.classList.remove('surukleniyor');
+                docEl.classList.remove('cubuk-surukleniyor');
+                goster();
+            };
+            thumb.addEventListener('pointerup', birak);
+            thumb.addEventListener('pointercancel', birak);
+
+            yenile();
         },
 
         // ==========================================
