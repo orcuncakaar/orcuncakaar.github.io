@@ -25,7 +25,7 @@ const translations = {
         "hero-btn-contact": "İletişim",
         "hero-btn-cv": "CV İncele",
         "hero-btn-cv-title": "Özgeçmişi (CV) yeni sekmede incele veya indir",
-        "hero-btn-cv-href": "/cv.pdf?v=2026-09-16",
+        "hero-btn-cv-href": "/cv.pdf?v=2026-09-17",
         "hero-btn-blog": "Yazılarım",
         "hero-btn-blog-title": "Veri bilimi ve istatistik üzerine teknik notlarımı oku",
         "hero-focus-title": "Uzmanlık & Analitik Odak",
