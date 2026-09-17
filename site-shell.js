@@ -88,15 +88,23 @@ window.kaydirmaDavranisi = function () {
                     const nowLight = body.classList.toggle('light-theme');
                     docEl.classList.toggle('light-theme', nowLight);
                     this.currentTheme = nowLight ? 'light' : 'dark';
-                    docEl.setAttribute('data-theme', this.currentTheme);
                     localStorage.setItem('theme', this.currentTheme);
 
                     if (metaThemeColor) {
                         metaThemeColor.setAttribute('content', nowLight ? '#f6f8fc' : '#0b0f19');
                     }
 
-                    // Sayfa özel fonksiyonları için tema olayı fırlat
-                    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: this.currentTheme, isLight: nowLight } }));
+                    // Grafik ve canvas'larin yeniden cizimi (data-theme'i izleyen
+                    // tbmm-grafik dahil) yeni renkler boyandiktan sonraya kaliyor;
+                    // tiklamanin icinde yapinca telefonda dugme 300-700ms gec tepki veriyordu.
+                    // Arka arkaya tiklamada son durum okunur.
+                    requestAnimationFrame(() => setTimeout(() => {
+                        const tema = this.currentTheme;
+                        if (docEl.getAttribute('data-theme') === tema) return;
+                        docEl.setAttribute('data-theme', tema);
+                        // Sayfa özel fonksiyonları için tema olayı fırlat
+                        window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: tema, isLight: tema === 'light' } }));
+                    }, 0));
 
                     setTimeout(() => body.classList.remove('theme-transitioning'), 350);
                 });

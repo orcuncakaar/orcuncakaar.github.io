@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // .tbmm-grafik bulunan yaziya yuklenir; Chart.js bilesenden once gelmeli.
     const CHART_JS_SRC = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
     const CHART_JS_SRI = 'sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG';
-    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.19.7';
+    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.19.8';
     let tbmmGrafikYukleme = null;
     // Govde her renderda innerHTML ile yeniden basiliyor. Kurulmus grafik
     // dugumleri yazi kimligiyle saklanip geri takiliyor; boylece dil degisiminde
@@ -1306,10 +1306,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderArticle();
     });
 
-    // Grafik temayi data-theme'den kendisi izliyor; bu, olaya bagli yedek yol.
-    window.addEventListener('themeChanged', () => {
-        if (window.TbmmGrafik) window.TbmmGrafik.refresh();
-    });
+    // Grafik temayi data-theme'den kendisi izliyor (tbmm-grafik.js watchTheme).
+    // Burada ayrica refresh() cagirmak ayni grafigi ikinci kez ciziyordu.
 
     // İLK MAKALE RENDERİ
     renderArticle();

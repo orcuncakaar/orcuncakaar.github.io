@@ -268,10 +268,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 requestAnimationFrame(updateProjectsNav);
             }
         }, { passive: true });
+        // Gozlemci ilk olcumu yerlesim bittikten sonra kendisi veriyor; burada
+        // dogrudan cagirmak acilista zorunlu yerlesim tetikliyordu.
         if ('ResizeObserver' in window) {
             new ResizeObserver(updateProjectsNav).observe(projectsTrack);
+        } else {
+            updateProjectsNav();
         }
-        updateProjectsNav();
     }
     const sections = document.querySelectorAll('header.hero, section.section');
 
@@ -785,9 +788,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         lastScrollPos = currentScroll;
+        // Tepede acilista yukseklik gerekmiyor; olcum zorunlu yerlesim demek
+        // (telefonda 'load' aninda ~400ms). Sayfa asagida acildiysa (geri
+        // donus, yer imi) dogru bolumu isaretlemek icin olc.
+        if (currentScroll > 120) recalcDocHeight();
         updateActiveNavLink();
 
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const docHeight = cachedDocHeight;
         const scrollPercent = Math.min(100, Math.max(0, Math.round(docHeight > 0 ? (currentScroll / docHeight) * 100 : 0)));
         if (compactScrollPercent) {
             compactScrollPercent.textContent = `${scrollPercent}%`;
@@ -810,7 +817,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // `let` TDZ'de olduğu için sıralama bozulursa sayfa açılışında
     // ReferenceError atıp script'in tamamını durdurur.
     let scrollTicking = false;
-    let cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+    // Ilk deger gozlemciden geliyor; script calisirken olcmek zorunlu yerlesimdi.
+    let cachedDocHeight = 0;
 
     const recalcDocHeight = () => {
         cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -820,11 +828,14 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('load', initNavbarState);
     window.addEventListener('pageshow', initNavbarState);
 
-    afterFirstPaint(recalcDocHeight);
     window.addEventListener('resize', recalcDocHeight, { passive: true });
-    window.addEventListener('load', recalcDocHeight);
     if (typeof ResizeObserver !== 'undefined') {
+        // Gozlemci yerlesim bittikten sonra calisir, olcum bedava; govde her
+        // buyuyup kuculdugunde (lab.css, gorseller, yazi tipi) yeniden gelir.
         new ResizeObserver(recalcDocHeight).observe(document.body);
+    } else {
+        afterFirstPaint(recalcDocHeight);
+        window.addEventListener('load', recalcDocHeight);
     }
 
     const onScrollFrame = () => {
@@ -1041,6 +1052,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 e.stopPropagation();
             }
+            baslatRegCanvas();
 
             let xVal = inputPointX && inputPointX.value !== '' ? parseFloat(inputPointX.value) : NaN;
             let yVal = inputPointY && inputPointY.value !== '' ? parseFloat(inputPointY.value) : NaN;
@@ -1098,6 +1110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (btnRandom) {
             btnRandom.addEventListener('click', () => {
+            baslatRegCanvas(); // gozcu henuz tetiklenmediyse boyut dogru olsun
             points = [];
             const N = Math.floor(Math.random() * 12) + 8; // 8 ila 20 arasında rastgele nokta
             const w = regCanvas.width;
@@ -1686,18 +1699,44 @@ document.addEventListener('DOMContentLoaded', () => {
             return grad;
         }
 
-        // Canvas'ı ilk kez başlat (ekranin altinda kaliyor, ilk boyamayi bekletmesin)
-        afterFirstPaint(() => setTimeout(resizeRegCanvas, 200));
-        // lab.css 'load'dan sonra geliyor ve mobilde en-boy oranini degistiriyor;
-        // pencere boyutu degismedigi icin 'resize' tetiklenmiyor, kutuyu izle.
-        if (typeof ResizeObserver !== 'undefined') {
-            new ResizeObserver(() => {
-                const r = regCanvas.parentElement.getBoundingClientRect();
-                if (r.width && (Math.max(300, Math.floor(r.width)) !== regCanvas.width
-                    || Math.max(200, Math.floor(r.height)) !== regCanvas.height)) {
-                    resizeRegCanvas();
-                }
-            }).observe(regCanvas.parentElement);
+        // Canvas ekranin cok altinda: acilista boyutlamak telefonda ~140ms'lik zorunlu
+        // yerlesim demekti. Laboratuvara yaklasinca baslat.
+        const regGozcu = 'IntersectionObserver' in window
+            ? new IntersectionObserver(entries => {
+                if (entries.some(e => e.isIntersecting)) baslatRegCanvas();
+            }, { rootMargin: '600px 0px' })
+            : null;
+        let regBasladi = false;
+        function baslatRegCanvas() {
+            if (regBasladi) return;
+            regBasladi = true;
+            if (regGozcu) regGozcu.disconnect();
+            resizeRegCanvas();
+            // lab.css 'load'dan sonra geliyor ve mobilde en-boy oranini degistiriyor;
+            // pencere boyutu degismedigi icin 'resize' tetiklenmiyor, kutuyu izle.
+            // Boyutlama bir sonraki kareye birakiliyor: gozlemcinin icinde yapinca
+            // "ResizeObserver loop" uyarisi uretiyordu.
+            if (typeof ResizeObserver !== 'undefined') {
+                let bekliyor = false;
+                new ResizeObserver(() => {
+                    if (bekliyor) return;
+                    bekliyor = true;
+                    requestAnimationFrame(() => {
+                        bekliyor = false;
+                        const r = regCanvas.parentElement.getBoundingClientRect();
+                        if (r.width && (Math.max(300, Math.floor(r.width)) !== regCanvas.width
+                            || Math.max(200, Math.floor(r.height)) !== regCanvas.height)) {
+                            resizeRegCanvas();
+                        }
+                    });
+                }).observe(regCanvas.parentElement);
+            }
+        }
+
+        if (regGozcu) {
+            regGozcu.observe(regCanvas.parentElement);
+        } else {
+            afterFirstPaint(() => setTimeout(baslatRegCanvas, 200));
         }
 
         // Tema değişiminde renkleri yeniden yükle
@@ -1874,8 +1913,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return distributions[currentDist] || distributions.dice;
         }
 
+        // Sekme kapaliyken canvas'lar display:none; olcmek zorunlu yerlesim tetikliyor,
+        // cizmek bosa is. Sekme acilinca resizeAndRender ikisini de yapiyor.
+        const cltGorunur = () => !!(panelCLT && panelCLT.classList.contains('active'));
+
         function resizeCanvases() {
-            const isCltVisible = panelCLT && panelCLT.classList.contains('active');
+            if (!cltGorunur()) return;
             const dpr = window.devicePixelRatio || 1;
 
             [parentCanvas, samplingCanvas].forEach(c => {
@@ -1893,9 +1936,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (isCltVisible) {
-                renderAll();
-            }
+            renderAll();
         }
 
         function drawOneSample() {
@@ -2001,6 +2042,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function renderAll() {
+            if (!cltGorunur()) return;
             renderParentCanvas();
             renderSamplingCanvas();
         }
@@ -2342,8 +2384,8 @@ document.addEventListener('DOMContentLoaded', () => {
             reset: resetSimulation
         };
 
-        // İlk başlatma
-        setTimeout(resizeCanvases, 250);
+        // İlk başlatma (sekme kapaliysa yalnizca metinler dolar)
+        resizeCanvases();
         updateStatsAndRender();
     }
 
