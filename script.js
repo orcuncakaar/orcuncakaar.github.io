@@ -183,6 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, Math.max(stepTime, 15));
     }
 
+    // style.css'teki kaydirmali serit kosuluyla ayni
+    const seritDuzeni = window.matchMedia('(min-width: 681px)');
+
     const observerOptions = {
         threshold: 0.15,
         rootMargin: "0px 0px -50px 0px"
@@ -194,6 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (entry.target.classList.contains('reveal')) {
                     entry.target.classList.add('active');
+                }
+
+                // Yatay proje seridinde ekran disindaki kart, kaydirilinca belirip
+                // yukari kayiyordu (takilma hissi). Serit gorununce hepsi birlikte
+                // acilir. Telefonda kartlar alt alta, orada tek tek kalsin.
+                if (entry.target.closest('#projects-track') && seritDuzeni.matches) {
+                    entry.target.parentElement.querySelectorAll('.project-card.reveal').forEach(card => {
+                        card.classList.add('active');
+                        observer.unobserve(card);
+                    });
                 }
             }
         });
