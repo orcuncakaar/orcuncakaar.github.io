@@ -73,14 +73,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=2.19.18">
+    <link rel="stylesheet" href="style.css?v=2.19.19">
     <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
          media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
          simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
     <!-- Gec gelen lab.css, style.css'teki transition'li dugmelerin dolgu/yazi boyutunu
          degistirince ~12 duzen animasyonu basliyordu; stil oturana kadar gecisler kapali. -->
-    <script>addEventListener('load', function () { var d = document.documentElement, l = document.createElement('link'), bitti = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.remove('lab-css-bekliyor'); }); }); }; d.classList.add('lab-css-bekliyor'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.18'; l.onload = l.onerror = bitti; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.19.18"></noscript>
+    <script>addEventListener('load', function () { var d = document.documentElement, l = document.createElement('link'), bitti = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.remove('lab-css-bekliyor'); }); }); }; d.classList.add('lab-css-bekliyor'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.19'; l.onload = l.onerror = bitti; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=2.19.19"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -1148,8 +1148,8 @@
         <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V4M4 8L8 4L12 8"/></svg>
     </button>
 
-    <script src="translations.js?v=2.19.18" defer></script>
-    <script src="site-shell.js?v=2.19.18" defer></script>
+    <script src="translations.js?v=2.19.19" defer></script>
+    <script src="site-shell.js?v=2.19.19" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1158,10 +1158,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.19.18';
+            s.src = 'fluid-simulation.js?v=2.19.19';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.19.18" defer></script>
+    <script src="script.js?v=2.19.19" defer></script>
 </body>
 </html>
