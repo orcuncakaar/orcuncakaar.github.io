@@ -194,18 +194,29 @@
     return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
   }
 
+  // Intl biçimlendiricilerini kurmak pahalı (her çağrıda yeniden kurmak dil
+  // değişiminde telefonda 250-500 ms tutuyordu); dil + ayar başına bir kez kurulur.
+  var bicimlendiriciler = {};
+
   function fmt(lang, v, digits) {
-    return new Intl.NumberFormat(lang === "en" ? "en-GB" : "tr-TR", {
+    var k = "n|" + lang + "|" + digits;
+    var f = bicimlendiriciler[k] || (bicimlendiriciler[k] = new Intl.NumberFormat(lang === "en" ? "en-GB" : "tr-TR", {
       minimumFractionDigits: digits, maximumFractionDigits: digits
-    }).format(v);
+    }));
+    return f.format(v);
   }
 
+  var ayEtiketleri = {};
+
   function monthLabel(lang, ym, short) {
-    var p = ym.split("-");
-    var d = new Date(Date.UTC(+p[0], +p[1] - 1, 1));
-    return new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "tr-TR", {
+    var ek = lang + "|" + ym + "|" + (short ? 1 : 0);
+    if (ayEtiketleri[ek]) return ayEtiketleri[ek];
+    var k = "d|" + lang + "|" + (short ? 1 : 0);
+    var f = bicimlendiriciler[k] || (bicimlendiriciler[k] = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "tr-TR", {
       month: short ? "short" : "long", year: "numeric", timeZone: "UTC"
-    }).format(d);
+    }));
+    var p = ym.split("-");
+    return (ayEtiketleri[ek] = f.format(new Date(Date.UTC(+p[0], +p[1] - 1, 1))));
   }
 
   // Olay çizgileri: kesikli dikey çizgi + bağlantı çizgisiyle etiket.

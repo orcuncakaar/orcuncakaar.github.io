@@ -129,7 +129,7 @@
     background: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-heading);
 }
 
 .ai-summary-icon {
@@ -481,7 +481,7 @@
     font-weight: 700;
     color: #a78bfa;
     margin-bottom: 8px;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-heading);
     letter-spacing: -0.2px;
     display: flex;
     align-items: center;
@@ -511,7 +511,7 @@
     cursor: pointer;
     text-align: left;
     transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
 }
 
 .ai-question-chip:hover {

@@ -3,9 +3,104 @@
    Design Tokens • Typography • Dynamic Island • Hero • Bento • Page Shell
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   YEDEK YAZI TİPLERİ (ölçü eşlemeli)
+   Inter/Outfit gelene kadar sistem yazı tipi kullanılıyor. Genişlikleri farklı
+   olduğu için yazı tipi gelince satırlar yeniden kırılıp içerik kayıyordu
+   (telefonda hero 38 px, CLS 0,04). Aşağıdaki yüzler sistem yazı tipini
+   Inter/Outfit'in genişliğine ve yüksekliğine ölçekler; web yazı tipi
+   yüklendikten sonraki görünüm değişmez.
+   Değerler Chrome'da aynı Türkçe metnin genişliği ve yazı tipi yükseklikleri
+   ölçülerek hesaplandı (size-adjust = hedef/yedek; ascent/descent = hedef
+   değer / size-adjust). Arial: Windows, macOS, iOS. Roboto: Android.
+   unicode-range: Google Fonts'un Inter/Outfit için sunduğu latin + latin-ext
+   aralıkları. Bu yazı tiplerinde olmayan karakterler (←, →, ✦ gibi) eskisi gibi
+   ölçeksiz sistem yazı tipine düşsün; yoksa yüklemeden sonra da büyük çiziliyordu.
+   -------------------------------------------------------------------------- */
+@font-face {
+    font-family: 'Inter Yedek';
+    src: local('Arial'), local('ArialMT');
+    font-weight: 100 500;
+    size-adjust: 104.93%;
+    ascent-override: 92.45%;
+    descent-override: 22.87%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Inter Yedek';
+    src: local('Arial Bold'), local('Arial-BoldMT');
+    font-weight: 600 900;
+    size-adjust: 100.25%;
+    ascent-override: 96.76%;
+    descent-override: 23.94%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Inter Yedek R';
+    src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular');
+    font-weight: 100 500;
+    size-adjust: 106.61%;
+    ascent-override: 90.98%;
+    descent-override: 22.51%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Inter Yedek R';
+    src: local('Roboto Bold'), local('Roboto-Bold');
+    font-weight: 600 900;
+    size-adjust: 106.66%;
+    ascent-override: 90.95%;
+    descent-override: 22.50%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Outfit Yedek';
+    src: local('Arial'), local('ArialMT');
+    font-weight: 100 500;
+    size-adjust: 96.81%;
+    ascent-override: 103.30%;
+    descent-override: 26.86%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Outfit Yedek';
+    src: local('Arial Bold'), local('Arial-BoldMT');
+    font-weight: 600 900;
+    size-adjust: 95.16%;
+    ascent-override: 105.09%;
+    descent-override: 27.32%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Outfit Yedek R';
+    src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular');
+    font-weight: 100 500;
+    size-adjust: 98.36%;
+    ascent-override: 101.66%;
+    descent-override: 26.43%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Outfit Yedek R';
+    src: local('Roboto Bold'), local('Roboto-Bold');
+    font-weight: 600 900;
+    size-adjust: 101.24%;
+    ascent-override: 98.77%;
+    descent-override: 25.68%;
+    line-gap-override: 0%;
+    unicode-range: U+0000-02CC, U+02CE-02D7, U+02DA, U+02DC-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+2C60-2C7F, U+A720-A7FF, U+FEFF, U+FFFD;
+}
+
 :root {
-    --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Outfit', 'Outfit Yedek', 'Outfit Yedek R', sans-serif;
+    --font-body: 'Inter', 'Inter Yedek', 'Inter Yedek R', sans-serif;
 
     --bg-primary: #0b0f19;
     --bg-secondary: #111827;
