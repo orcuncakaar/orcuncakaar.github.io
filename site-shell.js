@@ -52,6 +52,62 @@ window.kaydirmaDavranisi = function () {
             this.initFooterYear();
             this.initPageScrollbar();
             this.initNavbarKeyboardFocus();
+            this.initMobileNavigation();
+        },
+
+        initMobileNavigation() {
+            const navbar = document.getElementById('main-navbar');
+            const links = document.getElementById('navbar-links');
+            const button = document.getElementById('mobile-menu-btn');
+            const pill = document.getElementById('navbar-pill-wrapper');
+            if (!navbar || !links || !button) return;
+            const mobile = window.matchMedia('(max-width: 1024px)');
+            const originalParent = links.parentElement;
+            const originalNext = links.nextSibling;
+            let open = false;
+
+            const render = () => {
+                button.classList.toggle('active', open);
+                links.classList.toggle('active', open);
+                links.inert = mobile.matches && !open;
+                button.setAttribute('aria-expanded', String(open));
+                const english = this.currentLang === 'en';
+                button.setAttribute('aria-label', english
+                    ? (open ? 'Close menu' : 'Open menu')
+                    : (open ? 'Menüyü Kapat' : 'Menüyü Aç'));
+            };
+            const setOpen = (value, returnFocus = false) => {
+                open = mobile.matches && value;
+                if (open) pill?.classList.remove('is-compact');
+                if (returnFocus) button.focus({ preventScroll: true });
+                render();
+            };
+            const placeLinks = () => {
+                // Cam/transform iceren hap fixed menuyu daraltiyor. Mobilde
+                // listeyi disina tasi; masaustunde ozgun konumuna geri koy.
+                if (mobile.matches) navbar.appendChild(links);
+                else originalParent.insertBefore(links, originalNext);
+                setOpen(false);
+            };
+            button.setAttribute('aria-controls', links.id);
+            button.type = 'button';
+            placeLinks();
+            mobile.addEventListener('change', placeLinks);
+            button.addEventListener('click', () => setOpen(!open));
+            links.addEventListener('click', (event) => {
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                if (event.target.closest('a[href]')) setOpen(false);
+            });
+            document.addEventListener('keydown', (event) => {
+                if (open && event.key === 'Escape') {
+                    event.preventDefault();
+                    setOpen(false, true);
+                }
+            });
+            document.addEventListener('click', (event) => {
+                if (open && !navbar.contains(event.target)) setOpen(false);
+            });
+            window.addEventListener('languageChanged', render);
         },
 
         navbarHasKeyboardFocus() {

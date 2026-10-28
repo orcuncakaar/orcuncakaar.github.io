@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- NAVBAR ELEMANLARI & SLIDING PILL ---
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navbarLinks = document.getElementById('navbar-links');
     const navLinks = document.querySelectorAll('.nav-links .nav-link');
     const navIndicatorPill = document.getElementById('nav-indicator-pill');
@@ -424,41 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSlidingPill(targetLink);
     }
 
-    // Mobil menu, cam efektli .navbar-pill-wrapper icinde duruyordu.
-    // backdrop-filter (ve .navbar-full-view'daki transform) o atayi
-    // position:fixed ogeler icin konum referansi yapiyor; bu yuzden acilan
-    // menu viewport'a degil hapa gore konumlaniyor, width:calc(100% - 32px)
-    // 343px yerine ~110px cikiyor ve menu navbar'in icinde dar bir serit
-    // olarak beliriyordu -- kullaniciya "acilmiyor" gibi gorunuyordu.
-    // Cozum: mobilde <ul>'yi referans olusturmayan .navbar'a tasi.
-    const navbarEl = document.getElementById('main-navbar');
-    if (navbarLinks && navbarEl) {
-        const anaKonum = navbarLinks.parentElement;
-        const anaKardes = navbarLinks.nextElementSibling;
-        let mobilKonumda = false;
-
-        const yerlestirNavLinks = () => {
-            const mobil = darEkran.matches;
-            if (mobil && !mobilKonumda) {
-                navbarEl.appendChild(navbarLinks);
-                mobilKonumda = true;
-            } else if (!mobil && mobilKonumda) {
-                anaKonum.insertBefore(navbarLinks, anaKardes);
-                mobilKonumda = false;
-            }
-        };
-
-        yerlestirNavLinks();
-        if (darEkran.addEventListener) darEkran.addEventListener('change', yerlestirNavLinks);
-        else window.addEventListener('resize', yerlestirNavLinks, { passive: true });
-    }
-
-    if (mobileMenuBtn && navbarLinks) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenuBtn.classList.toggle('active');
-            navbarLinks.classList.toggle('active');
-        });
-    }
+    // Mobil menunun ac/kapat ve konumlandirma davranisi SiteShell'de ortaktir.
 
     const compactBrand = document.querySelector('.compact-brand');
     if (compactBrand) {
@@ -512,11 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-            if (mobileMenuBtn && navbarLinks) {
-                mobileMenuBtn.classList.remove('active');
-                navbarLinks.classList.remove('active');
-            }
-
             const href = this.getAttribute('href');
             if (href && href.startsWith('#')) {
                 e.preventDefault();

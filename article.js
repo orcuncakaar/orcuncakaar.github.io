@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbarPill = document.getElementById('navbar-pill-wrapper');
     const navIndicatorPill = document.getElementById('nav-indicator-pill');
     const navbarLinks = document.getElementById('navbar-links');
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const currentYearEl = document.getElementById('current-year');
     const scrollTopBtn = document.getElementById('scroll-to-top');
 
@@ -1189,7 +1188,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Navbar Compact Geçişi
         if (navbarPill) {
-            if (scrollY > 120 && !window.SiteShell?.navbarHasKeyboardFocus()) {
+            if (scrollY > 120 && !window.SiteShell?.navbarHasKeyboardFocus()
+                && !navbarLinks?.classList.contains('active')) {
                 navbarPill.classList.add('is-compact');
             } else {
                 navbarPill.classList.remove('is-compact');

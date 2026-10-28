@@ -390,7 +390,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderBlogPosts();
 
     // --- NAVBAR & DYNAMIC ISLAND & SLIDING PILL ---
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navbarLinks = document.getElementById('navbar-links');
     const navLinks = document.querySelectorAll('.nav-links .nav-link');
     const navIndicatorPill = document.getElementById('nav-indicator-pill');
@@ -435,20 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (mobileMenuBtn && navbarLinks) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenuBtn.classList.toggle('active');
-            navbarLinks.classList.toggle('active');
-        });
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                mobileMenuBtn.classList.remove('active');
-                navbarLinks.classList.remove('active');
-            });
-        });
-    }
+    // Mobil menu tum sayfalarda SiteShell tarafindan yonetilir.
 
     navLinks.forEach(link => {
         link.addEventListener('mouseenter', function() {
