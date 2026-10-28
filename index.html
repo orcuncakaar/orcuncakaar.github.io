@@ -29,14 +29,19 @@
     <meta property="og:description" content="İstatistik, Veri Bilimi, Makine Öğrenmesi ve Yapay Zekâ odaklı analitik projeler ve teknik araştırmalar.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://orcuncakar.com/">
-    <meta property="og:image" content="https://orcuncakar.com/images/hanta_plot_9.png">
+    <meta property="og:image" content="https://orcuncakar.com/images/brand/og-home-67b6704403e0.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:alt" content="Orçun Çakar — İstatistik, Veri Bilimi, Makine Öğrenmesi. Projeler, araştırma notları ve interaktif laboratuvar.">
     <meta property="og:site_name" content="Orçun Çakar">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Orçun Çakar — İstatistik, Veri Bilimi & Makine Öğrenmesi">
     <meta name="twitter:description" content="İstatistik, Veri Bilimi ve Makine Öğrenmesi odaklı portfolyo ve araştırmalar.">
-    <meta name="twitter:image" content="https://orcuncakar.com/images/hanta_plot_9.png">
+    <meta name="twitter:image" content="https://orcuncakar.com/images/brand/og-home-67b6704403e0.jpg">
+    <meta name="twitter:image:alt" content="Orçun Çakar — İstatistik, Veri Bilimi, Makine Öğrenmesi. Projeler, araştırma notları ve interaktif laboratuvar.">
 
     <!-- Schema.org JSON-LD Structured Data (Person) -->
     <script type="application/ld+json">
@@ -64,23 +69,23 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Orçun Çakar">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="/images/brand/odak-personal.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/brand/odak-personal-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/brand/odak-personal-16.png">
+    <link rel="shortcut icon" href="/images/brand/odak-personal.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/brand/odak-personal-180.png"><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>"><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
 
-    <!-- Google Fonts (Preconnected & Parallel Loading) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
+    <!-- Ayni Inter/Outfit dosyalari yerel sunulur. Masaustunde ilk ekran
+         onceden yuklenir; mobilde bu dosyalar kritik kaynaklarla yarismaz. -->
+    <link rel="preload" href="/fonts/inter-UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin media="(min-width: 901px) and (pointer: fine)">
+    <link rel="preload" href="/fonts/inter-UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa25L7SUc.woff2" as="font" type="font/woff2" crossorigin media="(min-width: 901px) and (pointer: fine)">
+    <link rel="preload" href="/fonts/outfit-QGYvz_MVcBeNP4NJtEtq.woff2" as="font" type="font/woff2" crossorigin media="(min-width: 901px) and (pointer: fine)">
+    <link rel="stylesheet" href="/fonts/fonts.css?v=d4928ddf341f9244">
 
-    <link rel="stylesheet" href="style.css?v=2.19.25">
-    <!-- lab.css sadece ekranin cok altindaki #playground bolumu icin; kritik yola hic girmesin.
-         media="print" hilesi de denendi, ayni FCP kazancini veriyor ama Lighthouse'un
-         simulasyonunda LCP'yi ~140 ms geriye itiyordu; load olayinda enjekte etmek temiz. -->
-    <!-- Gec gelen lab.css, style.css'teki transition'li dugmelerin dolgu/yazi boyutunu
-         degistirince ~12 duzen animasyonu basliyordu; stil oturana kadar gecisler kapali. -->
-    <script>addEventListener('load', function () { var d = document.documentElement, l = document.createElement('link'), bitti = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.remove('lab-css-bekliyor'); }); }); }; d.classList.add('lab-css-bekliyor'); l.rel = 'stylesheet'; l.href = 'lab.css?v=2.19.25'; l.onload = l.onerror = bitti; document.head.appendChild(l); });</script>
-    <noscript><link rel="stylesheet" href="lab.css?v=2.19.25"></noscript>
+    <link rel="stylesheet" href="style.css?v=91788b988870f81c">
+    <!-- Laboratuvar stili kritik yolu bekletmez; gecis kilidi yalnizca bu bolumde. -->
+    <script>addEventListener('load', function () { var d = document.getElementById('playground'), l = document.createElement('link'), bitti = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { if (d) d.classList.remove('lab-css-bekliyor'); }); }); }; if (d) d.classList.add('lab-css-bekliyor'); l.rel = 'stylesheet'; l.href = 'lab.css?v=86674a64f1f18458'; l.onload = l.onerror = bitti; document.head.appendChild(l); });</script>
+    <noscript><link rel="stylesheet" href="lab.css?v=86674a64f1f18458"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#main-content" data-translate="skip-link">İçeriğe atla</a>
@@ -189,7 +194,7 @@
                                 </svg>
                                 <span data-translate="hero-btn-contact">İletişim</span>
                             </a>
-                            <a href="/cv.pdf?v=2026-09-17" data-translate-href="hero-btn-cv-href" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="hero-cv-btn" data-translate-title="hero-btn-cv-title">
+                            <a href="/cv.pdf?v=6dc0d045ff443d6a" data-translate-href="hero-btn-cv-href" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="hero-cv-btn" data-translate-title="hero-btn-cv-title">
                                 <svg class="cv-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                     <polyline points="14 2 14 8 20 8"></polyline>
@@ -1078,7 +1083,9 @@
                     </a>
                 </div>
 
-                <form class="contact-form glass-card reveal" id="portfolio-contact-form">
+                <form class="contact-form glass-card" id="portfolio-contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="27a2282e-8e92-4ee8-9c4c-adf8345398cc">
+                    <input type="hidden" name="redirect" value="https://web3forms.com/success">
                     <div class="form-feedback" id="form-message" role="status" aria-live="polite"></div>
                     
                     <!-- Spam Prevention: Web3Forms Honeypot Field -->
@@ -1148,8 +1155,8 @@
         <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V4M4 8L8 4L12 8"/></svg>
     </button>
 
-    <script src="translations.js?v=2.19.25" defer></script>
-    <script src="site-shell.js?v=2.19.25" defer></script>
+    <script src="translations.js?v=ce06090d26c180e6" defer></script>
+    <script src="site-shell.js?v=5c0fcc19e799b725" defer></script>
     <script>
         // Simulasyon telefon ve tablette zaten ilk kontrolde cikiyordu ama dosya yine de
         // indirilip ayristiriliyordu (36 KB). Kosulu ayni tuttuk, artik indirme de olmuyor.
@@ -1158,10 +1165,10 @@
             var mq = window.matchMedia;
             if (mq && (mq('(max-width: 900px)').matches || mq('(pointer: coarse)').matches)) return;
             var s = document.createElement('script');
-            s.src = 'fluid-simulation.js?v=2.19.25';
+            s.src = 'fluid-simulation.js?v=aa7dbb37ef992351';
             document.head.appendChild(s);
         })();
     </script>
-    <script src="script.js?v=2.19.25" defer></script>
+    <script src="script.js?v=7fa03147c0c4359a" defer></script>
 </body>
 </html>

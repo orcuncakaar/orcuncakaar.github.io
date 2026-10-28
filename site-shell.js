@@ -51,6 +51,54 @@ window.kaydirmaDavranisi = function () {
             this.initScrollTop();
             this.initFooterYear();
             this.initPageScrollbar();
+            this.initNavbarKeyboardFocus();
+        },
+
+        navbarHasKeyboardFocus() {
+            return !!document.querySelector('#navbar-pill-wrapper :focus-visible');
+        },
+
+        initNavbarKeyboardFocus() {
+            const pill = document.getElementById('navbar-pill-wrapper');
+            const compactView = pill?.querySelector('.navbar-compact-view');
+            if (!pill || !compactView) return;
+            const desktop = window.matchMedia('(min-width: 1025px)');
+            let backwards = false;
+
+            // Tam menu acikken gizli "Orcun" baglantisi Tab sirasina girmesin.
+            const syncCompactFocus = () => {
+                compactView.inert = desktop.matches && !pill.classList.contains('is-compact');
+            };
+            syncCompactFocus();
+            new MutationObserver(syncCompactFocus).observe(pill, {
+                attributes: true, attributeFilter: ['class']
+            });
+            desktop.addEventListener('change', syncCompactFocus);
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Tab') backwards = event.shiftKey;
+            }, true);
+
+            pill.addEventListener('focusin', (event) => {
+                if (!desktop.matches || !event.target.matches(':focus-visible')) return;
+                const fromCompact = compactView.contains(event.target);
+                pill.classList.remove('is-compact');
+                syncCompactFocus();
+                if (fromCompact) {
+                    // Acilinca gizlenen marka uzerinde odak birakma. Shift+Tab
+                    // ile geri giriste de dogal gezinme yonunu koru.
+                    const targets = pill.querySelectorAll('.navbar-full-view .nav-link, .navbar-full-view .lang-toggle-btn, .navbar-full-view .theme-toggle-btn');
+                    const target = backwards ? targets[targets.length - 1] : targets[0];
+                    target?.focus({ preventScroll: true });
+                }
+            });
+            pill.addEventListener('focusout', () => {
+                requestAnimationFrame(() => {
+                    if (desktop.matches && !this.navbarHasKeyboardFocus()
+                        && !pill.matches(':hover') && window.scrollY > 180) {
+                        pill.classList.add('is-compact');
+                    }
+                });
+            });
         },
 
         // ==========================================
@@ -249,7 +297,7 @@ window.kaydirmaDavranisi = function () {
             // 1. [data-translate] Text Replacements
             document.querySelectorAll('[data-translate]').forEach(el => {
                 const key = el.getAttribute('data-translate');
-                if (t[key] !== undefined) {
+                if (t[key] !== undefined && el.textContent.trim() !== String(t[key]).trim()) {
                     el.textContent = t[key];
                 }
             });
@@ -257,7 +305,7 @@ window.kaydirmaDavranisi = function () {
             // 2. [data-translate-html] HTML Replacements
             document.querySelectorAll('[data-translate-html]').forEach(el => {
                 const key = el.getAttribute('data-translate-html');
-                if (t[key] !== undefined) {
+                if (t[key] !== undefined && el.innerHTML.trim() !== String(t[key]).trim()) {
                     el.innerHTML = t[key];
                 }
             });
@@ -265,7 +313,7 @@ window.kaydirmaDavranisi = function () {
             // 3. [data-translate-placeholder] Placeholder Replacements
             document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-translate-placeholder');
-                if (t[key] !== undefined) {
+                if (t[key] !== undefined && el.getAttribute('placeholder') !== String(t[key])) {
                     el.setAttribute('placeholder', t[key]);
                 }
             });
@@ -274,15 +322,15 @@ window.kaydirmaDavranisi = function () {
             document.querySelectorAll('[data-translate-title]').forEach(el => {
                 const key = el.getAttribute('data-translate-title');
                 if (t[key] !== undefined) {
-                    el.setAttribute('title', t[key]);
-                    el.setAttribute('aria-label', t[key]);
+                    if (el.getAttribute('title') !== String(t[key])) el.setAttribute('title', t[key]);
+                    if (el.getAttribute('aria-label') !== String(t[key])) el.setAttribute('aria-label', t[key]);
                 }
             });
 
             // 5. [data-translate-aria-label] Erişilebilirlik Etiketleri
             document.querySelectorAll('[data-translate-aria-label]').forEach(el => {
                 const key = el.getAttribute('data-translate-aria-label');
-                if (t[key] !== undefined) {
+                if (t[key] !== undefined && el.getAttribute('aria-label') !== String(t[key])) {
                     el.setAttribute('aria-label', t[key]);
                 }
             });
@@ -290,7 +338,7 @@ window.kaydirmaDavranisi = function () {
             // 6. [data-translate-href] Dile Göre Bağlantı (ör. TR/EN CV)
             document.querySelectorAll('[data-translate-href]').forEach(el => {
                 const key = el.getAttribute('data-translate-href');
-                if (t[key] !== undefined) {
+                if (t[key] !== undefined && el.getAttribute('href') !== String(t[key])) {
                     el.setAttribute('href', t[key]);
                 }
             });

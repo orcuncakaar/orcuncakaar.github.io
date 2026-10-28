@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // .tbmm-grafik bulunan yaziya yuklenir; Chart.js bilesenden once gelmeli.
     const CHART_JS_SRC = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
     const CHART_JS_SRI = 'sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG';
-    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=2.19.24';
+    const TBMM_GRAFIK_SRC = '/tbmm-grafik.js?v=f51db5783ede75ee';
     let tbmmGrafikYukleme = null;
     // Govde her renderda innerHTML ile yeniden basiliyor. Kurulmus grafik
     // dugumleri yazi kimligiyle saklanip geri takiliyor; boylece dil degisiminde
@@ -627,6 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nextNavCard) {
             nextNavCard.href = postHref(nextPost.id);
             nextNavCard.onclick = (e) => {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
                 e.preventDefault();
                 currentPostId = nextPost.id;
                 history.pushState(null, '', postHref(nextPost.id));
@@ -694,6 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
             a.innerHTML = `<span class="toc-item-num">${numStr}</span> <span class="toc-item-text">${cleanTitle}</span>`;
             
             a.addEventListener('click', (e) => {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
                 e.preventDefault();
                 const targetEl = document.getElementById(heading.id);
                 if (targetEl) {
@@ -723,6 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mobA.setAttribute('data-target', heading.id);
                 mobA.innerHTML = `<span class="toc-item-num">${numStr}</span> <span>${cleanTitle}</span>`;
                 mobA.addEventListener('click', (e) => {
+                    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
                     e.preventDefault();
                     // Paneli kisayoldan gizlemek yetmiyor: kaydirma kilidini
                     // (body.sheet-open -> touch-action: none) yalnizca
@@ -1186,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Navbar Compact Geçişi
         if (navbarPill) {
-            if (scrollY > 120) {
+            if (scrollY > 120 && !window.SiteShell?.navbarHasKeyboardFocus()) {
                 navbarPill.classList.add('is-compact');
             } else {
                 navbarPill.classList.remove('is-compact');
@@ -1283,7 +1286,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         navbarPill.addEventListener('mouseleave', () => {
             const currentScroll = window.scrollY || window.pageYOffset;
-            if (currentScroll > 180 && !navbarPill.classList.contains('is-compact')) {
+            if (currentScroll > 180 && !navbarPill.classList.contains('is-compact')
+                && !window.SiteShell?.navbarHasKeyboardFocus()) {
                 navbarPill.classList.add('is-compact');
             }
         });

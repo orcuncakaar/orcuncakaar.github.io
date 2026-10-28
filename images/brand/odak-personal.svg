@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 128 128" role="img" aria-label="Orçun Çakar — Odak Kişisel">
+ <title>Orçun Çakar — Odak Kişisel</title>
+ <rect width="128" height="128" rx="32" fill="#152033"/>
+ <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M93.86 78.05 A33 33 0 1 1 93.86 49.95" stroke-width="12"/>
+ <circle cx="64" cy="64" r="9" fill="#ffffff" stroke="none"/>
+ <circle cx="99" cy="64" r="7" fill="#ffffff" stroke="none"/>
+ </g>
+</svg>

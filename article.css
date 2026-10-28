@@ -1199,7 +1199,6 @@
 .toc-item-num {
     font-size: 0.72rem;
     color: var(--accent);
-    opacity: 0.7;
     flex-shrink: 0;
 }
 

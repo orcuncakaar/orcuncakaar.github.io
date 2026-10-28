@@ -328,7 +328,7 @@
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.8px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     background: var(--bg-tertiary);
     border: 1px solid var(--card-border);
     padding: 3px 8px;
@@ -478,7 +478,6 @@
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--text-muted);
-    opacity: 0.5;
 }
 
 .article-body-col {

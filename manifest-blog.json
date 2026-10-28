@@ -1,0 +1,31 @@
+{
+  "name": "Orçun Çakar — Yazılar & Araştırma Notları",
+  "short_name": "OÇ Blog",
+  "description": "Veri bilimi, istatistik ve araştırma notları",
+  "start_url": "/blog.html",
+  "display": "standalone",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/brand/odak-blog-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/brand/odak-blog-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/brand/odak-blog-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "/blog.html"
+}

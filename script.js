@@ -463,6 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const compactBrand = document.querySelector('.compact-brand');
     if (compactBrand) {
         compactBrand.addEventListener('click', (e) => {
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
             e.preventDefault();
             e.stopPropagation();
             
@@ -510,6 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
             if (mobileMenuBtn && navbarLinks) {
                 mobileMenuBtn.classList.remove('active');
                 navbarLinks.classList.remove('active');
@@ -592,7 +594,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const navbarPill = document.getElementById('navbar-pill-wrapper');
     const compactSectionLabel = document.querySelector('#compact-section-label .compact-text');
-    let lastScrollPos = window.scrollY || 0;
+    // Gercek konum ilk boyamadan sonra initNavbarState tarafindan okunur.
+    // Metin/sinif degisimlerinden hemen sonra scrollY okumak yerlesimi zorluyor.
+    let lastScrollPos = 0;
 
     // Web fontu gec inince (dogrudan linkle acilista) menu yazilari genisliyor;
     // hap eski olcude kalmasin diye menu boyu degisince yeniden konumlandir.
@@ -652,6 +656,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!navbarPill) return;
         const currentScroll = window.scrollY || window.pageYOffset;
 
+        if (window.SiteShell?.navbarHasKeyboardFocus()) {
+            navbarPill.classList.remove('is-compact');
+            lastScrollPos = currentScroll;
+            return;
+        }
+
         // Mobil menu acikken kucultme: menu navbar'a bagli konumlaniyor,
         // altindan kapsul degisirse kullanici baglamini kaybediyor.
         if (navbarLinks && navbarLinks.classList.contains('active')) {
@@ -703,7 +713,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navbarPill) {
         navbarPill.addEventListener('mouseleave', () => {
             const currentScroll = window.scrollY || window.pageYOffset;
-            if (currentScroll > 180 && !navbarPill.classList.contains('is-compact')) {
+            if (currentScroll > 180 && !navbarPill.classList.contains('is-compact')
+                && !window.SiteShell?.navbarHasKeyboardFocus()) {
                 navbarPill.classList.add('is-compact');
             }
         });
@@ -813,7 +824,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('portfolio-contact-form');
     const formFeedback = document.getElementById('form-message');
 
-    const WEB3FORMS_ACCESS_KEY = "27a2282e-8e92-4ee8-9c4c-adf8345398cc";
+    // HTML formu JS olmadan da POST gonderebilir; anahtar tek yerde tutulur.
+    const WEB3FORMS_ACCESS_KEY = contactForm?.elements.namedItem('access_key')?.value || '';
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -875,9 +887,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const formData = new FormData(contactForm);
-            formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+            // Native gonderimde basari sayfasi acilir; fetch ise JSON yaniti bekler.
+            formData.delete('redirect');
 
-            fetch('https://api.web3forms.com/submit', {
+            fetch(contactForm.action, {
                 method: 'POST',
                 body: formData
             })
@@ -925,7 +938,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentScroll = window.scrollY || window.pageYOffset;
         
         // Sayfanın en üstünde iken asla kompakt ada modunda kalmasın
-        if (currentScroll <= 140) {
+        if (currentScroll <= 140 || window.SiteShell?.navbarHasKeyboardFocus()) {
             navbarPill.classList.remove('is-compact');
         } else {
             navbarPill.classList.add('is-compact');
@@ -968,9 +981,18 @@ document.addEventListener('DOMContentLoaded', () => {
         cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
     };
 
-    initNavbarState();
-    window.addEventListener('load', initNavbarState);
-    window.addEventListener('pageshow', initNavbarState);
+    let navbarStatePending = false;
+    const scheduleNavbarState = () => {
+        if (navbarStatePending) return;
+        navbarStatePending = true;
+        afterFirstPaint(() => {
+            navbarStatePending = false;
+            initNavbarState();
+        });
+    };
+    scheduleNavbarState();
+    window.addEventListener('load', scheduleNavbarState);
+    window.addEventListener('pageshow', scheduleNavbarState);
 
     window.addEventListener('resize', recalcDocHeight, { passive: true });
     if (typeof ResizeObserver !== 'undefined') {
@@ -1965,9 +1987,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     panelOLS.classList.remove('active');
                     panelCLT.style.display = 'grid';
                     panelCLT.classList.add('active');
-                    if (window.cltEngine && typeof window.cltEngine.resizeAndRender === 'function') {
-                        window.cltEngine.resizeAndRender();
-                    }
+                    // Once sekme degisimi boyansin. Kapali motoru acilista
+                    // hazirlamak yerine ilk kullanimda kur ve tekrar kullan.
+                    boyamadanSonra(() => {
+                        if (!panelCLT.classList.contains('active')) return;
+                        if (!window.cltEngine) initCLTEngine();
+                        else window.cltEngine.resizeAndRender();
+                    });
                 }
             });
         });
@@ -2572,13 +2598,13 @@ document.addEventListener('DOMContentLoaded', () => {
             reset: resetSimulation
         };
 
-        // İlk başlatma (sekme kapaliysa yalnizca metinler dolar)
-        resizeCanvases();
+        // Ilk acilista boyutlandir ve bir kez ciz; istatistik guncellemesi
+        // zaten renderAll'i cagiriyor.
+        resizeCanvases(false);
         updateStatsAndRender();
     }
 
     initLabTabs();
-    initCLTEngine();
 
 
     // --- ULTRA-SNAPPY NATIVE PAGE TRANSITIONS ---
@@ -2648,7 +2674,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Tıklama yakalayıcı (Delegated Click Listener)
         document.addEventListener('click', (e) => {
-            if (e.defaultPrevented) return;
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
             const link = e.target.closest('a');
             if (!link) return;
 

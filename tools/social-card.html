@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Orçun Çakar — Paylaşım kartı kaynağı</title>
+<style>
+@font-face{font-family:CardInter;src:url('../fonts/inter-UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2');font-weight:300 700;font-display:block}
+@font-face{font-family:CardInter;src:url('../fonts/inter-UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa25L7SUc.woff2');font-weight:300 700;font-display:block;unicode-range:U+0100-02BA,U+0300-036F,U+1E00-1EFF}
+@font-face{font-family:CardOutfit;src:url('../fonts/outfit-QGYvz_MVcBeNP4NJtEtq.woff2');font-weight:300 800;font-display:block}
+@font-face{font-family:CardOutfit;src:url('../fonts/outfit-QGYvz_MVcBeNP4NJuktqQ4E.woff2');font-weight:300 800;font-display:block;unicode-range:U+0100-02BA,U+0300-036F,U+1E00-1EFF}
+*{box-sizing:border-box}html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+body{--accent:#7563c5;--soft:#eae5fa;background:#f5f6fb;color:#152033;font-family:CardInter,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body.blog{--accent:#087d89;--soft:#dbf0f1}
+.canvas{position:relative;width:1200px;height:630px;padding:64px 80px;background:radial-gradient(ellipse at 100% 0,var(--soft),transparent 62%)}
+.identity{display:flex;align-items:center;gap:20px;position:relative;z-index:1}
+.identity img{width:64px;height:64px}.identity span{font-size:20px;letter-spacing:3px;font-weight:500;color:#526078}
+.copy{position:relative;z-index:1;margin-top:62px}
+h1{font-family:CardOutfit,CardInter,Arial,sans-serif;font-size:86px;font-weight:600;letter-spacing:-3px;line-height:1.06;margin:0 0 25px}
+.blog h1{font-size:68px;letter-spacing:-2px;line-height:1.12;margin-bottom:22px}
+.specialty{font-size:29px;font-weight:500;letter-spacing:-.6px;margin:0 0 19px}
+.description{font-size:23px;color:#526078;line-height:1.5;margin:0}
+.footer{position:absolute;left:80px;right:80px;bottom:57px;display:flex;align-items:center;justify-content:space-between;z-index:1}
+.domain{font-size:24px;font-weight:500;letter-spacing:-.3px}.domain:before{content:'';display:inline-block;width:25px;height:3px;background:var(--accent);vertical-align:middle;margin-right:14px}
+.author{font-size:21px;color:#526078}
+.watermark{position:absolute;width:380px;height:380px;right:-80px;top:5px;opacity:.075;transform:rotate(-18deg)}
+.dots{position:absolute;right:80px;bottom:127px;display:grid;grid-template-columns:repeat(7,8px);gap:17px;transform:rotate(-12deg);opacity:.35}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--accent)}.dots i:nth-child(3n){opacity:.2}.dots i:nth-child(5n){opacity:.5}
+</style>
+</head>
+<body>
+<main class="canvas">
+ <img class="watermark" src="../images/brand/odak-personal-mark.svg" alt="">
+ <header class="identity"><img id="logo" src="../images/brand/odak-personal.svg" alt="Odak logosu"><span id="category">KİŞİSEL PORTFOLYO</span></header>
+ <div class="copy"><h1 id="title">Orçun Çakar</h1><p class="specialty" id="specialty">İstatistik · Veri Bilimi · Makine Öğrenmesi</p><p class="description" id="description">Projeler, araştırma notları ve interaktif laboratuvar.</p></div>
+ <div class="dots" aria-hidden="true"></div>
+ <footer class="footer"><span class="domain" id="domain">orcuncakar.com</span><span class="author" id="author"></span></footer>
+</main>
+<script>
+document.querySelector('.dots').innerHTML='<i></i>'.repeat(28);
+if(new URLSearchParams(location.search).get('kind')==='blog'){
+ document.body.classList.add('blog');
+ document.getElementById('logo').src='../images/brand/odak-blog.svg';
+ document.querySelector('.watermark').src='../images/brand/odak-blog-mark.svg';
+ document.getElementById('category').textContent='BLOG & ARAŞTIRMA';
+ document.getElementById('title').innerHTML='Yazılar &<br>Araştırma Notları';
+ document.getElementById('specialty').textContent='İstatistik · Veri Bilimi · Makine Öğrenmesi';
+ document.getElementById('description').textContent='Teknik notlar, analizler ve öğrenme yolculuğu.';
+ document.getElementById('domain').textContent='orcuncakar.com/blog';
+ document.getElementById('author').textContent='Orçun Çakar';
+ document.querySelector('.copy').style.marginTop='39px';
+}
+</script>
+</body>
+</html>

@@ -1249,8 +1249,8 @@ html.cubuk-surukleniyor {
 }
 
 /* lab.css yuklenirken laboratuvardaki gecisler kapali (index.html'deki yukleyici) */
-.lab-css-bekliyor #playground,
-.lab-css-bekliyor #playground * {
+#playground.lab-css-bekliyor,
+#playground.lab-css-bekliyor * {
     transition: none !important;
 }
 

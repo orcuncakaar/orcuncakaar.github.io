@@ -442,7 +442,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
                 mobileMenuBtn.classList.remove('active');
                 navbarLinks.classList.remove('active');
             });
@@ -502,6 +503,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!navbarPill || darEkran.matches) return;
         const currentScroll = window.scrollY || window.pageYOffset;
 
+        if (window.SiteShell?.navbarHasKeyboardFocus()) {
+            navbarPill.classList.remove('is-compact');
+            lastScrollPos = currentScroll;
+            return;
+        }
+
         // Sayfa tepesinde iken her zaman tam açık
         if (currentScroll <= 140) {
             if (navbarPill.classList.contains('is-compact')) {
@@ -552,7 +559,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         navbarPill.addEventListener('mouseleave', () => {
             const currentScroll = window.scrollY || window.pageYOffset;
-            if (currentScroll > 180 && !navbarPill.classList.contains('is-compact')) {
+            if (currentScroll > 180 && !navbarPill.classList.contains('is-compact')
+                && !window.SiteShell?.navbarHasKeyboardFocus()) {
                 navbarPill.classList.add('is-compact');
             }
         });
@@ -617,7 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!navbarPill) return;
         const currentScroll = window.scrollY || window.pageYOffset;
         
-        if (currentScroll <= 160) {
+        if (currentScroll <= 160 || window.SiteShell?.navbarHasKeyboardFocus()) {
             navbarPill.classList.remove('is-compact');
         } else {
             navbarPill.classList.add('is-compact');
@@ -777,7 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Tıklama yakalayıcı (Delegated Click Listener)
         document.addEventListener('click', (e) => {
-            if (e.defaultPrevented) return;
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
             const link = e.target.closest('a');
             if (!link) return;
 

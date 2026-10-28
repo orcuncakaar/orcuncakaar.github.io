@@ -154,7 +154,7 @@
 .tbmm-grafik .tg-empty{ position: absolute; inset: 0; display: none; align-items: center; justify-content: center; text-align: center; color: var(--tg-muted); font-size: .95rem; padding: 1rem; }
 .tbmm-grafik .tg-empty.is-on{ display: flex; }
 .tbmm-grafik .tg-note{ font-size: .85rem; color: var(--tg-muted); line-height: 1.5; margin: .9rem 0 0; max-width: 70ch; }
-.tbmm-grafik .tg-source{ font-size: .78rem; color: var(--tg-muted); margin: .5rem 0 0; opacity: .85; }
+.tbmm-grafik .tg-source{ font-size: .78rem; color: var(--tg-muted); margin: .5rem 0 0; }
 .tbmm-grafik .tg-sr{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 @media (max-width: 560px){
   .tbmm-grafik .tg-controls{ gap: .6rem; }
@@ -694,7 +694,10 @@
   function loadData(root) {
     var src = root.getAttribute("data-src");
     if (src) {
-      return fetch(src, { cache: "no-cache" }).then(function (r) {
+      // Icerik surumu olan veriyi normal tarayici onbelleginden kullan.
+      // Eski/surumsuz bilesen kullaniminda onceki tazelik davranisini koru.
+      var versioned = /[?&]v=[a-f0-9]{16}(?:&|$)/.test(src);
+      return fetch(src, { cache: versioned ? "default" : "no-cache" }).then(function (r) {
         if (!r.ok) throw new Error("HTTP " + r.status);
         return r.json();
       });
