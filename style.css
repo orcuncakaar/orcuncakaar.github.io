@@ -800,9 +800,8 @@ ul {
     margin: 0 !important;
     padding: 0 !important;
     box-sizing: border-box;
-    will-change: left, width;
-    transition: left 0.22s cubic-bezier(0.25, 1, 0.5, 1),
-                width 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Likit esneme script.js tarafindan yon ve mevcut sekle gore yonetilir. */
+    transition: none;
 }
 
 .light-theme .nav-indicator-pill {

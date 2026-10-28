@@ -19,10 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // window.innerWidth okumak Chrome'da kaydirma cubugu icin yerlesimi zorluyor
     // (masaustu acilista ~100ms). Ayni esik (kaydirma cubugu dahil genislik) matchMedia'da.
     const darEkran = window.matchMedia('(max-width: 1024px)');
+    const pillReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let pillAnimation = null;
+    let pillDestination = null;
+
+    function stopPillAnimation() {
+        if (pillAnimation) pillAnimation.cancel();
+        pillAnimation = null;
+    }
+
+    pillReducedMotion.addEventListener('change', () => {
+        if (pillReducedMotion.matches) stopPillAnimation();
+    });
 
     function updateSlidingPill(targetLink, isInitial = false) {
         if (!navIndicatorPill || !targetLink || !navbarLinks) return;
         if (darEkran.matches) {
+            stopPillAnimation();
+            pillDestination = null;
             navIndicatorPill.style.opacity = '0';
             return;
         }
@@ -37,9 +51,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (width === 0 || height === 0) return;
 
-        if (isInitial) {
-            navIndicatorPill.style.transition = 'none';
+        // Scroll her karede ayni hedefi bildiriyor; devam eden esnemeyi bastan baslatma.
+        const destination = `${left},${top},${width},${height}`;
+        if (!isInitial && pillDestination === destination) return;
+
+        const compact = navIndicatorPill.closest('.navbar-pill-wrapper')?.classList.contains('is-compact');
+        const shouldAnimate = !isInitial && pillDestination !== null && !compact
+            && !pillReducedMotion.matches && typeof navIndicatorPill.animate === 'function';
+        let from;
+        if (shouldAnimate) {
+            // Yerel CSS olculeri, ada acilirken atanin scale donusumunden etkilenmez.
+            // Hizli yon degistirmede hedef yerine o an gorunen sekilden devam et.
+            const current = getComputedStyle(navIndicatorPill);
+            from = {
+                left: parseFloat(current.left), top: parseFloat(current.top),
+                width: parseFloat(current.width), height: parseFloat(current.height)
+            };
         }
+        stopPillAnimation();
+        pillDestination = destination;
 
         navIndicatorPill.style.left = `${left}px`;
         navIndicatorPill.style.top = `${top}px`;
@@ -47,11 +77,23 @@ document.addEventListener('DOMContentLoaded', () => {
         navIndicatorPill.style.height = `${height}px`;
         navIndicatorPill.style.opacity = '1';
 
-        if (isInitial) {
-            navIndicatorPill.offsetHeight; // Reflow
-            requestAnimationFrame(() => {
-                navIndicatorPill.style.transition = '';
+        if (shouldAnimate && from.width > 0) {
+            const direction = left >= from.left ? 1 : -1;
+            const leadingLeft = Math.min(from.left, left);
+            const leadingRight = Math.max(from.left + from.width, left + width);
+            const frame = (x, y, w, h, offset) => ({
+                left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px`, offset
             });
+            const animation = navIndicatorPill.animate([
+                frame(from.left, from.top, from.width, from.height, 0),
+                frame(leadingLeft, top + height * 0.11, leadingRight - leadingLeft, height * 0.78, 0.44),
+                frame(left - (direction > 0 ? 2 : 0), top + height * 0.02, width + 2, height * 0.96, 0.82),
+                frame(left, top, width, height, 1)
+            ], { duration: 540, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
+            pillAnimation = animation;
+            animation.onfinish = () => {
+                if (pillAnimation === animation) pillAnimation = null;
+            };
         }
     }
 
@@ -557,7 +599,9 @@ document.addEventListener('DOMContentLoaded', () => {
         new ResizeObserver(() => {
             if (navbarPill && navbarPill.classList.contains('is-compact')) return;
             const active = document.querySelector('.nav-links .nav-link.active');
-            if (active) updateSlidingPill(active, true);
+            // Aktif yazinin kalinligi da menu olcusunu degistirir. Ayni hedefte
+            // suren esnemeyi iptal etme; gercek olcu degisirse yeniden hedefle.
+            if (active) updateSlidingPill(active);
         }).observe(navbarLinks);
     }
 
