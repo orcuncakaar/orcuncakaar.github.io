@@ -9,6 +9,6 @@ The local CSS preserves Google's unicode ranges and supported weight ranges.
 Each variable font subset is declared once instead of once per weight.
 The desktop home page preloads the Inter Latin/Latin Extended and Outfit Latin subsets.
 On mobile, fonts do not compete with critical styles and scripts through preloads.
-`font-display: optional` keeps the metric-adjusted system fallback for a slow first
-visit instead of repeatedly swapping fonts and laying out the entire page. Cached
-fonts can be used immediately on later visits.
+`font-display: swap` shows the metric-adjusted system fallback while fonts load,
+then always switches to the original Inter/Outfit faces, including slow first
+visits. This preserves the intended typography instead of retaining a fallback.
